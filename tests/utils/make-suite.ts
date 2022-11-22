@@ -7,14 +7,14 @@ import { solidity } from "ethereum-waffle";
 import { Signer } from "ethers";
 import { evmRevert, evmSnapshot } from "../../helpers/utilities/tx";
 import { tEthereumAddress } from "../../helpers/types";
-import { Pool } from "../../typechain/Pool";
-import { AaveProtocolDataProvider } from "../../typechain/AaveProtocolDataProvider";
-import { AToken } from "../../typechain/AToken";
-import { PoolConfigurator } from "../../typechain/PoolConfigurator";
+import { Pool } from "../../typechain";
+import { AaveProtocolDataProvider } from "../../typechain";
+import { AToken } from "../../typechain";
+import { PoolConfigurator } from "../../typechain";
 
 import chai from "chai";
-import { PoolAddressesProvider } from "../../typechain/PoolAddressesProvider";
-import { PoolAddressesProviderRegistry } from "../../typechain/PoolAddressesProviderRegistry";
+import { PoolAddressesProvider } from "../../typechain";
+import { PoolAddressesProviderRegistry } from "../../typechain";
 import {
   AaveOracle,
   ERC20Faucet,
@@ -121,7 +121,9 @@ export async function initializeMakeSuite() {
     });
   }
 
-  const wrappedTokenGatewayArtifact = await deployments.get("WrappedTokenGatewayV3");
+  const wrappedTokenGatewayArtifact = await deployments.get(
+    "WrappedTokenGatewayV3"
+  );
   const poolArtifact = await deployments.get(POOL_PROXY_ID);
   const configuratorArtifact = await deployments.get(
     POOL_CONFIGURATOR_PROXY_ID

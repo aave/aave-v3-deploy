@@ -108,7 +108,10 @@ export const deployContract = async <ContractType extends Contract>(
       libraries,
     }
   );
-  return hre.ethers.getContractAt(artifact.abi, artifact.address);
+  return hre.ethers.getContractAt(
+    artifact.abi,
+    artifact.address
+  ) as any as ContractType;
 };
 
 export const getContract = async <ContractType extends Contract>(
@@ -119,7 +122,7 @@ export const getContract = async <ContractType extends Contract>(
   return hre.ethers.getContractAt(
     artifact.abi,
     address || (await (await hre.deployments.get(id)).address)
-  );
+  ) as any as ContractType;
 };
 
 interface AccountItem {

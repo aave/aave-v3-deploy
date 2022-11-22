@@ -1,6 +1,6 @@
 import { eNetwork } from "./../../helpers/types";
 import { getFirstSigner } from "../../helpers/utilities/signer";
-import { DefaultReserveInterestRateStrategy } from "../../dist/types/typechain/DefaultReserveInterestRateStrategy";
+import { DefaultReserveInterestRateStrategy } from "../../dist/typ../typechain";
 import { loadPoolConfig } from "../../helpers/market-config-helpers";
 import {
   getPoolAddressesProvider,

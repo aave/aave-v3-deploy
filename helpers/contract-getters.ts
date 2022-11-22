@@ -1,6 +1,5 @@
-import { StakedTokenTransferStrategy } from "./../typechain/StakedTokenTransferStrategy.d";
-import { PullRewardsTransferStrategy } from "./../typechain/PullRewardsTransferStrategy.d";
-import { PoolLibraryAddresses } from "../typechain/factories/Pool__factory";
+import { StakedTokenTransferStrategy } from "./../typechain";
+import { PullRewardsTransferStrategy } from "./../typechain";
 import {
   AaveOracle,
   ACLManager,
@@ -57,12 +56,12 @@ import {
   L2_ENCODER,
 } from "./deploy-ids";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { RewardsController } from "../typechain/RewardsController";
-import { StakedTokenV2Rev3 } from "../typechain/StakedTokenV2Rev3";
+import { RewardsController } from "../typechain";
+import { StakedTokenV2Rev3 } from "../typechain";
 import { Libraries } from "hardhat-deploy/dist/types";
 import { getContract } from "./utilities/tx";
 import { EMISSION_MANAGER_ID } from ".";
-import { EmissionManager } from "../typechain/EmissionManager";
+import { EmissionManager } from "../typechain";
 
 // Prevent error HH9 when importing this file inside tasks or helpers at Hardhat config load
 declare var hre: HardhatRuntimeEnvironment;
@@ -297,7 +296,7 @@ export const getIncentivesV2 = async (
   return hre.ethers.getContractAt(
     artifactImpl.abi,
     address || artifactProxy.address
-  );
+  ) as any as RewardsController;
 };
 
 export const getPullRewardsStrategy = async (
@@ -326,7 +325,7 @@ export const getStakeAave = async (
   return hre.ethers.getContractAt(
     implArtifact.abi,
     address || proxyArtifact.address
-  );
+  ) as any as StakedTokenV2Rev3;
 };
 
 export const getL2Encoder = async (address?: tEthereumAddress) =>

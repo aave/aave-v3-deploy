@@ -1,11 +1,11 @@
-import { EmissionManager } from "./../typechain/EmissionManager.d";
-import { MockL2Pool } from "./../typechain/MockL2Pool.d";
+import { EmissionManager } from "./../typechain";
+import { MockL2Pool } from "./../typechain";
 import { EMPTY_STORAGE_SLOT, ZERO_ADDRESS } from "./constants";
-import { StakedAave } from "./../typechain/StakedAave.d";
+import { StakedAave } from "./../typechain";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { getPoolLibraries } from "./contract-getters";
 import { tEthereumAddress, tStringTokenSmallUnits } from "./types";
-import { MintableERC20 } from "../typechain/MintableERC20";
+import { MintableERC20 } from "../typechain";
 import { deployContract } from "./utilities/tx";
 import { POOL_ADDRESSES_PROVIDER_ID } from "./deploy-ids";
 import {
@@ -30,8 +30,8 @@ import {
   STAKE_AAVE_IMPL_V2,
   STAKE_AAVE_IMPL_V3,
 } from "./deploy-ids";
-import { StakedAaveV2 } from "../typechain/StakedAaveV2";
-import { StakedTokenV2Rev3 } from "../typechain/StakedTokenV2Rev3";
+import { StakedAaveV2 } from "../typechain";
+import { StakedTokenV2Rev3 } from "../typechain";
 import {
   MockAggregator,
   MockAToken,
@@ -56,7 +56,7 @@ import {
   UiPoolDataProviderV3,
   VariableDebtToken,
   WETH9Mocked,
-  WrappedTokenGatewayV3
+  WrappedTokenGatewayV3,
 } from "../typechain";
 
 // Prevent error HH9 when importing this file inside tasks or helpers at Hardhat config load
@@ -390,8 +390,12 @@ export const deployMockReentrantInitializableImple = async () =>
     "MockReentrantInitializableImple"
   );
 
-export const deployWrappedTokenGateway = async (wrappedToken: tEthereumAddress) =>
-  deployContract<WrappedTokenGatewayV3>("WrappedTokenGatewayV3", [wrappedToken]);
+export const deployWrappedTokenGateway = async (
+  wrappedToken: tEthereumAddress
+) =>
+  deployContract<WrappedTokenGatewayV3>("WrappedTokenGatewayV3", [
+    wrappedToken,
+  ]);
 
 export const deployStakedAaveV3 = async ([
   stakedToken,

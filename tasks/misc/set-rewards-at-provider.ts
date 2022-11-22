@@ -4,7 +4,7 @@ import {
   POOL_ADDRESSES_PROVIDER_ID,
   INCENTIVES_PROXY_ID,
 } from "../../helpers/deploy-ids";
-import { InitializableAdminUpgradeabilityProxy } from "../../typechain/InitializableAdminUpgradeabilityProxy";
+import { InitializableAdminUpgradeabilityProxy } from "../../typechain";
 import { getPoolAddressesProvider } from "../../helpers/contract-getters";
 import { task } from "hardhat/config";
 import {

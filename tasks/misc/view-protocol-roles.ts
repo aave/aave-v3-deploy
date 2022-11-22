@@ -1,5 +1,5 @@
 import { ZERO_ADDRESS } from "./../../helpers/constants";
-import { EmissionManager } from "./../../typechain/EmissionManager.d";
+import { EmissionManager } from "./../../typechain";
 import { getEmissionManager } from "./../../helpers/contract-getters";
 import { EMISSION_MANAGER_ID } from "./../../helpers/deploy-ids";
 import { FORK } from "../../helpers/hardhat-config-helpers";
@@ -9,7 +9,7 @@ import {
   POOL_ADDRESSES_PROVIDER_ID,
   INCENTIVES_PROXY_ID,
 } from "../../helpers/deploy-ids";
-import { InitializableAdminUpgradeabilityProxy } from "../../typechain/InitializableAdminUpgradeabilityProxy";
+import { InitializableAdminUpgradeabilityProxy } from "../../typechain";
 import {
   getACLManager,
   getPoolAddressesProvider,

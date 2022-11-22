@@ -5,7 +5,7 @@ import {
   INCENTIVES_STAKED_TOKEN_STRATEGY_ID,
   STAKE_AAVE_PROXY,
 } from "./../../helpers/deploy-ids";
-import { RewardsController } from "../../typechain/RewardsController";
+import { RewardsController } from "../../typechain";
 import { V3_PERIPHERY_VERSION } from "../../helpers/constants";
 import {
   INCENTIVES_PULL_REWARDS_STRATEGY_ID,

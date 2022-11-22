@@ -1,15 +1,15 @@
 {
     "compilerOptions": {
-        "target": "es2018",
+        "target": "es2020",
         "module": "commonjs",
         "strict": true,
         "esModuleInterop": true,
+        "skipLibCheck": true,
         "outDir": "dist/",
         "importHelpers": false,
         "declaration": true,
         "declarationDir": "dist/types",
         "typeRoots": [ "./typechain/*.d.ts", "./node_modules/@types" ]
-
     },
     "include": [
         "markets",

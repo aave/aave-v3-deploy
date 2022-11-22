@@ -66,10 +66,10 @@ export const initReservesByHelper = async (
   const poolArtifact = await hre.deployments.get(
     isL2PoolSupported(poolConfig) ? L2_POOL_IMPL_ID : POOL_IMPL_ID
   );
-  const pool = await hre.ethers.getContractAt<Pool>(
+  const pool = (await hre.ethers.getContractAt(
     poolArtifact.abi,
     await addressProvider.getPool()
-  );
+  )) as any as Pool;
 
   // CHUNK CONFIGURATION
   const initChunks = 3;
@@ -359,7 +359,7 @@ export const configureReservesByHelper = async (
       supplyCap,
       stableBorrowRateEnabled,
       borrowingEnabled,
-      flashLoanEnabled
+      flashLoanEnabled,
     },
   ] of Object.entries(reservesParams) as [string, IReserveParams][]) {
     if (!tokenAddresses[assetSymbol]) {
@@ -397,7 +397,7 @@ export const configureReservesByHelper = async (
       supplyCap,
       stableBorrowingEnabled: stableBorrowRateEnabled,
       borrowingEnabled: borrowingEnabled,
-      flashLoanEnabled: flashLoanEnabled
+      flashLoanEnabled: flashLoanEnabled,
     });
 
     tokens.push(tokenAddress);
