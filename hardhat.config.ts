@@ -18,13 +18,10 @@ import {
 } from "./helpers/types";
 import { DEFAULT_NAMED_ACCOUNTS } from "./helpers/constants";
 
-import "@typechain/hardhat";
-import "@nomiclabs/hardhat-ethers";
-import "@typechain/ethers-v5";
+import "@nomicfoundation/hardhat-toolbox";
 import "hardhat-deploy";
 import "hardhat-contract-sizer";
 import "hardhat-dependency-compiler";
-import "@nomiclabs/hardhat-etherscan";
 
 const SKIP_LOAD = process.env.SKIP_LOAD === "true";
 const TASK_FOLDERS = ["misc", "market-registry"];

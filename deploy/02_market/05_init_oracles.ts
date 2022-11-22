@@ -2,7 +2,6 @@ import {
   getSubTokensByPrefix,
   isIncentivesEnabled,
 } from "../../helpers/market-config-helpers";
-import { PriceOracle__factory } from "../../typechain/factories/PriceOracle__factory";
 import {
   FALLBACK_ORACLE_ID,
   ORACLE_ID,
@@ -15,7 +14,11 @@ import {
   V3_CORE_VERSION,
 } from "../../helpers/constants";
 import { getContract, waitForTx } from "../../helpers/utilities/tx";
-import { AaveOracle, PoolAddressesProvider } from "../../typechain";
+import {
+  AaveOracle,
+  PoolAddressesProvider,
+  PriceOracle__factory,
+} from "../../typechain";
 import { POOL_ADDRESSES_PROVIDER_ID } from "../../helpers/deploy-ids";
 import { getAddress } from "@ethersproject/address";
 import {
