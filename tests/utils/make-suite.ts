@@ -3,7 +3,6 @@ import {
   isTestnetMarket,
   loadPoolConfig,
 } from "./../../helpers/market-config-helpers";
-import { solidity } from "ethereum-waffle";
 import { Signer } from "ethers";
 import { evmRevert, evmSnapshot } from "../../helpers/utilities/tx";
 import { tEthereumAddress } from "../../helpers/types";
@@ -43,8 +42,6 @@ import {
 import { ethers, deployments } from "hardhat";
 import { getEthersSigners } from "../../helpers/utilities/signer";
 import { MARKET_NAME } from "../../helpers/env";
-
-chai.use(solidity);
 
 export interface SignerWithAddress {
   signer: Signer;

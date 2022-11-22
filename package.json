@@ -61,29 +61,14 @@
     "node": "npx hardhat node --no-deploy",
     "node:fork": "FORK=main npm run node --no-deploy",
     "deploy": "if [ \"$SKIP_COMPILE\" = 'true' ]; then echo '[Warning] Skipping compilation'; else npm run compile; fi && npx hardhat deploy --no-compile",
-    "deploy:market:aave": "MARKET_NAME=Aave npm run deploy",
-    "deploy:market:harmony": "MARKET_NAME=Harmony npm run deploy",
-    "deploy:market:test": "MARKET_NAME=Test npm run deploy",
-    "deploy:market:avalanche": "MARKET_NAME=Avalanche npm run deploy",
-    "deploy:market:fantom": "MARKET_NAME=Fantom npm run deploy",
-    "deploy:market:polygon": "MARKET_NAME=Polygon npm run deploy",
-    "deploy:market:arbitrum": "MARKET_NAME=Arbitrum npm run deploy",
-    "deploy:market:optimistic": "MARKET_NAME=Optimistic npm run deploy",
-    "deploy:market:aave:fork": "FORK=main npm run deploy:market:aave",
-    "deploy:market:aave:arbitrum-görli:fork": "FORK='arbitrum-görli' npm run deploy:market:arbitrum",
-    "deploy:market:aave:arbitrum-test:fork": "FORK='arbitrum-testnet' npm run deploy:market:arbitrum",
-    "deploy:market:aave:arbitrum:fork": "FORK=arbitrum npm run deploy:market:arbitrum",
-    "deploy:market:aave:goerli:fork": "FORK='görli' npm run deploy:market:aave",
-    "deploy:market:aave:optimism:fork": "FORK=optimism npm run deploy:market:optimistic",
-    "deploy:market:avalanche:fork": "FORK=avalanche npm run deploy:market:avalanche",
-    "deploy:market:polygon:fork": "FORK='polygon' npm run deploy:market:polygon",
     "test": "npm run compile && npm run test:local && npm run test:fork",
     "test:fork": "MARKET_NAME=Aave FORK=main npx hardhat test ./tests/__setup.spec.ts ./tests/fork/check-list.spec.ts",
-    "test:local": "MARKET_NAME=Aave npx hardhat test ./tests/__setup.spec.ts ./tests/*.spec.ts"
+    "test:local": "MARKET_NAME=Aave npx hardhat test ./tests/__setup.spec.ts ./tests/*.spec.ts",
+    "deploy:market:aave:fork": "FORK=main MARKET_NAME=Aave npm run deploy"
   },
   "peerDependencies": {
-    "@aave/core-v3": "1.x",
-    "@aave/periphery-v3": "1.x",
+    "@aave/core-v3": "x || >=1.0.0-beta || >=3.0.0-beta",
+    "@aave/periphery-v3": "x || >=1.0.0-beta || >=3.0.0-beta",
     "hardhat": "^2.6.1"
   },
   "publishConfig": {
@@ -94,7 +79,6 @@
     "url": "git://github.com/aave/aave-v3-deploy"
   },
   "dependencies": {
-    "bip39": "^3.0.4",
     "defender-relay-client": "^1.11.1"
   }
 }

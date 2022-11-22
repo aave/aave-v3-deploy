@@ -23,61 +23,6 @@ This Node.js repository contains the configuration and deployment scripts for th
    npm run compile
    ```
 
-3. Create a `.env` configuration file at the root of the repository
-
-   ```
-   touch .env
-   ```
-
-4. Fill the `.env` configuration file with the following environment variables
-
-   ```
-   # To deploy a Market, you need to indicate the Market name at MARKET_NAME. By default is the "Aave" market.
-   MARKET_NAME=Aave
-
-   # Your RPC keys, required for deployment of live networks or forks
-   ALCHEMY_KEY=***
-
-   # Your mnemonic seed phrase to derive wallets
-   MNEMONIC=***
-
-   # Optional, your Etherscan API key to verify contracts
-   ETHERSCAN_API_KEY=***
-   ```
-
-5. Run the deployment scripts in Hardhat local network
-   ```
-   npx hardhat deploy
-   ```
-
-### Deploy an Aave market in local Ethereum fork
-
-To be able to deploy the default Aave market in fork, proceed with the following instructions:
-
-1. Start a local Hardhat node in FORK mode to perform the test deployment, as follows:
-
-   ```
-   npm run node:fork
-   ```
-
-2. Run the next command to deploy the Aave market at the `localhost` network in fork mode:
-
-   ```
-   HARDHAT_NETWORK=localhost MARKET_NAME=Aave npx hardhat deploy
-   ```
-
-   The output of the command is a table of contracts with their corresponding addresses and the accounts involved within the deployment.
-
-   If the deployment fails during execution, the next run will reuse the deployed contracts and resume the deployment.
-
-### Deploy an Aave market in live network
-
-1. To deploy an Aave market in a live network, like the Ethereum mainnet, you would need to run the following NPM command:
-
-   ```
-   HARDHAT_NETWORK=main MARKET_NAME=Aave npx hardhat deploy
-   ```
-
 ## Project Structure
 
 | Path                  | Description                                                                                                                     |
