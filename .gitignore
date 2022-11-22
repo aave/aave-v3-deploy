@@ -1,0 +1,21 @@
+.env
+
+#Buidler files
+cache
+artifacts
+
+node_modules
+dist/
+build/
+.vscode
+.idea
+ts-types/
+contracts/hardhat-dependency-compiler/
+
+coverage
+.coverage_artifacts
+.coverage_cache
+.coverage_contracts
+typechain
+types
+deployments
