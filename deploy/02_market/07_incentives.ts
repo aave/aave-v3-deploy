@@ -1,5 +1,5 @@
 import { getParamPerNetwork } from "./../../helpers/market-config-helpers";
-import { EMPTY_STORAGE_SLOT } from "./../../helpers/constants";
+import { EMPTY_STORAGE_SLOT, ZERO_ADDRESS } from "./../../helpers/constants";
 import {
   EMISSION_MANAGER_ID,
   INCENTIVES_STAKED_TOKEN_STRATEGY_ID,
@@ -71,7 +71,7 @@ const func: DeployFunction = async function ({
     const incentivesImplArtifact = await deploy(INCENTIVES_V2_IMPL_ID, {
       from: deployer,
       contract: "RewardsController",
-      args: [],
+      args: [emissionManagerArtifact.address],
       ...COMMON_DEPLOY_PARAMS,
     });
 
@@ -94,7 +94,7 @@ const func: DeployFunction = async function ({
 
     const incentivesInit = incentivesImpl.interface.encodeFunctionData(
       "initialize",
-      [emissionManagerArtifact.address]
+      [ZERO_ADDRESS]
     );
 
     await (
