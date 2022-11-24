@@ -31,7 +31,7 @@ jobs:
         run: npm run test
         env:
           ALCHEMY_KEY: ${{ secrets.ALCHEMY_KEY }}
-      - run: npm publish
+      - run: npm publish --access public --scope @aave
         if: ${{ steps.release.outputs.release_created }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
