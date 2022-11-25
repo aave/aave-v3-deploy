@@ -22,7 +22,7 @@
   "main": "dist/helpers/index.js",
   "devDependencies": {
     "@aave/aave-token": "^1.0.4",
-    "@aave/core-v3": "3.0.1-beta.1",
+    "@aave/core-v3": "^1.16.2-beta.1",
     "@aave/periphery-v3": "^1.21.0",
     "@aave/safety-module": "^1.0.3",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
