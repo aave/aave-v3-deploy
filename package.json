@@ -52,7 +52,7 @@
   },
   "license": "AGPLv3",
   "scripts": {
-    "run-env": "npm cßi && tail -f /dev/null",
+    "run-env": "npm ci && tail -f /dev/null",
     "cp-typechain": "cp typechain/*.d.ts ./dist/types/typechain",
     "build": "tsc --project lib.tsconfig.json && npm run cp-typechain",
     "clean": "rm -rf artifacts/ types/ dist/ typechain/",
