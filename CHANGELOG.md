@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.51.0](https://github.com/aave/aave-v3-deploy/compare/v1.50.1...v1.51.0) (2022-11-28)
+
+
+### Features
+
+* add emission manager transfer of ownership ([36b028f](https://github.com/aave/aave-v3-deploy/commit/36b028f5370e650bdb8d426a5275e338729f9b12))
+
 ## 1.50.1 (2022-11-28)
 
 
