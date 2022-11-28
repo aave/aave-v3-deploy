@@ -1,7 +1,11 @@
 import { FORK } from "./../../helpers/hardhat-config-helpers";
-import { POOL_ADDRESSES_PROVIDER_ID } from "./../../helpers/deploy-ids";
+import {
+  EMISSION_MANAGER_ID,
+  POOL_ADDRESSES_PROVIDER_ID,
+} from "./../../helpers/deploy-ids";
 import {
   getACLManager,
+  getEmissionManager,
   getPoolAddressesProvider,
 } from "./../../helpers/contract-getters";
 import { task } from "hardhat/config";
@@ -58,6 +62,9 @@ task(
     await getACLManager(await poolAddressesProvider.getACLManager())
   ).connect(aclSigner);
 
+  const emissionManager = await getEmissionManager(
+    await getAddressFromJson(networkId, EMISSION_MANAGER_ID)
+  );
   const currentOwner = await poolAddressesProvider.owner();
 
   if (currentOwner === desiredMultisig) {
@@ -95,6 +102,17 @@ task(
   }
   /** End of Pool Addresses Provider transfer ownership */
 
+  /** Start of EmissionManager transfer ownership */
+  const isDeployerEmissionManagerOwner =
+    (await emissionManager.owner()) === deployer;
+  if (isDeployerEmissionManagerOwner) {
+    await emissionManager.transferOwnership(desiredMultisig);
+    console.log(`
+    - Transferred owner of EmissionManager from ${deployer} to ${desiredMultisig}
+    `);
+  }
+  /** End of EmissionManager transfer ownership */
+
   /** Start of DEFAULT_ADMIN_ROLE transfer ownership */
   const isDeployerDefaultAdmin = await aclManager.hasRole(
     hre.ethers.constants.HashZero,
@@ -130,6 +148,11 @@ task(
       role: "PoolAddressesProvider owner",
       address: await poolAddressesProvider.owner(),
       assert: (await poolAddressesProvider.owner()) === desiredMultisig,
+    },
+    {
+      role: "EmissionManager owner",
+      address: await emissionManager.owner(),
+      assert: (await emissionManager.owner()) === desiredMultisig,
     },
     {
       role: "ACL Default Admin role revoked Deployer",
