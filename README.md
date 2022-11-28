@@ -1,6 +1,6 @@
 # Aave V3 Deployments
 
-![npm (scoped)](https://img.shields.io/npm/v/@aave/deploy-v3)
+[![npm (scoped)](https://img.shields.io/npm/v/@aave/deploy-v3)](https://www.npmjs.com/package/@aave/deploy-v3)
 
 This Node.js repository contains the configuration and deployment scripts for the Aave V3 protocol core and periphery contracts. The repository makes use of `hardhat` and `hardhat-deploy` tools to facilitate the deployment of Aave V3 protocol.
 
