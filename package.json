@@ -1,6 +1,6 @@
 {
   "name": "@aave/deploy-v3",
-  "version": "1.50.0",
+  "version": "1.50.0-beta.3",
   "files": [
     "dist",
     "LICENSE",
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@aave/aave-token": "^1.0.4",
     "@aave/core-v3": "^1.16.2-beta.1",
-    "@aave/periphery-v3": "^1.21.0",
+    "@aave/periphery-v3": "^1.21.0-beta.1",
     "@aave/safety-module": "^1.0.3",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@nomiclabs/hardhat-etherscan": "^3.1.0",
@@ -52,7 +52,7 @@
   },
   "license": "AGPLv3",
   "scripts": {
-    "run-env": "npm cßi && tail -f /dev/null",
+    "run-env": "npm ci && tail -f /dev/null",
     "cp-typechain": "cp typechain/*.d.ts ./dist/types/typechain",
     "build": "tsc --project lib.tsconfig.json && npm run cp-typechain",
     "clean": "rm -rf artifacts/ types/ dist/ typechain/",
