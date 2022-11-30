@@ -40,6 +40,10 @@ const func: DeployFunction = async function ({
   } = poolConfig;
 
   const reservesAddresses = await getReserveAddresses(poolConfig, network);
+  if (Object.keys(reservesAddresses).length == 0) {
+    console.warn("[WARNING] Skipping initialization. Empty asset list.");
+    return;
+  }
 
   const treasuryAddress = await getTreasuryAddress(poolConfig, network);
 

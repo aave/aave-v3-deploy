@@ -56,7 +56,10 @@ const func: DeployFunction = async function ({
   const reserveSymbols = Object.keys(reservesConfig);
 
   if (reserveSymbols.length === 0) {
-    throw "[Deployment][Error] Missing ReserveAssets configuration";
+    console.warn(
+      "Market Config does not contain ReservesConfig. Skipping testnet token setup."
+    );
+    return;
   }
 
   // 0. Deployment of ERC20 mintable tokens for testing purposes

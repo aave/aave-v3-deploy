@@ -21,10 +21,12 @@ const func: DeployFunction = async function ({
     }
   );
 
-  const registryInstance = (await hre.ethers.getContractAt(
-    poolAddressesProviderRegistryArtifact.abi,
-    poolAddressesProviderRegistryArtifact.address
-  )) as PoolAddressesProviderRegistry;
+  const registryInstance = (
+    (await hre.ethers.getContractAt(
+      poolAddressesProviderRegistryArtifact.abi,
+      poolAddressesProviderRegistryArtifact.address
+    )) as PoolAddressesProviderRegistry
+  ).connect(await hre.ethers.getSigner(deployer));
 
   await waitForTx(
     await registryInstance.transferOwnership(addressesProviderRegistryOwner)

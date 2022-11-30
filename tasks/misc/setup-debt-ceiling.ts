@@ -13,9 +13,12 @@ task(
   `setup-debt-ceiling`,
   `Setups reserve debt ceiling from configuration`
 ).setAction(async (_, hre) => {
+  const { poolAdmin } = await hre.getNamedAccounts();
   const config = await loadPoolConfig(MARKET_NAME as ConfigNames);
 
-  const poolConfigurator = await getPoolConfiguratorProxy();
+  const poolConfigurator = (await getPoolConfiguratorProxy()).connect(
+    await hre.ethers.getSigner(poolAdmin)
+  );
 
   let assetsWithCeiling = [];
   for (let asset in config.ReservesConfig) {

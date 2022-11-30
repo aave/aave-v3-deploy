@@ -58,10 +58,12 @@ export const initReservesByHelper = async (
   const addressProviderArtifact = await hre.deployments.get(
     POOL_ADDRESSES_PROVIDER_ID
   );
-  const addressProvider = (await hre.ethers.getContractAt(
-    addressProviderArtifact.abi,
-    addressProviderArtifact.address
-  )) as PoolAddressesProvider;
+  const addressProvider = (
+    await hre.ethers.getContractAt(
+      addressProviderArtifact.abi,
+      addressProviderArtifact.address
+    )
+  ).connect(await hre.ethers.getSigner(admin)) as PoolAddressesProvider;
 
   const poolArtifact = await hre.deployments.get(
     isL2PoolSupported(poolConfig) ? L2_POOL_IMPL_ID : POOL_IMPL_ID
@@ -246,10 +248,12 @@ export const initReservesByHelper = async (
   const configuratorArtifact = await hre.deployments.get(
     POOL_CONFIGURATOR_IMPL_ID
   );
-  const configurator = (await hre.ethers.getContractAt(
-    configuratorArtifact.abi,
-    proxyArtifact.address
-  )) as PoolConfigurator;
+  const configurator = (
+    await hre.ethers.getContractAt(
+      configuratorArtifact.abi,
+      proxyArtifact.address
+    )
+  ).connect(await hre.ethers.getSigner(admin)) as PoolConfigurator;
 
   console.log(
     `- Reserves initialization in ${chunkedInitInputParams.length} txs`
@@ -302,6 +306,7 @@ export const configureReservesByHelper = async (
   reservesParams: iMultiPoolsAssets<IReserveParams>,
   tokenAddresses: { [symbol: string]: tEthereumAddress }
 ) => {
+  const { deployer } = await hre.getNamedAccounts();
   const addressProviderArtifact = await hre.deployments.get(
     POOL_ADDRESSES_PROVIDER_ID
   );
@@ -319,10 +324,12 @@ export const configureReservesByHelper = async (
   const reservesSetupArtifact = await hre.deployments.get(
     RESERVES_SETUP_HELPER_ID
   );
-  const reservesSetupHelper = await hre.ethers.getContractAt(
-    reservesSetupArtifact.abi,
-    reservesSetupArtifact.address
-  );
+  const reservesSetupHelper = (
+    await hre.ethers.getContractAt(
+      reservesSetupArtifact.abi,
+      reservesSetupArtifact.address
+    )
+  ).connect(await hre.ethers.getSigner(deployer));
 
   const protocolDataArtifact = await hre.deployments.get(POOL_DATA_PROVIDER);
   const protocolDataProvider = (await hre.ethers.getContractAt(

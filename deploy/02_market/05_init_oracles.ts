@@ -45,10 +45,12 @@ const func: DeployFunction = async function ({
   const addressesProviderArtifact = await deployments.get(
     POOL_ADDRESSES_PROVIDER_ID
   );
-  const addressesProviderInstance = (await hre.ethers.getContractAt(
-    addressesProviderArtifact.abi,
-    addressesProviderArtifact.address
-  )) as PoolAddressesProvider;
+  const addressesProviderInstance = (
+    await hre.ethers.getContractAt(
+      addressesProviderArtifact.abi,
+      addressesProviderArtifact.address
+    )
+  ).connect(await hre.ethers.getSigner(deployer)) as PoolAddressesProvider;
 
   // 1. Set price oracle
   const configPriceOracle = (await deployments.get(ORACLE_ID)).address;
@@ -65,10 +67,12 @@ const func: DeployFunction = async function ({
   }
 
   // 2. Set fallback oracle
-  const aaveOracle = (await getContract(
-    "AaveOracle",
-    await addressesProviderInstance.getPriceOracle()
-  )) as AaveOracle;
+  const aaveOracle = (
+    await getContract(
+      "AaveOracle",
+      await addressesProviderInstance.getPriceOracle()
+    )
+  ).connect(await hre.ethers.getSigner(deployer)) as AaveOracle;
 
   const configFallbackOracle = (await deployments.get(FALLBACK_ORACLE_ID))
     .address;

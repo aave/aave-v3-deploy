@@ -36,10 +36,12 @@ task(`review-rate-strategies`, ``)
       hre
     ) => {
       const network = FORK ? FORK : (hre.network.name as eNetwork);
-      const { deployer } = await hre.getNamedAccounts();
+      const { deployer, poolAdmin } = await hre.getNamedAccounts();
       const checkOnlyReserves: string[] = checkOnly ? checkOnly.split(",") : [];
       const dataProvider = await getAaveProtocolDataProvider();
-      const poolConfigurator = await getPoolConfiguratorProxy();
+      const poolConfigurator = (await getPoolConfiguratorProxy()).connect(
+        await hre.ethers.getSigner(poolAdmin)
+      );
       const poolAddressesProvider = await getPoolAddressesProvider();
       const poolConfig = await loadPoolConfig(MARKET_NAME);
       const reserves = await dataProvider.getAllReservesTokens();

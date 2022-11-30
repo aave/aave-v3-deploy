@@ -57,10 +57,9 @@ const func: DeployFunction = async function ({
     POOL_ADDRESSES_PROVIDER_ID
   );
 
-  const addressesProviderInstance = (await getContract(
-    "PoolAddressesProvider",
-    addressesProvider
-  )) as PoolAddressesProvider;
+  const addressesProviderInstance = (
+    await getContract("PoolAddressesProvider", addressesProvider)
+  ).connect(await hre.ethers.getSigner(deployer)) as PoolAddressesProvider;
 
   // Deploy EmissionManager
   const emissionManagerArtifact = await deploy(EMISSION_MANAGER_ID, {
@@ -69,10 +68,14 @@ const func: DeployFunction = async function ({
     args: [incentivesEmissionManager],
     ...COMMON_DEPLOY_PARAMS,
   });
-  const emissionManager = (await hre.ethers.getContractAt(
-    emissionManagerArtifact.abi,
-    emissionManagerArtifact.address
-  )) as EmissionManager;
+  const emissionManager = (
+    await hre.ethers.getContractAt(
+      emissionManagerArtifact.abi,
+      emissionManagerArtifact.address
+    )
+  ).connect(
+    await hre.ethers.getSigner(incentivesEmissionManager)
+  ) as EmissionManager;
 
   // Deploy Incentives Implementation
   const incentivesImplArtifact = await deploy(INCENTIVES_V2_IMPL_ID, {
