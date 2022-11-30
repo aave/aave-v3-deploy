@@ -22,6 +22,7 @@ import {
   VariableDebtToken,
   WETH9,
   WrappedTokenGateway,
+  ERC20FaucetOwnable
 } from "../../typechain";
 import {
   ORACLE_ID,
@@ -34,6 +35,7 @@ import {
   getAToken,
   getERC20,
   getERC20Faucet,
+  getERC20FaucetOwnable,
   getStableDebtToken,
   getVariableDebtToken,
   getWETH,
@@ -70,6 +72,7 @@ export interface TestEnv {
   registry: PoolAddressesProviderRegistry;
   wrappedTokenGateway: WrappedTokenGateway;
   faucet: ERC20Faucet;
+  faucetOwnable: ERC20FaucetOwnable;
 }
 
 let HardhatSnapshotId: string = "0x1";
@@ -100,6 +103,7 @@ const testEnv: TestEnv = {
   registry: {} as PoolAddressesProviderRegistry,
   wrappedTokenGateway: {} as WrappedTokenGateway,
   faucet: {} as ERC20Faucet,
+  faucetOwnable: {} as ERC20FaucetOwnable
 } as TestEnv;
 
 export async function initializeMakeSuite() {
@@ -222,6 +226,7 @@ export async function initializeMakeSuite() {
 
   if (isTestnetMarket(poolConfig)) {
     testEnv.faucet = await getERC20Faucet();
+    testEnv.faucetOwnable = await getERC20FaucetOwnable();
   }
 }
 

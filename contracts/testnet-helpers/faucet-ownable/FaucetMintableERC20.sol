@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity 0.8.10;
 
-// import {Ownable} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/Ownable.sol";
-
+import {Ownable} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/Ownable.sol";
 import {ERC20} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/ERC20.sol";
 import {IERC20WithPermit} from "./interfaces/IERC20WithPermit.sol";
 
 /**
- * @title ERC20Mintable
+ * @title FaucetMintableERC20
  * @dev ERC20 minting logic
  */
-contract MintableERC20 is IERC20WithPermit, ERC20 {
+contract FaucetMintableERC20 is IERC20WithPermit, ERC20, Ownable {
     bytes public constant EIP712_REVISION = bytes("1");
     bytes32 internal constant EIP712_DOMAIN =
         keccak256(

@@ -1,18 +1,13 @@
 pragma solidity >=0.8.7;
 
 import {IFaucet} from "./interfaces/IFaucet.sol";
-
-// mintable is owned by faucet. Faucet is owned by defender.
-// mint on erc20 which address of token to mint and amount
-// transfer ownership on deploy
-// deploy the faucet first
-// deploy the mintableERC20
-
-// for instatiation
-import {MintableERC20} from "./MintableERC20.sol";
-// import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {FaucetMintableERC20} from "./FaucetMintableERC20.sol";
 import {Ownable} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/Ownable.sol";
 
+/**
+ * @title ERC20FaucetOwnable
+ * @dev Ownable Faucet Contract
+ */
 contract ERC20FaucetOwnable is IFaucet, Ownable {
     // oner of erc20 is faucet
 
@@ -33,9 +28,7 @@ contract ERC20FaucetOwnable is IFaucet, Ownable {
         // the faucet will call to this interface
         // _mint(_defender, _amount);
         // currently we do not know who is the receipient of the token.
-
-        MintableERC20(_token).mint(_destinationAddress, _amount);
-
+        FaucetMintableERC20(_token).mint(_destinationAddress, _amount);
         return _amount;
     }
 }

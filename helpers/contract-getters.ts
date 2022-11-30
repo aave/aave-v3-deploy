@@ -31,6 +31,7 @@ import {
   MockStableDebtToken,
   MockPool,
   ERC20Faucet,
+  ERC20FaucetOwnable,
   WrappedTokenGatewayV3,
   UiPoolDataProviderV3,
   WalletBalanceProvider,
@@ -54,6 +55,7 @@ import {
   STAKE_AAVE_PROXY,
   STAKE_AAVE_IMPL_V3,
   L2_ENCODER,
+  FAUCET_OWNABLE_ID,
 } from "./deploy-ids";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { RewardsController } from "../typechain";
@@ -265,6 +267,17 @@ export const getERC20Faucet = async (address?: string): Promise<ERC20Faucet> =>
   getContract(
     "ERC20Faucet",
     address || (await hre.deployments.get(FAUCET_ID)).address
+  );
+
+console.log("FAUCET_ID ----", FAUCET_ID);
+console.log("FAUCET_OWNABLE_ID ----", FAUCET_OWNABLE_ID);
+
+export const getERC20FaucetOwnable = async (
+  address?: string
+): Promise<ERC20FaucetOwnable> =>
+  getContract(
+    "ERC20FaucetOwnable",
+    address || (await hre.deployments.get(FAUCET_OWNABLE_ID)).address
   );
 
 export const getWrappedTokenGateway = async (
