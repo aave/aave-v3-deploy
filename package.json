@@ -64,7 +64,8 @@
     "test": "npm run compile && npm run test:local && npm run test:fork",
     "test:fork": "MARKET_NAME=Aave FORK=main npx hardhat test ./tests/__setup.spec.ts ./tests/fork/check-list.spec.ts",
     "test:local": "MARKET_NAME=Aave npx hardhat test ./tests/__setup.spec.ts ./tests/*.spec.ts",
-    "deploy:market:aave:fork": "FORK=main MARKET_NAME=Aave npm run deploy"
+    "deploy:market:aave:fork": "FORK=main MARKET_NAME=Aave npm run deploy",
+    "deploy:market:eth:empty:fork": "FORK=main MARKET_NAME=Ethereum npm run deploy"
   },
   "peerDependencies": {
     "@aave/core-v3": "x || >=1.0.0-beta || >=3.0.0-beta",

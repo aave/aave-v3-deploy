@@ -32,6 +32,10 @@ jobs:
         run: npm run deploy:market:aave:fork
         env:
           ALCHEMY_KEY: ${{ secrets.ALCHEMY_KEY }}
+      - name: Ethereum Fork No Reserves deployment
+        run: npm run deploy:market:eth:empty:fork
+        env:
+          ALCHEMY_KEY: ${{ secrets.ALCHEMY_KEY }}
       - name: Test deployment checklist
         run: npm run test
         env:
