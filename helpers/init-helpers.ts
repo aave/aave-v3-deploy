@@ -100,19 +100,6 @@ export const initReservesByHelper = async (
     params: string;
   }[] = [];
 
-  let strategyRates: [
-    string, // addresses provider
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-    string
-  ];
-  let rateStrategies: Record<string, typeof strategyRates> = {};
   let strategyAddresses: Record<string, tEthereumAddress> = {};
   let strategyAddressPerAsset: Record<string, string> = {};
   let aTokenType: Record<string, string> = {};
@@ -160,38 +147,10 @@ export const initReservesByHelper = async (
       continue;
     }
     const { strategy, aTokenImpl, reserveDecimals } = params;
-    const {
-      optimalUsageRatio,
-      baseVariableBorrowRate,
-      variableRateSlope1,
-      variableRateSlope2,
-      stableRateSlope1,
-      stableRateSlope2,
-      baseStableRateOffset,
-      stableRateExcessOffset,
-      optimalStableToTotalDebtRatio,
-    } = strategy;
     if (!strategyAddresses[strategy.name]) {
-      // Strategy does not exist, create a new one
-      rateStrategies[strategy.name] = [
-        addressProvider.address,
-        optimalUsageRatio,
-        baseVariableBorrowRate,
-        variableRateSlope1,
-        variableRateSlope2,
-        stableRateSlope1,
-        stableRateSlope2,
-        baseStableRateOffset,
-        stableRateExcessOffset,
-        optimalStableToTotalDebtRatio,
-      ];
-      strategyAddresses[strategy.name] = strategyAddresses[strategy.name] = (
-        await hre.deployments.deploy(`ReserveStrategy-${strategy.name}`, {
-          from: admin,
-          args: rateStrategies[strategy.name],
-          contract: "DefaultReserveInterestRateStrategy",
-          log: true,
-        })
+      // Strategy does not exist, load it
+      strategyAddresses[strategy.name] = (
+        await hre.deployments.get(`ReserveStrategy-${strategy.name}`)
       ).address;
     }
     strategyAddressPerAsset[symbol] = strategyAddresses[strategy.name];

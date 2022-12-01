@@ -13,6 +13,11 @@ import {
   eEthereumNetwork,
   eArbitrumNetwork,
 } from "../../helpers/types";
+import {
+  rateStrategyStableOne,
+  rateStrategyStableTwo,
+  rateStrategyVolatileOne,
+} from "./rateStrategies";
 // ----------------
 // PROTOCOL GLOBAL PARAMS
 // ----------------
@@ -164,5 +169,10 @@ export const CommonsConfig: ICommonConfiguration = {
   FlashLoanPremiums: {
     total: 0.0005e4,
     protocol: 0.0004e4,
+  },
+  RateStrategies: {
+    rateStrategyVolatileOne,
+    rateStrategyStableOne,
+    rateStrategyStableTwo,
   },
 };

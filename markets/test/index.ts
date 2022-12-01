@@ -1,3 +1,8 @@
+import {
+  rateStrategyStableOne,
+  rateStrategyStableTwo,
+  rateStrategyVolatileOne,
+} from "./rateStrategies";
 import { ZERO_ADDRESS } from "../../helpers";
 import {
   IAaveConfiguration,
@@ -58,6 +63,11 @@ export const AaveMarket: IAaveConfiguration = {
       WETH: ZERO_ADDRESS,
       LINK: ZERO_ADDRESS,
     },
+  },
+  RateStrategies: {
+    rateStrategyStableOne,
+    rateStrategyStableTwo,
+    rateStrategyVolatileOne,
   },
 };
 

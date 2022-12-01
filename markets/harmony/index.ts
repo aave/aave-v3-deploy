@@ -1,3 +1,4 @@
+import { rateStrategyDebtPrevention } from "./rateStrategies";
 import { eHarmonyNetwork, IAaveConfiguration } from "../../helpers/types";
 import { AaveMarket } from "../aave/index";
 import {
@@ -77,6 +78,9 @@ export const HarmonyMarket: IAaveConfiguration = {
       label: "Stablecoins",
       assets: ["USDC", "USDT", "DAI"],
     },
+  },
+  RateStrategies: {
+    rateStrategyDebtPrevention,
   },
 };
 
