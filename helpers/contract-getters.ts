@@ -30,7 +30,6 @@ import {
   MockVariableDebtToken,
   MockStableDebtToken,
   MockPool,
-  ERC20Faucet,
   ERC20FaucetOwnable,
   WrappedTokenGatewayV3,
   UiPoolDataProviderV3,
