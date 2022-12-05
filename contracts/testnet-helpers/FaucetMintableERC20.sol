@@ -3,7 +3,7 @@ pragma solidity 0.8.10;
 
 import {Ownable} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/Ownable.sol";
 import {ERC20} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/ERC20.sol";
-import {IERC20WithPermit} from "./interfaces/IERC20WithPermit.sol";
+import {IERC20WithPermit} from "./IERC20WithPermit.sol";
 
 /**
  * @title FaucetMintableERC20
@@ -28,7 +28,8 @@ contract FaucetMintableERC20 is IERC20WithPermit, ERC20, Ownable {
     constructor(
         string memory name,
         string memory symbol,
-        uint8 decimals
+        uint8 decimals,
+        address owner
     ) ERC20(name, symbol) {
         uint256 chainId = block.chainid;
 
@@ -42,6 +43,8 @@ contract FaucetMintableERC20 is IERC20WithPermit, ERC20, Ownable {
             )
         );
         _setupDecimals(decimals);
+        require(owner != address(0));
+        transferOwnership(owner);
     }
 
     /// @inheritdoc IERC20WithPermit
@@ -84,7 +87,7 @@ contract FaucetMintableERC20 is IERC20WithPermit, ERC20, Ownable {
      * @param value The amount of tokens to mint.
      * @return A boolean that indicates if the operation was successful.
      */
-    function mint(uint256 value) public virtual returns (bool) {
+    function mint(uint256 value) public virtual onlyOwner returns (bool) {
         _mint(_msgSender(), value);
         return true;
     }
@@ -98,6 +101,7 @@ contract FaucetMintableERC20 is IERC20WithPermit, ERC20, Ownable {
     function mint(address account, uint256 value)
         public
         virtual
+        onlyOwner
         returns (bool)
     {
         _mint(account, value);

@@ -47,7 +47,6 @@ import {
   ORACLE_ID,
   FALLBACK_ORACLE_ID,
   TESTNET_TOKEN_PREFIX,
-  FAUCET_ID,
   INCENTIVES_V2_IMPL_ID,
   INCENTIVES_PULL_REWARDS_STRATEGY_ID,
   INCENTIVES_PROXY_ID,
@@ -262,15 +261,6 @@ export const getTestnetReserveAddressFromSymbol = async (symbol: string) => {
   );
   return testnetReserve.address;
 };
-
-export const getERC20Faucet = async (address?: string): Promise<ERC20Faucet> =>
-  getContract(
-    "ERC20Faucet",
-    address || (await hre.deployments.get(FAUCET_ID)).address
-  );
-
-console.log("FAUCET_ID ----", FAUCET_ID);
-console.log("FAUCET_OWNABLE_ID ----", FAUCET_OWNABLE_ID);
 
 export const getERC20FaucetOwnable = async (
   address?: string

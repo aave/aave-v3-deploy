@@ -16,13 +16,12 @@ import { PoolAddressesProvider } from "../../typechain";
 import { PoolAddressesProviderRegistry } from "../../typechain";
 import {
   AaveOracle,
-  ERC20Faucet,
   IERC20,
   StableDebtToken,
   VariableDebtToken,
   WETH9,
   WrappedTokenGateway,
-  ERC20FaucetOwnable
+  ERC20FaucetOwnable,
 } from "../../typechain";
 import {
   ORACLE_ID,
@@ -34,7 +33,6 @@ import {
 import {
   getAToken,
   getERC20,
-  getERC20Faucet,
   getERC20FaucetOwnable,
   getStableDebtToken,
   getVariableDebtToken,
@@ -71,7 +69,6 @@ export interface TestEnv {
   addressesProvider: PoolAddressesProvider;
   registry: PoolAddressesProviderRegistry;
   wrappedTokenGateway: WrappedTokenGateway;
-  faucet: ERC20Faucet;
   faucetOwnable: ERC20FaucetOwnable;
 }
 
@@ -102,8 +99,7 @@ const testEnv: TestEnv = {
   addressesProvider: {} as PoolAddressesProvider,
   registry: {} as PoolAddressesProviderRegistry,
   wrappedTokenGateway: {} as WrappedTokenGateway,
-  faucet: {} as ERC20Faucet,
-  faucetOwnable: {} as ERC20FaucetOwnable
+  faucetOwnable: {} as ERC20FaucetOwnable,
 } as TestEnv;
 
 export async function initializeMakeSuite() {
@@ -225,7 +221,6 @@ export async function initializeMakeSuite() {
   testEnv.weth = await getWETH(wethAddress);
 
   if (isTestnetMarket(poolConfig)) {
-    testEnv.faucet = await getERC20Faucet();
     testEnv.faucetOwnable = await getERC20FaucetOwnable();
   }
 }
