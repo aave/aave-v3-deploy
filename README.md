@@ -25,6 +25,14 @@ This Node.js repository contains the configuration and deployment scripts for th
    npm run compile
    ```
 
+## Deployments
+
+For deploying to a testnet its just specifying the name of the network and setting the MNEMONIC in your .env
+
+```
+HARDHAT_NETWORK=goerli MARKET_NAME=Aave npx hardhat deploy
+```
+
 ## Project Structure
 
 | Path                  | Description                                                                                                                     |

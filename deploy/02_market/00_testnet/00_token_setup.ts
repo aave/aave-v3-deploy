@@ -13,7 +13,11 @@ import {
   loadPoolConfig,
 } from "../../../helpers/market-config-helpers";
 import { eNetwork } from "../../../helpers/types";
-import { FAUCET_ID, TESTNET_TOKEN_PREFIX } from "../../../helpers/deploy-ids";
+import {
+  // FAUCET_ID,
+  TESTNET_TOKEN_PREFIX,
+  FAUCET_OWNABLE_ID,
+} from "../../../helpers/deploy-ids";
 import Bluebird from "bluebird";
 import {
   deployInitializableAdminUpgradeabilityProxy,
@@ -59,29 +63,37 @@ const func: DeployFunction = async function ({
     throw "[Deployment][Error] Missing ReserveAssets configuration";
   }
 
+  // Deployment of FaucetOwnable helper contract
+  // FaucetMintableERC20 is owned by ERC20FaucetOwnable. ERC20FaucetOwnable is owned by defender relayer.
+  console.log("- Deployment of FaucetOwnable contract");
+  const faucetOwnable = await deploy(FAUCET_OWNABLE_ID, {
+    from: deployer,
+    contract: "ERC20FaucetOwnable",
+    args: [deployer],
+
+    ...COMMON_DEPLOY_PARAMS,
+  });
+
   // 0. Deployment of ERC20 mintable tokens for testing purposes
   await Bluebird.each(reserveSymbols, async (symbol) => {
     if (!reservesConfig[symbol]) {
       throw `[Deployment] Missing token "${symbol}" at ReservesConfig`;
     }
-    // WETH9 native mock token already deployed at deploy/01_periphery/02_native_token_gateway.ts
+    console.log("Deploy of FaucetMintableERC20 contract");
+
     if (symbol !== poolConfig.WrappedNativeTokenSymbol) {
       await deploy(`${symbol}${TESTNET_TOKEN_PREFIX}`, {
         from: deployer,
-        contract: "MintableERC20",
-        args: [symbol, symbol, reservesConfig[symbol].reserveDecimals],
+        contract: "FaucetMintableERC20",
+        args: [
+          symbol,
+          symbol,
+          reservesConfig[symbol].reserveDecimals,
+          faucetOwnable.address, // owner
+        ],
         ...COMMON_DEPLOY_PARAMS,
       });
     }
-  });
-
-  // 1. Deployment of Faucet helper contract
-  console.log("- Deployment of Faucet contract");
-  await deploy(FAUCET_ID, {
-    from: deployer,
-    contract: "ERC20Faucet",
-    args: [],
-    ...COMMON_DEPLOY_PARAMS,
   });
 
   if (isIncentivesEnabled(poolConfig)) {

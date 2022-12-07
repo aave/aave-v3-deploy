@@ -30,7 +30,7 @@ import {
   MockVariableDebtToken,
   MockStableDebtToken,
   MockPool,
-  ERC20Faucet,
+  ERC20FaucetOwnable,
   WrappedTokenGatewayV3,
   UiPoolDataProviderV3,
   WalletBalanceProvider,
@@ -46,7 +46,6 @@ import {
   ORACLE_ID,
   FALLBACK_ORACLE_ID,
   TESTNET_TOKEN_PREFIX,
-  FAUCET_ID,
   INCENTIVES_V2_IMPL_ID,
   INCENTIVES_PULL_REWARDS_STRATEGY_ID,
   INCENTIVES_PROXY_ID,
@@ -54,6 +53,7 @@ import {
   STAKE_AAVE_PROXY,
   STAKE_AAVE_IMPL_V3,
   L2_ENCODER,
+  FAUCET_OWNABLE_ID,
 } from "./deploy-ids";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { RewardsController } from "../typechain";
@@ -261,10 +261,12 @@ export const getTestnetReserveAddressFromSymbol = async (symbol: string) => {
   return testnetReserve.address;
 };
 
-export const getERC20Faucet = async (address?: string): Promise<ERC20Faucet> =>
+export const getERC20FaucetOwnable = async (
+  address?: string
+): Promise<ERC20FaucetOwnable> =>
   getContract(
-    "ERC20Faucet",
-    address || (await hre.deployments.get(FAUCET_ID)).address
+    "ERC20FaucetOwnable",
+    address || (await hre.deployments.get(FAUCET_OWNABLE_ID)).address
   );
 
 export const getWrappedTokenGateway = async (

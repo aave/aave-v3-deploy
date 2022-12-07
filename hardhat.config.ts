@@ -162,6 +162,7 @@ export default {
       "@aave/core-v3/contracts/mocks/helpers/MockPool.sol",
       "@aave/core-v3/contracts/mocks/helpers/MockL2Pool.sol",
       "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20Detailed.sol",
+      "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20.sol",
       "@aave/core-v3/contracts/mocks/oracle/PriceOracle.sol",
       "@aave/core-v3/contracts/mocks/tokens/MintableDelegationERC20.sol",
       "@aave/periphery-v3/contracts/misc/UiPoolDataProviderV3.sol",
