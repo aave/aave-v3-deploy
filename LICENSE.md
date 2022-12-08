@@ -9,7 +9,7 @@ Parameters
 
 Licensor: Aave
 
-Licensed Work: Aave V3 Core. The Licensed Work is (c) 2022 Aave
+Licensed Work: Aave Deply V3. The Licensed Work is (c) 2022 Aave
 
 Additional Use Grant: Any uses listed and defined at this [LICENSE](./LICENSE.md)
 
