@@ -46,3 +46,7 @@ HARDHAT_NETWORK=görli MARKET_NAME=Aave npx hardhat deploy
 | markets/              | Directory to configure Aave markets                                                                                             |
 | tasks/                | Hardhat tasks to setup and review market configs                                                                                |
 | helpers/              | Utility helpers to manage configs and deployments                                                                               |
+
+## License
+
+Please be aware that [Aave V3](https://github.com/aave/aave-v3-core) is under [BSUL](https://github.com/aave/aave-v3-core/blob/master/LICENSE.md) license as of 27 January 2023 or date specified at v3-license-date.aave.eth. The Licensor hereby grants you the right to copy, modify, create derivative works, redistribute, and make non-production use of the Licensed Work. Any exceptions to this license may be specified by Aave governance. This repository containing the deployment scripts for the Aave V3 smart contracts can only be used for local or testing purposes. If you wish to deploy to a production environment you can reach out to Aave Governance [here](https://governance.aave.com/).
