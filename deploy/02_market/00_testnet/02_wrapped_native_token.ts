@@ -48,7 +48,7 @@ const func: DeployFunction = async function ({
   }
 };
 
-func.tags = ["market", "init-testnet", "token-setup", "mock-weth"];
+func.tags = ["market", "init-testnet", "token-setup", "WrappedNativeToken"];
 
 func.dependencies = ["before-deploy", "periphery-pre"];
 
