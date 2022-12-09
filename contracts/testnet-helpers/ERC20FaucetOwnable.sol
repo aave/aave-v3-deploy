@@ -1,4 +1,5 @@
-pragma solidity >=0.8.7;
+// SPDX-License-Identifier: BUSL-1.1
+pragma solidity ^0.8.0;
 
 import {IFaucet} from "./IFaucet.sol";
 import {FaucetMintableERC20} from "./FaucetMintableERC20.sol";
