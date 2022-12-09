@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import {Ownable} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/Ownable.sol";
 import {ERC20} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/ERC20.sol";
-import {IERC20WithPermit} from "./IERC20WithPermit.sol";
+import {IERC20WithPermit} from "@aave/core-v3/contracts/interfaces/IERC20WithPermit.sol";
 
 /**
  * @title FaucetMintableERC20

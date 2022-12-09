@@ -8,21 +8,49 @@ import {Ownable} from "@aave/core-v3/contracts/dependencies/openzeppelin/contrac
 /**
  * @title ERC20FaucetOwnable
  * @dev Ownable Faucet Contract
- * @dev owner of the faucet is the relayer
  */
 contract ERC20FaucetOwnable is IFaucet, Ownable {
-    constructor(address owner) {
+    // If _permissioned is enabled, them only owner can mint Testnet ERC20 tokens
+    // If disabled, anyone can call mint at the faucet, for PoC environments
+    bool internal _permissioned;
+
+    constructor(address owner, bool permissioned) {
         require(owner != address(0));
         transferOwnership(owner);
+
+        _permissioned = permissioned;
+    }
+
+    /**
+     * @dev Function modifier, if _permissioned is enabled them msg.sender is required to be the owner
+     */
+    modifier onlyOwnerIfPermissioned() {
+        if (_permissioned == true) {
+            require(
+                owner() == _msgSender(),
+                "Ownable: caller is not the owner"
+            );
+        }
+        _;
     }
 
     /// @inheritdoc IFaucet
     function mint(
-        address _token,
-        address _destinationAddress,
-        uint256 _amount
-    ) external override onlyOwner returns (uint256) {
-        FaucetMintableERC20(_token).mint(_destinationAddress, _amount);
-        return _amount;
+        address token,
+        address to,
+        uint256 amount
+    ) external override onlyOwnerIfPermissioned returns (uint256) {
+        FaucetMintableERC20(token).mint(to, amount);
+        return amount;
+    }
+
+    /// @inheritdoc IFaucet
+    function setPermissioned(bool permissioned) external override onlyOwner {
+        _permissioned = permissioned;
+    }
+
+    /// @inheritdoc IFaucet
+    function isPermissioned() external view override returns (bool) {
+        return _permissioned;
     }
 }

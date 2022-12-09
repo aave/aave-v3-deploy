@@ -23,7 +23,7 @@ import {
   deployInitializableAdminUpgradeabilityProxy,
   setupStkAave,
 } from "../../../helpers/contract-deployments";
-import { MARKET_NAME } from "../../../helpers/env";
+import { MARKET_NAME, PERMISSIONED_FAUCET } from "../../../helpers/env";
 
 const func: DeployFunction = async function ({
   getNamedAccounts,
@@ -69,8 +69,7 @@ const func: DeployFunction = async function ({
   const faucetOwnable = await deploy(FAUCET_OWNABLE_ID, {
     from: deployer,
     contract: "ERC20FaucetOwnable",
-    args: [deployer],
-
+    args: [deployer, PERMISSIONED_FAUCET],
     ...COMMON_DEPLOY_PARAMS,
   });
 
@@ -89,7 +88,7 @@ const func: DeployFunction = async function ({
           symbol,
           symbol,
           reservesConfig[symbol].reserveDecimals,
-          faucetOwnable.address, // owner
+          faucetOwnable.address,
         ],
         ...COMMON_DEPLOY_PARAMS,
       });
@@ -107,8 +106,8 @@ const func: DeployFunction = async function ({
       const reward = rewardSymbols[y];
       await deploy(`${reward}${TESTNET_REWARD_TOKEN_PREFIX}`, {
         from: deployer,
-        contract: "MintableERC20",
-        args: [reward, reward, 18],
+        contract: "ERC20FaucetOwnable",
+        args: [reward, reward, 18, faucetOwnable.address],
         ...COMMON_DEPLOY_PARAMS,
       });
     }
