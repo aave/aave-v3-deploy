@@ -10,7 +10,7 @@ import {Ownable} from "@aave/core-v3/contracts/dependencies/openzeppelin/contrac
  * @dev Ownable Faucet Contract
  */
 contract ERC20FaucetOwnable is IERC20FaucetOwnable, Ownable {
-    // If _permissioned is enabled, them only owner can mint Testnet ERC20 tokens
+    // If _permissioned is enabled, then only owner can mint Testnet ERC20 tokens
     // If disabled, anyone can call mint at the faucet, for PoC environments
     bool internal _permissioned;
 
