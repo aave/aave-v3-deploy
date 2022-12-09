@@ -63,7 +63,7 @@ To make it work, you must install the following packages in your project:
 npm i --save-dev @aave/deploy-v3 @aave/core-v3 @aave/periphery-v3
 ```
 
-Them, proceed to load the deploy scripts adding the `externals` field in your Hardhat config file at `hardhat.config.js|ts`.
+Then, proceed to load the deploy scripts adding the `externals` field in your Hardhat config file at `hardhat.config.js|ts`.
 
 ```
 # Content of hardhat.config.ts file
