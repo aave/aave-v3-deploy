@@ -22,7 +22,7 @@ contract ERC20FaucetOwnable is IERC20FaucetOwnable, Ownable {
     }
 
     /**
-     * @dev Function modifier, if _permissioned is enabled them msg.sender is required to be the owner
+     * @dev Function modifier, if _permissioned is enabled then msg.sender is required to be the owner
      */
     modifier onlyOwnerIfPermissioned() {
         if (_permissioned == true) {
