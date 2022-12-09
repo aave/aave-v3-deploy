@@ -7,7 +7,7 @@ This Node.js repository contains the configuration and deployment scripts for th
 ## Requirements
 
 - Node.js >= 16
-- Alchemy or Infura API key
+- Alchemy key
   - If you use a custom RPC node, you can change the default RPC provider URL at [./helpers/hardhat-config-helpers.ts:25](./helpers/hardhat-config-helpers.ts).
 - Etherscan API key _(Optional)_
 
@@ -53,7 +53,7 @@ You can use the environment variable `FORK` with the network name to deploy into
 FORK=main MARKET_NAME=Aave npx hardhat deploy
 ```
 
-# How to integrate in your Hardhat project
+## How to integrate in your Hardhat project
 
 You can install the `@aave/deploy-v3` package in your Hardhat project to be able to import deployments with `hardhat-deploy` and build on top of Aave in local or testnet network.
 
@@ -63,14 +63,13 @@ To make it work, you must install the following packages in your project:
 npm i --save-dev @aave/deploy-v3 @aave/core-v3 @aave/periphery-v3
 ```
 
-Them, proceed to load the deploy scripts adding the `externals` field in your Hardhat config file `hardhat.config.js|ts`.
+Then, proceed to load the deploy scripts adding the `externals` field in your Hardhat config file at `hardhat.config.js|ts`.
 
 ```
 # Content of hardhat.config.ts file
 
 export default hardhatConfig: HardhatUserConfig = {
    {...},
-   // Add the following field to your Hardhat configuration to be able to import the deploy scripts
    external: {
     contracts: [
       {
@@ -102,7 +101,6 @@ describe('Tests', () => {
       const poolAddress = await addressesProvider.getPool();
 
       console.log('Pool', poolAddress);
-      // Your tests suite
    })
 })
 
