@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity ^0.8.0;
 
-interface IFaucet {
+interface IERC20FaucetOwnable {
     /**
      * @notice Function to mint Testnet tokens to the destination address
      * @param token The address of the token to perform the mint

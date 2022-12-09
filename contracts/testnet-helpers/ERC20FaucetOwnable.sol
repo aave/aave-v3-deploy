@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity ^0.8.0;
 
-import {IFaucet} from "./IFaucet.sol";
+import {IERC20FaucetOwnable} from "./IERC20FaucetOwnable.sol";
 import {FaucetMintableERC20} from "./FaucetMintableERC20.sol";
 import {Ownable} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/Ownable.sol";
 
@@ -9,7 +9,7 @@ import {Ownable} from "@aave/core-v3/contracts/dependencies/openzeppelin/contrac
  * @title ERC20FaucetOwnable
  * @dev Ownable Faucet Contract
  */
-contract ERC20FaucetOwnable is IFaucet, Ownable {
+contract ERC20FaucetOwnable is IERC20FaucetOwnable, Ownable {
     // If _permissioned is enabled, them only owner can mint Testnet ERC20 tokens
     // If disabled, anyone can call mint at the faucet, for PoC environments
     bool internal _permissioned;
@@ -34,7 +34,7 @@ contract ERC20FaucetOwnable is IFaucet, Ownable {
         _;
     }
 
-    /// @inheritdoc IFaucet
+    /// @inheritdoc IERC20FaucetOwnable
     function mint(
         address token,
         address to,
@@ -44,12 +44,12 @@ contract ERC20FaucetOwnable is IFaucet, Ownable {
         return amount;
     }
 
-    /// @inheritdoc IFaucet
+    /// @inheritdoc IERC20FaucetOwnable
     function setPermissioned(bool permissioned) external override onlyOwner {
         _permissioned = permissioned;
     }
 
-    /// @inheritdoc IFaucet
+    /// @inheritdoc IERC20FaucetOwnable
     function isPermissioned() external view override returns (bool) {
         return _permissioned;
     }
