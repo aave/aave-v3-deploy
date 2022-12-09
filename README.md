@@ -25,12 +25,87 @@ This Node.js repository contains the configuration and deployment scripts for th
    npm run compile
    ```
 
-## Deployments
+## How to deploy Aave V3 in testnet network
 
-For deploying to a testnet its just specifying the name of the network and setting the MNEMONIC in your .env
+To deploy Aave V3 in a Testnet network, copy the `.env.example` into a `.env` file, and fill the environment variables `MNEMONIC`, and `ALCHEMY_KEY`.
 
 ```
-HARDHAT_NETWORK=görli MARKET_NAME=Aave npx hardhat deploy
+cp .env.example .env
+```
+
+Edit the `.env` file to fill the environment variables `MNEMONIC`, `ALCHEMY_KEY` and `MARKET_NAME`. You can check all possible pool configurations in this [file](https://github.com/aave/aave-v3-deploy/blob/09e91b80aff219da80f35a9fc55dafc5d698b574/helpers/market-config-helpers.ts#L95).
+
+```
+nano .env
+```
+
+Run the deployments script
+
+```
+HARDHAT_NETWORK=görli npx hardhat deploy
+```
+
+## How to deploy Aave V3 in fork network
+
+You can use the environment variable `FORK` with the network name to deploy into a fork.
+
+```
+FORK=main MARKET_NAME=Aave npx hardhat deploy
+```
+
+# How to integrate in your Hardhat project
+
+You can install the `@aave/deploy-v3` package in your Hardhat project to be able to import deployments with `hardhat-deploy` and build on top of Aave in local or testnet network.
+
+To make it work, you must install the following packages in your project:
+
+```
+npm i --save-dev @aave/deploy-v3 @aave/core-v3 @aave/periphery-v3
+```
+
+Them, proceed to load the deploy scripts adding the `externals` field in your Hardhat config file `hardhat.config.js|ts`.
+
+```
+# Content of hardhat.config.ts file
+
+export default hardhatConfig: HardhatUserConfig = {
+   {...},
+   // Add the following field to your Hardhat configuration to be able to import the deploy scripts
+   external: {
+    contracts: [
+      {
+        artifacts: 'node_modules/@aave/deploy-v3/artifacts',
+        deploy: 'node_modules/@aave/deploy-v3/dist/deploy',
+      },
+    ],
+  },
+}
+```
+
+After all is configured, you can run `npx hardhat deploy` to run the scripts or you can also run it programmatically in your tests using fixtures:
+
+```
+import {getPoolAddressesProvider} from '@aave/deploy-v3';
+
+describe('Tests', () => {
+   before(async () => {
+      // Set the MARKET_NAME env var
+      process.env.MARKET_NAME = "Aave"
+
+      // Deploy Aave V3 contracts before running tests
+      await hre.deployments.fixture(['market', 'periphery-post']);`
+   })
+
+   it('Get Pool address from AddressesProvider', async () => {
+      const addressesProvider = await getPoolAddressesProvider();
+
+      const poolAddress = await addressesProvider.getPool();
+
+      console.log('Pool', poolAddress);
+      // Your tests suite
+   })
+})
+
 ```
 
 ## Project Structure
