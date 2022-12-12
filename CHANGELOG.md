@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.52.0](https://github.com/aave/aave-v3-deploy/compare/v1.51.0...v1.52.0) (2022-12-09)
+
+
+### Features
+
+* permissioned mode for Faucet ([5ef1cb4](https://github.com/aave/aave-v3-deploy/commit/5ef1cb426c6e0ccc8ed595e164ec2a6c0440dc4a))
+
+
+### Bug Fixes
+
+* keep old deploy tag ([32fdfb5](https://github.com/aave/aave-v3-deploy/commit/32fdfb51241b2387ffd52362aed33d1db180ac47))
+
 ## [1.51.0](https://github.com/aave/aave-v3-deploy/compare/v1.50.1...v1.51.0) (2022-11-28)
 
 

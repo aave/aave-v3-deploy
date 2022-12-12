@@ -1,22 +1,26 @@
-// SPDX-License-Identifier: agpl-3.0
-pragma solidity 0.8.10;
+// SPDX-License-Identifier: BUSL-1.1
+pragma solidity ^0.8.0;
 
 import {WETH9} from "@aave/core-v3/contracts/dependencies/weth/WETH9.sol";
+import {Ownable} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/Ownable.sol";
 
-contract NativeWrapperMock is WETH9 {
-    constructor(string memory _name, string memory _symbol) {
-        name = _name;
-        symbol = _symbol;
+contract NativeWrapperMock is WETH9, Ownable {
+    constructor(
+        string memory mockName,
+        string memory mockSymbol,
+        address owner
+    ) {
+        name = mockName;
+        symbol = mockSymbol;
+
+        transferOwnership(owner);
     }
 
-    // Mint not backed by Ether: only for testing purposes
-    function mint(uint256 value) public returns (bool) {
-        balanceOf[msg.sender] += value;
-        emit Transfer(address(0), msg.sender, value);
-        return true;
-    }
-
-    function mint(address account, uint256 value) public returns (bool) {
+    function mint(address account, uint256 value)
+        public
+        onlyOwner
+        returns (bool)
+    {
         balanceOf[account] += value;
         emit Transfer(address(0), account, value);
         return true;
