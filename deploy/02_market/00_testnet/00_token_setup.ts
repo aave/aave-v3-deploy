@@ -51,6 +51,15 @@ const func: DeployFunction = async function ({
     // Early exit if is not a testnet market
     return;
   }
+  // Deployment of FaucetOwnable helper contract
+  // FaucetMintableERC20 is owned by ERC20FaucetOwnable. ERC20FaucetOwnable is owned by defender relayer.
+  console.log("- Deployment of FaucetOwnable contract");
+  const faucetOwnable = await deploy(FAUCET_OWNABLE_ID, {
+    from: deployer,
+    contract: "ERC20FaucetOwnable",
+    args: [deployer, PERMISSIONED_FAUCET],
+    ...COMMON_DEPLOY_PARAMS,
+  });
 
   console.log(
     `- Setting up testnet tokens for "${MARKET_NAME}" market at "${network}" network`
@@ -65,16 +74,6 @@ const func: DeployFunction = async function ({
     );
     return;
   }
-
-  // Deployment of FaucetOwnable helper contract
-  // FaucetMintableERC20 is owned by ERC20FaucetOwnable. ERC20FaucetOwnable is owned by defender relayer.
-  console.log("- Deployment of FaucetOwnable contract");
-  const faucetOwnable = await deploy(FAUCET_OWNABLE_ID, {
-    from: deployer,
-    contract: "ERC20FaucetOwnable",
-    args: [deployer, PERMISSIONED_FAUCET],
-    ...COMMON_DEPLOY_PARAMS,
-  });
 
   // 0. Deployment of ERC20 mintable tokens for testing purposes
   await Bluebird.each(reserveSymbols, async (symbol) => {
