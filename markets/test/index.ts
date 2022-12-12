@@ -64,11 +64,6 @@ export const AaveMarket: IAaveConfiguration = {
       LINK: ZERO_ADDRESS,
     },
   },
-  RateStrategies: {
-    rateStrategyStableOne,
-    rateStrategyStableTwo,
-    rateStrategyVolatileOne,
-  },
 };
 
 export default AaveMarket;
