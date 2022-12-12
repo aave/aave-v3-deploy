@@ -167,3 +167,6 @@ export const MULTISIG_ADDRESS: { [key: string]: string } = {
   // Polygon Multisig
   [ePolygonNetwork.polygon]: "0x1450F2898D6bA2710C98BE9CAF3041330eD5ae58",
 };
+
+export const ETHEREUM_SHORT_EXECUTOR =
+  "0xEE56e2B3D491590B5b31738cC34d5232F378a8D5";

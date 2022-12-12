@@ -9,9 +9,11 @@ import { MARKET_NAME } from "../../helpers/env";
 import {
   ConfigNames,
   eNetwork,
+  getPool,
   getPoolLibraries,
   isL2PoolSupported,
   loadPoolConfig,
+  waitForTx,
 } from "../../helpers";
 
 const func: DeployFunction = async function ({
@@ -39,7 +41,7 @@ const func: DeployFunction = async function ({
   const commonLibraries = await getPoolLibraries();
 
   // Deploy common Pool contract
-  await deploy(POOL_IMPL_ID, {
+  const poolArtifact = await deploy(POOL_IMPL_ID, {
     contract: "Pool",
     from: deployer,
     args: [addressesProviderAddress],
@@ -48,6 +50,11 @@ const func: DeployFunction = async function ({
     },
     ...COMMON_DEPLOY_PARAMS,
   });
+
+  // Initialize implementation
+  const pool = await getPool(poolArtifact.address);
+  await waitForTx(await pool.initialize(addressesProviderAddress));
+  console.log("Initialized Pool Implementation");
 };
 
 func.id = "PoolImplementation";

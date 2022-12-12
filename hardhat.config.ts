@@ -22,6 +22,7 @@ import "@nomicfoundation/hardhat-toolbox";
 import "hardhat-deploy";
 import "hardhat-contract-sizer";
 import "hardhat-dependency-compiler";
+import "@nomicfoundation/hardhat-chai-matchers";
 
 const SKIP_LOAD = process.env.SKIP_LOAD === "true";
 const TASK_FOLDERS = ["misc", "market-registry"];

@@ -1,4 +1,4 @@
-import { getPoolLibraries } from "../../helpers/contract-getters";
+import { getPool, getPoolLibraries } from "../../helpers/contract-getters";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { COMMON_DEPLOY_PARAMS } from "../../helpers/env";
@@ -6,13 +6,13 @@ import {
   L2_POOL_IMPL_ID,
   POOL_ADDRESSES_PROVIDER_ID,
 } from "../../helpers/deploy-ids";
-import { config } from "bluebird";
 import { MARKET_NAME } from "../../helpers/env";
 import {
   ConfigNames,
   eNetwork,
   isL2PoolSupported,
   loadPoolConfig,
+  waitForTx,
 } from "../../helpers";
 
 const func: DeployFunction = async function ({
@@ -46,7 +46,7 @@ const func: DeployFunction = async function ({
   });
 
   // Deploy L2 supported Pool
-  await deploy(L2_POOL_IMPL_ID, {
+  const poolArtifact = await deploy(L2_POOL_IMPL_ID, {
     contract: "L2Pool",
     from: deployer,
     args: [addressesProviderAddress],
@@ -56,6 +56,11 @@ const func: DeployFunction = async function ({
     },
     ...COMMON_DEPLOY_PARAMS,
   });
+
+  // Initialize implementation
+  const pool = await getPool(poolArtifact.address);
+  await waitForTx(await pool.initialize(addressesProviderAddress));
+  console.log("Initialized L2Pool Implementation");
 };
 
 func.id = "L2PoolImplementations";
