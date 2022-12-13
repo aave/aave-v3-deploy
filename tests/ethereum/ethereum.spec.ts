@@ -1,21 +1,39 @@
-import { assert, expect } from "chai";
-import { BigNumber, Signer } from "ethers";
-import { getAccountPath, zeroPad } from "ethers/lib/utils";
+import { parseEther } from "ethers/lib/utils";
+import {
+  MAX_UINT_AMOUNT,
+  oneEther,
+  WRAPPED_NATIVE_TOKEN_PER_NETWORK,
+} from "./../../helpers/constants";
+import { waitForTx } from "./../../helpers/utilities/tx";
+import { impersonateAddress } from "./../../helpers/utilities/fork";
+import { AaveEcosystemReserveController__factory } from "./../../typechain/factories/@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveController__factory";
+import { Ownable } from "./../../dist/types/typechain/@aave/core-v3/contracts/dependencies/openzeppelin/contracts/Ownable.d";
+import { getTreasuryAddress } from "./../../helpers/market-config-helpers";
+import { getERC20, getFlashLoanLogic } from "./../../helpers/contract-getters";
+import {
+  getEthersSigners,
+  getFirstSigner,
+} from "./../../helpers/utilities/signer";
+import { AaveEcosystemReserveV2__factory } from "./../../typechain/factories/@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveV2__factory";
+import {
+  INCENTIVES_PROXY_ID,
+  TREASURY_CONTROLLER_ID,
+  TREASURY_IMPL_ID,
+  TREASURY_PROXY_ID,
+} from "./../../helpers/deploy-ids";
+import { expect } from "chai";
+import { BigNumber } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { Config } from "jsondiffpatch";
 import {
   aave,
-  addMarketToRegistry,
   ATOKEN_IMPL_ID,
   ConfigNames,
-  DebtTokenBase__factory,
   DELEGATION_AWARE_ATOKEN_IMPL_ID,
   ETHEREUM_SHORT_EXECUTOR,
   getAaveOracle,
   getAaveProtocolDataProvider,
   getACLManager,
   getAToken,
-  getEthersSigners,
   getEthersSignersAddresses,
   getIncentivesV2,
   getIRStrategy,
@@ -32,22 +50,20 @@ import {
   INCENTIVES_V2_IMPL_ID,
   loadPoolConfig,
   PoolAddressesProvider,
-  PoolAddressesProviderRegistry__factory,
   POOL_CONFIGURATOR_IMPL_ID,
   POOL_IMPL_ID,
   STABLE_DEBT_TOKEN_IMPL_ID,
+  strategyWETH,
   VARIABLE_DEBT_TOKEN_IMPL_ID,
-  waitForTx,
   ZERO_ADDRESS,
 } from "../../helpers";
-import { pool } from "../../typechain/@aave/core-v3/contracts/protocol";
 
 // Prevent error HH9 when importing this file inside tasks or helpers at Hardhat config load
 declare var hre: HardhatRuntimeEnvironment;
 
 const InitializeError = "Contract instance has already been initialized";
 
-describe("Ethereum V3 - Token-less deployment", () => {
+describe("Ethereum V3 - Token-less deployment", function () {
   let addressesProvider: PoolAddressesProvider;
   let poolConfig: ICommonConfiguration;
   before(async () => {
@@ -104,6 +120,40 @@ describe("Ethereum V3 - Token-less deployment", () => {
       await expect(
         poolRewardsController.initialize(addressesProvider.address)
       ).to.be.revertedWith(InitializeError);
+    });
+    it("Treasury implementation should be initialized", async () => {
+      const treasuryArtifact = await hre.deployments.get(TREASURY_IMPL_ID);
+      const treasuryImpl = AaveEcosystemReserveV2__factory.connect(
+        treasuryArtifact.address,
+        await getFirstSigner()
+      );
+
+      await expect(treasuryImpl.initialize(ZERO_ADDRESS)).to.be.revertedWith(
+        InitializeError
+      );
+    });
+  });
+  describe("Treasury", () => {
+    it("Treasury proxy should be deployed and initialized", async () => {
+      const treasury = await hre.deployments.get(TREASURY_PROXY_ID);
+
+      const treasuryProxy = AaveEcosystemReserveV2__factory.connect(
+        treasury.address,
+        await getFirstSigner()
+      );
+
+      expect(await treasuryProxy.getNextStreamId()).equal(100000);
+    });
+    it("Treasury owner should be the controller", async () => {
+      const treasury = await hre.deployments.get(TREASURY_PROXY_ID);
+      const controller = await hre.deployments.get(TREASURY_CONTROLLER_ID);
+
+      const treasuryProxy = AaveEcosystemReserveV2__factory.connect(
+        treasury.address,
+        await getFirstSigner()
+      );
+
+      expect(await treasuryProxy.getFundsAdmin()).equal(controller.address);
     });
   });
 
@@ -170,10 +220,6 @@ describe("Ethereum V3 - Token-less deployment", () => {
         )
       ).equal(poolConfig.ProviderId);
     });
-    it("Owner should be short executor", async () => {
-      const registry = await getPoolAddressesProviderRegistry();
-      expect(await registry.owner()).equals(ETHEREUM_SHORT_EXECUTOR);
-    });
   });
 
   describe("Oracle setup", () => {
@@ -183,13 +229,17 @@ describe("Ethereum V3 - Token-less deployment", () => {
     });
   });
 
-  describe("ACL Roles", () => {
+  describe("Roles", () => {
+    it("PoolAddressesProviderRegistry Owner should be short executor", async () => {
+      const registry = await getPoolAddressesProviderRegistry();
+      expect(await registry.owner()).equals(ETHEREUM_SHORT_EXECUTOR);
+    });
+    it("PoolAddressesProvider Owner should be short executor", async () => {
+      expect(await addressesProvider.owner()).equals(ETHEREUM_SHORT_EXECUTOR);
+    });
     it("ACLManager admin should be short executor", async () => {
       const acl = await getACLManager();
       const DefaultAdminRole = await acl.DEFAULT_ADMIN_ROLE();
-      await expect(await acl.getRoleAdmin(DefaultAdminRole)).equal(
-        ETHEREUM_SHORT_EXECUTOR
-      );
       await expect(
         await acl.hasRole(DefaultAdminRole, ETHEREUM_SHORT_EXECUTOR)
       );
@@ -204,7 +254,7 @@ describe("Ethereum V3 - Token-less deployment", () => {
         .true;
     });
     it("PoolAddressesProvider ACLAdmin should be short executor", async () => {
-      await expect(addressesProvider.getACLAdmin()).equal(
+      await expect(await addressesProvider.getACLAdmin()).equal(
         ETHEREUM_SHORT_EXECUTOR
       );
     });
@@ -222,6 +272,17 @@ describe("Ethereum V3 - Token-less deployment", () => {
       await expect(await acl.isPoolAdmin(deployer)).be.false;
       await expect(await acl.isFlashBorrower(deployer)).be.false;
       await expect(await acl.isRiskAdmin(deployer)).be.false;
+    });
+    it("Treasury controller admin should be short executor", async () => {
+      const controllerArtifact = await hre.deployments.get(
+        TREASURY_CONTROLLER_ID
+      );
+      const controller = AaveEcosystemReserveController__factory.connect(
+        controllerArtifact.address,
+        await getFirstSigner()
+      );
+
+      expect(await controller.owner()).equal(ETHEREUM_SHORT_EXECUTOR);
     });
   });
 
@@ -396,8 +457,186 @@ describe("Ethereum V3 - Token-less deployment", () => {
     });
   });
 
+  describe("Pool config", () => {
+    it(`Should have set the Flash Loan total fees`, async () => {
+      const { FlashLoanPremiums } = poolConfig;
+      const pool = await getPool();
+      const currentPremiumTotal = await pool.FLASHLOAN_PREMIUM_TOTAL();
+      const currentProtocolFee = await pool.FLASHLOAN_PREMIUM_TO_PROTOCOL();
+
+      expect(currentPremiumTotal).equal(FlashLoanPremiums.total);
+      expect(currentProtocolFee).equal(FlashLoanPremiums.protocol);
+    });
+  });
+
   describe("Governance", () => {
-    xit("Governance short executor should be able to list assets", async () => {});
-    xit("Governance short executor should be able to unpause market", async () => {});
+    it("Governance short executor should be able to list WETH", async () => {
+      const { RateStrategies } = poolConfig;
+
+      const firstStrat = Object.keys(RateStrategies)[0];
+
+      const rateStrategy = await hre.deployments.get(
+        `ReserveStrategy-${firstStrat}`
+      );
+
+      const impersonatedExecutor = await impersonateAddress(
+        ETHEREUM_SHORT_EXECUTOR
+      );
+      const deployer = await getFirstSigner();
+      await deployer.sendTransaction({
+        to: ETHEREUM_SHORT_EXECUTOR,
+        value: oneEther,
+      });
+
+      const poolConfigurator = (await getPoolConfiguratorProxy()).connect(
+        impersonatedExecutor.signer
+      );
+
+      // List WETH for testing purposes
+      await waitForTx(
+        await poolConfigurator.initReserves([
+          {
+            aTokenImpl: (await hre.deployments.get(ATOKEN_IMPL_ID)).address,
+            stableDebtTokenImpl: (
+              await hre.deployments.get(STABLE_DEBT_TOKEN_IMPL_ID)
+            ).address,
+            variableDebtTokenImpl: (
+              await hre.deployments.get(VARIABLE_DEBT_TOKEN_IMPL_ID)
+            ).address,
+            underlyingAssetDecimals: 18,
+            interestRateStrategyAddress: rateStrategy.address,
+            underlyingAsset: WRAPPED_NATIVE_TOKEN_PER_NETWORK["main"],
+            treasury: (await hre.deployments.get(TREASURY_PROXY_ID)).address,
+            incentivesController: (
+              await hre.deployments.get(INCENTIVES_PROXY_ID)
+            ).address,
+            aTokenName: "WETH Ethereum AToken",
+            aTokenSymbol: "aEthWETH",
+            variableDebtTokenName: "WETH Ethereum Variable Debt Token",
+            variableDebtTokenSymbol: "vDebtEthWETH",
+            stableDebtTokenName: "WETH Ethereum Stable Debt Token",
+            stableDebtTokenSymbol: "WETH Ethereum AToken",
+            params: "0x",
+          },
+        ])
+      );
+
+      // Config WETH risk params
+      const payload = {
+        asset: WRAPPED_NATIVE_TOKEN_PER_NETWORK["main"],
+        baseLTV: strategyWETH.baseLTVAsCollateral,
+        liquidationThreshold: strategyWETH.liquidationThreshold,
+        liquidationBonus: strategyWETH.liquidationBonus,
+        reserveFactor: strategyWETH.reserveFactor,
+        borrowCap: strategyWETH.borrowCap,
+        supplyCap: strategyWETH.supplyCap,
+        stableBorrowingEnabled: strategyWETH.stableBorrowRateEnabled,
+        borrowingEnabled: strategyWETH.borrowingEnabled,
+        flashLoanEnabled: strategyWETH.flashLoanEnabled,
+      };
+      await waitForTx(
+        await poolConfigurator.configureReserveAsCollateral(
+          payload.asset,
+          payload.baseLTV,
+          payload.liquidationThreshold,
+          payload.liquidationBonus
+        )
+      );
+      await waitForTx(
+        await poolConfigurator.setReserveBorrowing(
+          payload.asset,
+          payload.borrowingEnabled
+        )
+      );
+      await waitForTx(
+        await poolConfigurator.setBorrowCap(payload.asset, payload.borrowCap)
+      );
+      await waitForTx(
+        await poolConfigurator.setReserveStableRateBorrowing(
+          payload.asset,
+          payload.stableBorrowingEnabled
+        )
+      );
+      await waitForTx(
+        await poolConfigurator.setSupplyCap(payload.asset, payload.supplyCap)
+      );
+      await waitForTx(
+        await poolConfigurator.setReserveFactor(
+          payload.asset,
+          payload.reserveFactor
+        )
+      );
+      await waitForTx(
+        await poolConfigurator.setReserveFlashLoaning(payload.asset, true)
+      );
+      const aaveOracle = (await getAaveOracle()).connect(
+        impersonatedExecutor.signer
+      );
+      await waitForTx(
+        await aaveOracle.setAssetSources(
+          [payload.asset],
+          ["0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419"]
+        )
+      );
+      // Unpause
+      await waitForTx(await poolConfigurator.setPoolPause(false));
+    });
+  });
+  describe("Perform user actions", () => {
+    it("Supply WETH", async () => {
+      const deployer = await getFirstSigner();
+      const [, , user] = await getEthersSigners();
+      const userAddress = await user.getAddress();
+      const wrapper = await getWrappedTokenGateway();
+      const pool = await getPool();
+
+      await expect(
+        wrapper
+          .connect(user)
+          .depositETH(ZERO_ADDRESS, userAddress, 0, { value: oneEther })
+      ).to.emit(pool, "Supply");
+
+      await expect(
+        wrapper.depositETH(ZERO_ADDRESS, await deployer.getAddress(), 0, {
+          value: parseEther("100"),
+        })
+      ).to.emit(pool, "Supply");
+    });
+    it("Borrow WETH variable debt", async () => {
+      const [, , user] = await getEthersSigners();
+      const wrapper = await getWrappedTokenGateway();
+      const pool = await getPool();
+      const weth = WRAPPED_NATIVE_TOKEN_PER_NETWORK["main"];
+      const data = await pool.getReserveData(weth);
+      const borrowSize = oneEther.div(4);
+      const debtToken = await hre.ethers.getContractAt(
+        "VariableDebtToken",
+        data.variableDebtTokenAddress
+      );
+      await waitForTx(
+        await debtToken
+          .connect(user)
+          .approveDelegation(wrapper.address, borrowSize)
+      );
+      await expect(
+        wrapper.connect(user).borrowETH(ZERO_ADDRESS, borrowSize, 2, 0)
+      ).to.emit(pool, "Borrow");
+    });
+    it("Repay WETH variable debt", async () => {
+      const [, , user] = await getEthersSigners();
+      const userAddress = await user.getAddress();
+      const wrapper = await getWrappedTokenGateway();
+      const pool = await getPool();
+      const weth = WRAPPED_NATIVE_TOKEN_PER_NETWORK["main"];
+      const data = await pool.getReserveData(weth);
+
+      await expect(
+        wrapper
+          .connect(user)
+          .repayETH(ZERO_ADDRESS, oneEther.div(4), 2, userAddress, {
+            value: oneEther.div(4),
+          })
+      ).to.emit(pool, "Repay");
+    });
   });
 });

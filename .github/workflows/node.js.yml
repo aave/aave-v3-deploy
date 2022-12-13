@@ -36,7 +36,11 @@ jobs:
         run: npm run deploy:market:eth:empty:fork
         env:
           ALCHEMY_KEY: ${{ secrets.ALCHEMY_KEY }}
-      - name: Test deployment checklist
+      - name: Test
         run: npm run test
+        env:
+          ALCHEMY_KEY: ${{ secrets.ALCHEMY_KEY }}
+      - name: Test ethereum checklist
+        run: npm run test:ethereum:fork
         env:
           ALCHEMY_KEY: ${{ secrets.ALCHEMY_KEY }}

@@ -24,7 +24,7 @@ const func: DeployFunction = async function ({
   ...hre
 }: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
-  const { deployer, treasuryProxyAdmin } = await getNamedAccounts();
+  const { deployer, governanceAdmin } = await getNamedAccounts();
 
   // Deploy Treasury proxy
   const treasuryProxyArtifact = await deploy(TREASURY_PROXY_ID, {
@@ -37,7 +37,7 @@ const func: DeployFunction = async function ({
   const treasuryController = await deploy(TREASURY_CONTROLLER_ID, {
     from: deployer,
     contract: "AaveEcosystemReserveController",
-    args: [treasuryProxyAdmin],
+    args: [governanceAdmin],
     ...COMMON_DEPLOY_PARAMS,
   });
 
@@ -71,7 +71,7 @@ const func: DeployFunction = async function ({
   await waitForTx(
     await proxy["initialize(address,address,bytes)"](
       treasuryImplArtifact.address,
-      treasuryProxyAdmin,
+      governanceAdmin,
       initializePayload
     )
   );

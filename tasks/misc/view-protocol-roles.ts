@@ -1,13 +1,21 @@
-import { ZERO_ADDRESS } from "./../../helpers/constants";
-import { EmissionManager } from "./../../typechain";
-import { getEmissionManager } from "./../../helpers/contract-getters";
+import {
+  EMERGENCY_ADMIN,
+  POOL_ADMIN,
+  ZERO_ADDRESS,
+} from "./../../helpers/constants";
+import {
+  AaveEcosystemReserveController,
+  EmissionManager,
+} from "./../../typechain";
+import {
+  getEmissionManager,
+  getIncentivesV2,
+} from "./../../helpers/contract-getters";
 import { EMISSION_MANAGER_ID } from "./../../helpers/deploy-ids";
 import { FORK } from "../../helpers/hardhat-config-helpers";
 import {
   TREASURY_PROXY_ID,
   TREASURY_CONTROLLER_ID,
-  POOL_ADDRESSES_PROVIDER_ID,
-  INCENTIVES_PROXY_ID,
 } from "../../helpers/deploy-ids";
 import { InitializableAdminUpgradeabilityProxy } from "../../typechain";
 import {
@@ -17,15 +25,8 @@ import {
   getWrappedTokenGateway,
 } from "../../helpers/contract-getters";
 import { task } from "hardhat/config";
-import {
-  getAddressFromJson,
-  getProxyAdminBySlot,
-} from "../../helpers/utilities/tx";
+import { getProxyAdminBySlot } from "../../helpers/utilities/tx";
 import { exit } from "process";
-import {
-  GOVERNANCE_BRIDGE_EXECUTOR,
-  MULTISIG_ADDRESS,
-} from "../../helpers/constants";
 
 task(
   `view-protocol-roles`,
@@ -45,15 +46,9 @@ task(
   const deployerSigner = await hre.ethers.getSigner(deployer);
   const aclSigner = await hre.ethers.getSigner(aclAdmin);
   const networkId = FORK ? FORK : hre.network.name;
-  // Desired Admin at Polygon must be the bridge crosschain executor, not the multisig
-  const desiredMultisig = networkId.includes("polygon")
-    ? GOVERNANCE_BRIDGE_EXECUTOR[networkId]
-    : MULTISIG_ADDRESS[networkId];
-  // Desired Emergency Admin at Polygon must be the multisig, not the crosschain executor
-  const desiredEmergencyAdmin = networkId.includes("polygon")
-    ? MULTISIG_ADDRESS[networkId]
-    : desiredMultisig;
-  if (!desiredMultisig) {
+  const desiredAdmin = POOL_ADMIN[networkId];
+  const desiredEmergencyAdmin = EMERGENCY_ADMIN[networkId];
+  if (!desiredAdmin) {
     console.error(
       "The constant desired Multisig is undefined. Check missing admin address at MULTISIG_ADDRESS or GOVERNANCE_BRIDGE_EXECUTOR constant"
     );
@@ -66,27 +61,9 @@ task(
     );
     exit(403);
   }
-  const poolAddressesProvider = await getPoolAddressesProvider(
-    await getAddressFromJson(networkId, POOL_ADDRESSES_PROVIDER_ID)
-  );
-  const rewardsController = await hre.ethers.getContractAt(
-    "RewardsController",
-    await getAddressFromJson(networkId, INCENTIVES_PROXY_ID),
-    deployerSigner
-  );
-  let emissionManagerAddress;
-  let emissionManager: EmissionManager | undefined;
-  try {
-    emissionManagerAddress = await getAddressFromJson(
-      networkId,
-      EMISSION_MANAGER_ID
-    );
-  } catch {
-    console.log("Missing EmissionManager artifact.");
-  }
-  if (emissionManagerAddress) {
-    emissionManager = await getEmissionManager(emissionManagerAddress);
-  }
+  const poolAddressesProvider = await getPoolAddressesProvider();
+  const rewardsController = await getIncentivesV2();
+  const emissionManager = await getEmissionManager();
 
   console.log("--- Current deployer addresses ---");
   console.table({
@@ -97,7 +74,7 @@ task(
   });
   console.log("--- Multisig and expected contract addresses ---");
   console.table({
-    multisig: desiredMultisig,
+    multisig: desiredAdmin,
     poolAddressesProvider: poolAddressesProvider.address,
     rewardsProxy: rewardsController.address,
   });
@@ -119,65 +96,59 @@ task(
     hre.ethers.utils.toUtf8Bytes("INCENTIVES_CONTROLLER")
   );
 
-  const poolAddressesProviderRegistry = await getPoolAddressesProviderRegistry(
-    await getAddressFromJson(networkId, "PoolAddressesProviderRegistry")
-  );
+  const poolAddressesProviderRegistry =
+    await getPoolAddressesProviderRegistry();
   const aclManager = (
     await getACLManager(await poolAddressesProvider.getACLManager())
   ).connect(aclSigner);
   const treasuryProxy =
     await hre.ethers.getContractAt<InitializableAdminUpgradeabilityProxy>(
       "InitializableAdminUpgradeabilityProxy",
-      await getAddressFromJson(networkId, TREASURY_PROXY_ID),
+      (
+        await hre.deployments.get(TREASURY_PROXY_ID)
+      ).address,
       deployerSigner
     );
   const treasuryController =
     await hre.ethers.getContractAt<AaveEcosystemReserveController>(
       "AaveEcosystemReserveController",
-      await getAddressFromJson(networkId, TREASURY_CONTROLLER_ID),
+      (
+        await hre.deployments.get(TREASURY_CONTROLLER_ID)
+      ).address,
       deployerSigner
     );
-  const wrappedTokenGateway = await getWrappedTokenGateway(
-    await getAddressFromJson(networkId, "WrappedTokenGatewayV3")
-  );
-
-  const rewardsProxy =
-    await hre.ethers.getContractAt<InitializableAdminUpgradeabilityProxy>(
-      "InitializableAdminUpgradeabilityProxy",
-      rewardsController.address,
-      deployerSigner
-    );
+  const wrappedTokenGateway = await getWrappedTokenGateway();
 
   /** Output of results*/
   const result = [
     {
       role: "PoolAddressesProvider owner",
       address: await poolAddressesProvider.owner(),
-      assert: (await poolAddressesProvider.owner()) === desiredMultisig,
+      assert: (await poolAddressesProvider.owner()) === desiredAdmin,
     },
     {
       role: "PoolAddressesProviderRegistry owner",
       address: await poolAddressesProviderRegistry.owner(),
-      assert: (await poolAddressesProviderRegistry.owner()) === desiredMultisig,
+      assert: (await poolAddressesProviderRegistry.owner()) === desiredAdmin,
     },
     {
       role: "AddressesProvider ACL Admin",
       address: await poolAddressesProvider.getACLAdmin(),
-      assert: (await poolAddressesProvider.getACLAdmin()) === desiredMultisig,
+      assert: (await poolAddressesProvider.getACLAdmin()) === desiredAdmin,
     },
     {
       role: "ACL Manager Default Admin role granted Multisig",
       address: (await aclManager.hasRole(
         hre.ethers.constants.HashZero,
-        desiredMultisig
+        desiredAdmin
       ))
-        ? desiredMultisig
+        ? desiredAdmin
         : (await aclManager.hasRole(hre.ethers.constants.HashZero, deployer))
         ? deployer
         : "UNKNOWN",
       assert: await aclManager.hasRole(
         hre.ethers.constants.HashZero,
-        desiredMultisig
+        desiredAdmin
       ),
     },
     {
@@ -196,14 +167,14 @@ task(
     {
       role: "WrappedTokenGateway owner",
       address: await wrappedTokenGateway.owner(),
-      assert: (await wrappedTokenGateway.owner()) === desiredMultisig,
+      assert: (await wrappedTokenGateway.owner()) === desiredAdmin,
     },
     {
       role: "PoolAdmin is multisig",
-      address: (await aclManager.isPoolAdmin(desiredMultisig))
-        ? desiredMultisig
+      address: (await aclManager.isPoolAdmin(desiredAdmin))
+        ? desiredAdmin
         : ZERO_ADDRESS,
-      assert: await aclManager.isPoolAdmin(desiredMultisig),
+      assert: await aclManager.isPoolAdmin(desiredAdmin),
     },
     {
       role: "Deployer revoked PoolAdmin",
@@ -227,18 +198,11 @@ task(
       assert: (await aclManager.isAssetListingAdmin(poolAdmin)) === false,
     },
     {
-      role: "RewardsController Proxy Owner",
-      address: await getProxyAdminBySlot(rewardsProxy.address),
-      assert:
-        (await getProxyAdminBySlot(rewardsProxy.address)) ===
-        poolAddressesProvider.address,
-    },
-    {
       role: "Emission manager role at Rewards Controller",
-      address: await rewardsController.getEmissionManager(),
+      address: await rewardsController.EMISSION_MANAGER(),
       assert:
-        (await rewardsController.getEmissionManager()) ===
-        emissionManagerAddress,
+        (await rewardsController.EMISSION_MANAGER()) ===
+        emissionManager.address,
     },
     {
       role: "EmissionManager controller contract Owner",
@@ -246,19 +210,19 @@ task(
         ? await emissionManager.owner()
         : "Missing contract address",
       assert: emissionManager
-        ? (await emissionManager.owner()) === desiredMultisig
+        ? (await emissionManager.owner()) === desiredAdmin
         : false,
     },
     {
       role: "Treasury Proxy Admin",
       address: await getProxyAdminBySlot(treasuryProxy.address),
       assert:
-        (await getProxyAdminBySlot(treasuryProxy.address)) === desiredMultisig,
+        (await getProxyAdminBySlot(treasuryProxy.address)) === desiredAdmin,
     },
     {
       role: "Treasury Controller owner",
       address: await treasuryController.owner(),
-      assert: (await treasuryController.owner()) === desiredMultisig,
+      assert: (await treasuryController.owner()) === desiredAdmin,
     },
     {
       role: "PoolAddressesProvider.getAddress INCENTIVES_CONTROLLER",
