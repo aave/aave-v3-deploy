@@ -63,8 +63,7 @@ export default {
     hardhat: hardhatNetworkSettings,
     localhost: {
       url: "http://127.0.0.1:8545",
-      live: true,
-      //...hardhatNetworkSettings,
+      ...hardhatNetworkSettings,
     },
     tenderly: getCommonNetworkConfig("tenderly", 3030),
     main: getCommonNetworkConfig(eEthereumNetwork.main, 1),
