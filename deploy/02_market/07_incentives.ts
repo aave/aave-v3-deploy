@@ -65,17 +65,13 @@ const func: DeployFunction = async function ({
   const emissionManagerArtifact = await deploy(EMISSION_MANAGER_ID, {
     from: deployer,
     contract: "EmissionManager",
-    args: [incentivesEmissionManager],
+    args: [deployer],
     ...COMMON_DEPLOY_PARAMS,
   });
-  const emissionManager = (
-    await hre.ethers.getContractAt(
-      emissionManagerArtifact.abi,
-      emissionManagerArtifact.address
-    )
-  ).connect(
-    await hre.ethers.getSigner(incentivesEmissionManager)
-  ) as EmissionManager;
+  const emissionManager = (await hre.ethers.getContractAt(
+    emissionManagerArtifact.abi,
+    emissionManagerArtifact.address
+  )) as EmissionManager;
 
   // Deploy Incentives Implementation
   const incentivesImplArtifact = await deploy(INCENTIVES_V2_IMPL_ID, {
@@ -129,13 +125,8 @@ const func: DeployFunction = async function ({
   );
 
   // Init RewardsController address
-  const incentivesEmissionManagerSigner = await hre.ethers.getSigner(
-    incentivesEmissionManager
-  );
   await waitForTx(
-    await emissionManager
-      .connect(incentivesEmissionManagerSigner)
-      .setRewardsController(rewardsProxyAddress)
+    await emissionManager.setRewardsController(rewardsProxyAddress)
   );
 
   if (!isLive) {
@@ -170,6 +161,12 @@ const func: DeployFunction = async function ({
       );
     }
   }
+
+  // Transfer emission manager ownership
+
+  await waitForTx(
+    await emissionManager.transferOwnership(incentivesEmissionManager)
+  );
 
   return true;
 };
