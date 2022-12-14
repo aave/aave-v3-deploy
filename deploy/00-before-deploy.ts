@@ -8,30 +8,7 @@ import { MARKET_NAME } from "../helpers/env";
  * The following script runs before the deployment starts
  */
 
-const func: DeployFunction = async function ({
-  getNamedAccounts,
-  deployments,
-  ...hre
-}: HardhatRuntimeEnvironment) {
-  const poolConfig = loadPoolConfig(MARKET_NAME);
-
-  if (isTestnetMarket(poolConfig)) {
-    const { incentivesProxyAdmin } = await getNamedAccounts();
-    const proxyAdminBalance = await hre.ethers.provider.getBalance(
-      incentivesProxyAdmin
-    );
-    if (proxyAdminBalance.lt(parseEther("0.05"))) {
-      const [deployer] = await hre.ethers.getSigners();
-      await (
-        await deployer.sendTransaction({
-          to: incentivesProxyAdmin,
-          value: parseEther("0.07"),
-        })
-      ).wait();
-      console.log("- Sent 0.07 ETH to incentives proxy admin");
-    }
-  }
-
+const func: DeployFunction = async function () {
   const balances = await getWalletBalances();
   console.log("\nAccounts");
   console.log("========");
