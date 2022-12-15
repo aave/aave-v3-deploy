@@ -142,7 +142,7 @@ describe("Ethereum V3 - Token-less deployment", function () {
         await getFirstSigner()
       );
 
-      expect(await treasuryProxy.getNextStreamId()).equal(100000);
+      expect(await treasuryProxy.getNextStreamId()).gte(100000);
     });
     it("Treasury owner should be the controller", async () => {
       const treasury = await hre.deployments.get(TREASURY_PROXY_ID);

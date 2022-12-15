@@ -1,3 +1,14 @@
+import { getProxyImplementationBySlot } from "./../../helpers/utilities/tx";
+import { AaveEcosystemReserveController__factory } from "./../../typechain/factories/@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveController__factory";
+import { getFirstSigner } from "./../../helpers/utilities/signer";
+import { AaveEcosystemReserveV2__factory } from "./../../typechain/factories/@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveV2__factory";
+import { AaveEcosystemReserveV2 } from "./../../dist/types/typechain/@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveV2.d";
+import { eNetwork } from "./../../helpers/types";
+import { MARKET_NAME } from "./../../helpers/env";
+import {
+  loadPoolConfig,
+  getParamPerNetwork,
+} from "./../../helpers/market-config-helpers";
 import { ZERO_ADDRESS } from "../../helpers/constants";
 import {
   TREASURY_CONTROLLER_ID,
@@ -11,7 +22,11 @@ import {
   InitializableAdminUpgradeabilityProxy,
   waitForTx,
 } from "../../helpers";
-import { AaveEcosystemReserveV2 } from "../../typechain";
+import {
+  AaveEcosystemReserveV2,
+  InitializableAdminUpgradeabilityProxy__factory,
+} from "../../typechain";
+import { getAddress } from "ethers/lib/utils";
 
 /**
  * @notice A treasury proxy can be deployed per network or per market.
@@ -23,8 +38,39 @@ const func: DeployFunction = async function ({
   deployments,
   ...hre
 }: HardhatRuntimeEnvironment) {
-  const { deploy } = deployments;
+  const { deploy, save } = deployments;
   const { deployer, governanceAdmin } = await getNamedAccounts();
+  const { ReserveFactorTreasuryAddress } = await loadPoolConfig(MARKET_NAME);
+
+  const network = (process.env.FORK || hre.network.name) as eNetwork;
+  const treasuryAddress = getParamPerNetwork(
+    ReserveFactorTreasuryAddress,
+    network
+  );
+
+  if (treasuryAddress && getAddress(treasuryAddress) !== ZERO_ADDRESS) {
+    const treasuryContract = await AaveEcosystemReserveV2__factory.connect(
+      treasuryAddress,
+      await getFirstSigner()
+    );
+    const controller = await treasuryContract.getFundsAdmin();
+    const impl = await getProxyImplementationBySlot(treasuryAddress);
+
+    await save(TREASURY_PROXY_ID, {
+      address: treasuryAddress,
+      abi: InitializableAdminUpgradeabilityProxy__factory.abi,
+    });
+    await save(TREASURY_CONTROLLER_ID, {
+      address: controller,
+      abi: AaveEcosystemReserveController__factory.abi,
+    });
+    await save(TREASURY_IMPL_ID, {
+      address: impl,
+      abi: AaveEcosystemReserveV2__factory.abi,
+    });
+
+    return true;
+  }
 
   // Deploy Treasury proxy
   const treasuryProxyArtifact = await deploy(TREASURY_PROXY_ID, {
