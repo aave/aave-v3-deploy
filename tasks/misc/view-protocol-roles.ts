@@ -10,6 +10,7 @@ import {
 import {
   getEmissionManager,
   getIncentivesV2,
+  getOwnableContract,
 } from "./../../helpers/contract-getters";
 import { EMISSION_MANAGER_ID } from "./../../helpers/deploy-ids";
 import { FORK } from "../../helpers/hardhat-config-helpers";
@@ -118,6 +119,17 @@ task(
       deployerSigner
     );
   const wrappedTokenGateway = await getWrappedTokenGateway();
+
+  const paraswapSwapAdapter = await getOwnableContract(
+    await (
+      await hre.deployments.get("ParaSwapLiquiditySwapAdapter")
+    ).address
+  );
+  const paraswapRepayAdapter = await getOwnableContract(
+    await (
+      await hre.deployments.get("ParaSwapRepayAdapter")
+    ).address
+  );
 
   /** Output of results*/
   const result = [
@@ -230,6 +242,16 @@ task(
       assert:
         (await poolAddressesProvider.getAddress(incentivesControllerId)) ===
         rewardsController.address,
+    },
+    {
+      role: "ParaSwapRepayAdapter owner",
+      address: await paraswapRepayAdapter.owner(),
+      assert: (await paraswapRepayAdapter.owner()) == desiredAdmin,
+    },
+    {
+      role: "ParaSwapSwapAdapter owner",
+      address: await paraswapSwapAdapter.owner(),
+      assert: (await paraswapSwapAdapter.owner()) == desiredAdmin,
     },
   ];
 

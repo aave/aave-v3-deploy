@@ -9,7 +9,11 @@ import { impersonateAddress } from "./../../helpers/utilities/fork";
 import { AaveEcosystemReserveController__factory } from "./../../typechain/factories/@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveController__factory";
 import { Ownable } from "./../../dist/types/typechain/@aave/core-v3/contracts/dependencies/openzeppelin/contracts/Ownable.d";
 import { getTreasuryAddress } from "./../../helpers/market-config-helpers";
-import { getERC20, getFlashLoanLogic } from "./../../helpers/contract-getters";
+import {
+  getERC20,
+  getFlashLoanLogic,
+  getOwnableContract,
+} from "./../../helpers/contract-getters";
 import {
   getEthersSigners,
   getFirstSigner,
@@ -283,6 +287,25 @@ describe("Ethereum V3 - Token-less deployment", function () {
       );
 
       expect(await controller.owner()).equal(ETHEREUM_SHORT_EXECUTOR);
+    });
+    it("ParawapRepayAdapter should be short executor", async () => {
+      const paraswapRepayAdapter = await getOwnableContract(
+        await (
+          await hre.deployments.get("ParaSwapRepayAdapter")
+        ).address
+      );
+      const owner = await paraswapRepayAdapter.owner();
+      expect(owner).equal(ETHEREUM_SHORT_EXECUTOR);
+    });
+    it("ParawapSwapAdapter should be short executor", async () => {
+      const paraswapSwapAdapter = await getOwnableContract(
+        await (
+          await hre.deployments.get("ParaSwapLiquiditySwapAdapter")
+        ).address
+      );
+
+      const owner = await paraswapSwapAdapter.owner();
+      expect(owner).equal(ETHEREUM_SHORT_EXECUTOR);
     });
   });
 
