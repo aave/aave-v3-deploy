@@ -7,6 +7,7 @@ import {
   eNetwork,
   loadPoolConfig,
   POOL_ADDRESSES_PROVIDER_ID,
+  POOL_ADMIN,
   V3_PERIPHERY_VERSION,
 } from "../../helpers";
 import { MARKET_NAME } from "../../helpers/env";
@@ -17,7 +18,7 @@ const func: DeployFunction = async function ({
   ...hre
 }: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
-  const { deployer, governanceAdmin } = await getNamedAccounts();
+  const { deployer } = await getNamedAccounts();
 
   const network = (
     process.env.FORK ? process.env.FORK : hre.network.name
@@ -39,17 +40,18 @@ const func: DeployFunction = async function ({
   const { address: addressesProvider } = await deployments.get(
     POOL_ADDRESSES_PROVIDER_ID
   );
+  const poolAdmin = POOL_ADMIN[network];
 
   await deploy("ParaSwapLiquiditySwapAdapter", {
     from: deployer,
     ...COMMON_DEPLOY_PARAMS,
-    args: [addressesProvider, paraswapAugustusRegistry, governanceAdmin],
+    args: [addressesProvider, paraswapAugustusRegistry, poolAdmin],
   });
 
   await deploy("ParaSwapRepayAdapter", {
     from: deployer,
     ...COMMON_DEPLOY_PARAMS,
-    args: [addressesProvider, paraswapAugustusRegistry, governanceAdmin],
+    args: [addressesProvider, paraswapAugustusRegistry, poolAdmin],
   });
 
   return true;
