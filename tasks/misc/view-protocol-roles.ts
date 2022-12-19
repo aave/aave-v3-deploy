@@ -1,3 +1,7 @@
+import { WrappedTokenGatewayV3__factory } from "./../../typechain/factories/@aave/periphery-v3/contracts/misc/WrappedTokenGatewayV3__factory";
+import { getFirstSigner } from "./../../helpers/utilities/signer";
+import { getAddressFromJson } from "./../../helpers/utilities/tx";
+import { WrappedTokenGatewayV3 } from "./../../dist/types/typechain/@aave/periphery-v3/contracts/misc/WrappedTokenGatewayV3.d";
 import {
   EMERGENCY_ADMIN,
   POOL_ADMIN,
@@ -118,7 +122,16 @@ task(
       ).address,
       deployerSigner
     );
-  const wrappedTokenGateway = await getWrappedTokenGateway();
+  let wrappedTokenGateway: WrappedTokenGatewayV3;
+  try {
+    wrappedTokenGateway = await getWrappedTokenGateway();
+  } catch (err) {
+    // load legacy contract of WrappedTokenGateway
+    wrappedTokenGateway = WrappedTokenGatewayV3__factory.connect(
+      await getAddressFromJson(networkId, "WETHGateway"),
+      await getFirstSigner()
+    );
+  }
 
   const paraswapSwapAdapter = await getOwnableContract(
     await (
@@ -210,13 +223,6 @@ task(
       assert: (await aclManager.isAssetListingAdmin(poolAdmin)) === false,
     },
     {
-      role: "Emission manager role at Rewards Controller",
-      address: await rewardsController.EMISSION_MANAGER(),
-      assert:
-        (await rewardsController.EMISSION_MANAGER()) ===
-        emissionManager.address,
-    },
-    {
       role: "EmissionManager controller contract Owner",
       address: emissionManager
         ? await emissionManager.owner()
@@ -254,6 +260,16 @@ task(
       assert: (await paraswapSwapAdapter.owner()) == desiredAdmin,
     },
   ];
+
+  // Add emission manager check if 3.0.1v
+  try {
+    const emissionManagerAddress = await rewardsController.EMISSION_MANAGER();
+    result.push({
+      role: "Emission manager role at Rewards Controller",
+      address: emissionManagerAddress,
+      assert: emissionManagerAddress === emissionManager.address,
+    });
+  } catch (err) {}
 
   console.table(result);
 

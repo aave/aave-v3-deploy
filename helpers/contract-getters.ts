@@ -1,3 +1,4 @@
+import { getFirstSigner } from "./utilities/signer";
 import { StakedTokenTransferStrategy } from "./../typechain";
 import { PullRewardsTransferStrategy } from "./../typechain";
 import {
@@ -352,6 +353,6 @@ export const getOwnableContract = async (address: string) => {
   return new hre.ethers.Contract(
     address,
     ownableInterface,
-    hre.ethers.provider
+    await getFirstSigner()
   );
 };
