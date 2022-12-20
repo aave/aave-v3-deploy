@@ -1,8 +1,5 @@
 import { getProxyImplementationBySlot } from "./../../helpers/utilities/tx";
-import { AaveEcosystemReserveController__factory } from "./../../typechain/factories/@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveController__factory";
 import { getFirstSigner } from "./../../helpers/utilities/signer";
-import { AaveEcosystemReserveV2__factory } from "./../../typechain/factories/@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveV2__factory";
-import { AaveEcosystemReserveV2 } from "./../../dist/types/typechain/@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveV2.d";
 import { eNetwork } from "./../../helpers/types";
 import { MARKET_NAME } from "./../../helpers/env";
 import {
@@ -23,7 +20,9 @@ import {
   waitForTx,
 } from "../../helpers";
 import {
+  AaveEcosystemReserveController__factory,
   AaveEcosystemReserveV2,
+  AaveEcosystemReserveV2__factory,
   InitializableAdminUpgradeabilityProxy__factory,
 } from "../../typechain";
 import { getAddress } from "ethers/lib/utils";
