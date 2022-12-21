@@ -165,16 +165,12 @@ export const DEFAULT_NAMED_ACCOUNTS = {
   },
   treasuryProxyAdmin: {
     default: 1,
-    1: ETHEREUM_SHORT_EXECUTOR,
-    31337: process.env.FORK == "main" ? ETHEREUM_SHORT_EXECUTOR : 1,
   },
   incentivesProxyAdmin: {
     default: 1,
   },
   incentivesEmissionManager: {
     default: 0,
-    1: ETHEREUM_SHORT_EXECUTOR,
-    31337: process.env.FORK == "main" ? ETHEREUM_SHORT_EXECUTOR : 0,
   },
   incentivesRewardsVault: {
     default: 0,
