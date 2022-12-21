@@ -65,8 +65,7 @@
     "test": "npm run compile && npm run test:local && npm run test:fork",
     "test:fork": "MARKET_NAME=Aave FORK=main npx hardhat test ./tests/__setup.spec.ts ./tests/fork/check-list.spec.ts",
     "test:local": "MARKET_NAME=Aave npx hardhat test ./tests/__setup.spec.ts ./tests/*.spec.ts",
-    "test:ethereum:fork": "TRANSFER_OWNERSHIP=true FORK_DEPLOY=true FORK=main MARKET_NAME=Ethereum npx hardhat test ./tests/ethereum/ethereum.spec.ts",
-    "test:ethereum": "HARDHAT_NETWORK=main MARKET_NAME=Ethereum npx hardhat test ./tests/ethereum/ethereum.spec.ts",
+    "test:ethereum:fork": "TRANSFER_OWNERSHIP=true  FORK=main MARKET_NAME=Ethereum npx hardhat test ./tests/ethereum/ethereum.*.spec.ts",
     "deploy:market:aave:fork": "FORK=main MARKET_NAME=Aave npm run deploy",
     "deploy:market:eth:empty:fork": "FORK=main MARKET_NAME=Ethereum npm run deploy"
   },

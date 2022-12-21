@@ -21,7 +21,7 @@ const func: DeployFunction = async function ({
   deployments,
   ...hre
 }: HardhatRuntimeEnvironment) {
-  const { deploy, get } = deployments;
+  const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
   const poolConfig = await loadPoolConfig(MARKET_NAME as ConfigNames);
   const network = (

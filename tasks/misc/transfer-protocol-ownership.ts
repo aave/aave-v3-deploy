@@ -29,6 +29,7 @@ task(
     poolAdmin,
     aclAdmin,
     deployer,
+    emergencyAdmin,
     incentivesEmissionManager,
     treasuryProxyAdmin,
     addressesProviderRegistryOwner,
@@ -111,6 +112,19 @@ task(
   }
   /** End of Paraswap Helpers Ownership */
 
+  /** Start of Emergency Admin transfer */
+  const isDeployerEmergencyAdmin = await aclManager.isEmergencyAdmin(
+    emergencyAdmin
+  );
+  if (isDeployerEmergencyAdmin) {
+    await waitForTx(await aclManager.addEmergencyAdmin(desiredAdmin));
+
+    await waitForTx(await aclManager.removeEmergencyAdmin(emergencyAdmin));
+    console.log("- Transferred the ownership of Emergency Admin");
+  }
+  /** End of Emergency Admin transfer */
+
+  /** Start of Pool Admin transfer */
   const isDeployerPoolAdmin = await aclManager.isPoolAdmin(poolAdmin);
   if (isDeployerPoolAdmin) {
     await waitForTx(await aclManager.addPoolAdmin(desiredAdmin));
@@ -118,6 +132,7 @@ task(
     await waitForTx(await aclManager.removePoolAdmin(poolAdmin));
     console.log("- Transferred the ownership of Pool Admin");
   }
+  /** End of Pool Admin transfer */
 
   /** Start of Pool Addresses Provider  Registry transfer ownership */
   const isDeployerACLAdminAtPoolAddressesProviderOwner =
