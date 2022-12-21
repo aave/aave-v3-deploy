@@ -29,7 +29,6 @@ task(
     poolAdmin,
     aclAdmin,
     deployer,
-    incentivesProxyAdmin,
     incentivesEmissionManager,
     treasuryProxyAdmin,
     addressesProviderRegistryOwner,
@@ -48,7 +47,6 @@ task(
   console.log("--- CURRENT DEPLOYER ADDRESSES ---");
   console.table({
     poolAdmin,
-    incentivesProxyAdmin,
     incentivesEmissionManager,
     treasuryProxyAdmin,
     addressesProviderRegistryOwner,

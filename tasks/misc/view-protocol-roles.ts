@@ -38,15 +38,8 @@ task(
   `View current admin of each role and contract`
 ).setAction(async (_, hre) => {
   // Deployer admins
-  const {
-    poolAdmin,
-    aclAdmin,
-    emergencyAdmin,
-    deployer,
-    incentivesProxyAdmin,
-    incentivesEmissionManager,
-    treasuryProxyAdmin,
-  } = await hre.getNamedAccounts();
+  const { poolAdmin, aclAdmin, emergencyAdmin, deployer } =
+    await hre.getNamedAccounts();
 
   const deployerSigner = await hre.ethers.getSigner(deployer);
   const aclSigner = await hre.ethers.getSigner(aclAdmin);
@@ -73,9 +66,6 @@ task(
   console.log("--- Current deployer addresses ---");
   console.table({
     poolAdmin,
-    incentivesProxyAdmin,
-    incentivesEmissionManager,
-    treasuryProxyAdmin,
   });
   console.log("--- Multisig and expected contract addresses ---");
   console.table({

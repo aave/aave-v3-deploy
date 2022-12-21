@@ -156,8 +156,6 @@ export const DEFAULT_NAMED_ACCOUNTS = {
   },
   emergencyAdmin: {
     default: 0,
-    1: EMERGENCY_ADMIN[eEthereumNetwork.main],
-    31337: process.env.FORK == "main" ? ETHEREUM_SHORT_EXECUTOR : 1,
   },
   poolAdmin: {
     default: 0,
@@ -172,8 +170,6 @@ export const DEFAULT_NAMED_ACCOUNTS = {
   },
   incentivesProxyAdmin: {
     default: 1,
-    1: ETHEREUM_SHORT_EXECUTOR,
-    31337: process.env.FORK == "main" ? ETHEREUM_SHORT_EXECUTOR : 1,
   },
   incentivesEmissionManager: {
     default: 0,
@@ -182,13 +178,6 @@ export const DEFAULT_NAMED_ACCOUNTS = {
   },
   incentivesRewardsVault: {
     default: 0,
-    1: ETHEREUM_SHORT_EXECUTOR,
-    31337: process.env.FORK == "main" ? ETHEREUM_SHORT_EXECUTOR : 0,
-  },
-  governanceAdmin: {
-    default: 1,
-    1: ETHEREUM_SHORT_EXECUTOR,
-    31337: process.env.FORK == "main" ? ETHEREUM_SHORT_EXECUTOR : 0,
   },
 };
 

@@ -31,12 +31,8 @@ const func: DeployFunction = async function ({
   ...hre
 }: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
-  const {
-    deployer,
-    incentivesEmissionManager,
-    incentivesProxyAdmin,
-    incentivesRewardsVault,
-  } = await getNamedAccounts();
+  const { deployer, incentivesEmissionManager, incentivesRewardsVault } =
+    await getNamedAccounts();
   const poolConfig = await loadPoolConfig(MARKET_NAME as ConfigNames);
   const network = (
     process.env.FORK ? process.env.FORK : hre.network.name

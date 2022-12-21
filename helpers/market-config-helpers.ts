@@ -321,13 +321,13 @@ export const getReserveAddress = async (
     process.env.FORK ? process.env.FORK : hre.network.name
   ) as eNetwork;
 
+  if (isTestnetMarket(poolConfig)) {
+    return await getTestnetReserveAddressFromSymbol(symbol);
+  }
+
   let assetAddress = poolConfig.ReserveAssets?.[network]?.[symbol];
 
   const isZeroOrNull = !assetAddress || assetAddress === ZERO_ADDRESS;
-
-  if (isZeroOrNull && isTestnetMarket(poolConfig)) {
-    return await getTestnetReserveAddressFromSymbol(symbol);
-  }
 
   if (!assetAddress || isZeroOrNull) {
     throw `Missing asset address for asset ${symbol}`;

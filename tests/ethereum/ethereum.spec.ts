@@ -1,19 +1,12 @@
 import { parseEther } from "ethers/lib/utils";
 import {
-  MAX_UINT_AMOUNT,
   oneEther,
   WRAPPED_NATIVE_TOKEN_PER_NETWORK,
 } from "./../../helpers/constants";
 import { waitForTx } from "./../../helpers/utilities/tx";
 import { impersonateAddress } from "./../../helpers/utilities/fork";
 import { AaveEcosystemReserveController__factory } from "./../../typechain/factories/@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveController__factory";
-import { Ownable } from "./../../dist/types/typechain/@aave/core-v3/contracts/dependencies/openzeppelin/contracts/Ownable.d";
-import { getTreasuryAddress } from "./../../helpers/market-config-helpers";
-import {
-  getERC20,
-  getFlashLoanLogic,
-  getOwnableContract,
-} from "./../../helpers/contract-getters";
+import { getOwnableContract } from "./../../helpers/contract-getters";
 import {
   getEthersSigners,
   getFirstSigner,
@@ -29,7 +22,6 @@ import { expect } from "chai";
 import { BigNumber } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import {
-  aave,
   ATOKEN_IMPL_ID,
   ConfigNames,
   DELEGATION_AWARE_ATOKEN_IMPL_ID,
