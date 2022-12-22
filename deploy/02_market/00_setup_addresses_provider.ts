@@ -45,7 +45,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     throw "[Deployment][Error] Mismatch between Config.ReservesConfig and Config.ReserveAssets token symbols";
   }
   if (reserveSymbols.length === 0) {
-    throw "[Deployment][Error] Missing ReserveAssets configuration";
+    console.warn(
+      "[Warning] Market Config does not contain ReservesConfig. Skipping check of Reserves and ReservesConfig."
+    );
   }
   for (let y = 0; y < reserveSymbols.length; y++) {
     if (
@@ -65,11 +67,14 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: ["0", deployer],
     ...COMMON_DEPLOY_PARAMS,
   });
+  const signer = await hre.ethers.getSigner(deployer);
 
-  const addressesProviderInstance = (await hre.ethers.getContractAt(
-    addressesProviderArtifact.abi,
-    addressesProviderArtifact.address
-  )) as PoolAddressesProvider;
+  const addressesProviderInstance = (
+    (await hre.ethers.getContractAt(
+      addressesProviderArtifact.abi,
+      addressesProviderArtifact.address
+    )) as PoolAddressesProvider
+  ).connect(signer);
 
   // 2. Set the MarketId
   await waitForTx(

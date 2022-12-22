@@ -31,12 +31,8 @@ const func: DeployFunction = async function ({
   ...hre
 }: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
-  const {
-    deployer,
-    incentivesEmissionManager,
-    incentivesProxyAdmin,
-    incentivesRewardsVault,
-  } = await getNamedAccounts();
+  const { deployer, incentivesEmissionManager, incentivesRewardsVault } =
+    await getNamedAccounts();
   const poolConfig = await loadPoolConfig(MARKET_NAME as ConfigNames);
   const network = (
     process.env.FORK ? process.env.FORK : hre.network.name
@@ -51,18 +47,6 @@ const func: DeployFunction = async function ({
     // Early exit if is not a testnet market
     return;
   }
-
-  console.log(
-    `- Setting up testnet tokens for "${MARKET_NAME}" market at "${network}" network`
-  );
-
-  const reservesConfig = poolConfig.ReservesConfig;
-  const reserveSymbols = Object.keys(reservesConfig);
-
-  if (reserveSymbols.length === 0) {
-    throw "[Deployment][Error] Missing ReserveAssets configuration";
-  }
-
   // Deployment of FaucetOwnable helper contract
   // FaucetMintableERC20 is owned by ERC20FaucetOwnable. ERC20FaucetOwnable is owned by defender relayer.
   console.log("- Deployment of FaucetOwnable contract");
@@ -72,6 +56,20 @@ const func: DeployFunction = async function ({
     args: [deployer, PERMISSIONED_FAUCET],
     ...COMMON_DEPLOY_PARAMS,
   });
+
+  console.log(
+    `- Setting up testnet tokens for "${MARKET_NAME}" market at "${network}" network`
+  );
+
+  const reservesConfig = poolConfig.ReservesConfig;
+  const reserveSymbols = Object.keys(reservesConfig);
+
+  if (reserveSymbols.length === 0) {
+    console.warn(
+      "Market Config does not contain ReservesConfig. Skipping testnet token setup."
+    );
+    return;
+  }
 
   // 0. Deployment of ERC20 mintable tokens for testing purposes
   await Bluebird.each(reserveSymbols, async (symbol) => {

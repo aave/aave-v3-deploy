@@ -1,3 +1,4 @@
+import { getFirstSigner } from "./utilities/signer";
 import { StakedTokenTransferStrategy } from "./../typechain";
 import { PullRewardsTransferStrategy } from "./../typechain";
 import {
@@ -341,3 +342,17 @@ export const getEmissionManager = async (address?: tEthereumAddress) =>
     "EmissionManager",
     address || (await hre.deployments.get(EMISSION_MANAGER_ID)).address
   );
+
+export const getOwnableContract = async (address: string) => {
+  const ownableInterface = new hre.ethers.utils.Interface([
+    "function owner() public view returns (address)",
+    "function transferOwnership(address newOwner) public",
+    "function renounceOwnership() public",
+  ]);
+
+  return new hre.ethers.Contract(
+    address,
+    ownableInterface,
+    await getFirstSigner()
+  );
+};

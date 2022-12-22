@@ -24,10 +24,13 @@ task(`review-e-mode`, ``)
   .addFlag("fix")
   .addParam("id", "ID of EMode Category")
   .setAction(async ({ id, fix }: { id: string; fix: boolean }, hre) => {
+    const { poolAdmin } = await hre.getNamedAccounts();
     const network = FORK ? FORK : (hre.network.name as eNetwork);
-    const poolConfigurator = await getPoolConfiguratorProxy(
-      await getAddressFromJson(network, POOL_CONFIGURATOR_PROXY_ID)
-    );
+    const poolConfigurator = (
+      await getPoolConfiguratorProxy(
+        await getAddressFromJson(network, POOL_CONFIGURATOR_PROXY_ID)
+      )
+    ).connect(await hre.ethers.getSigner(poolAdmin));
     const poolAddressesProvider = await getPoolAddressesProvider(
       await getAddressFromJson(network, POOL_ADDRESSES_PROVIDER_ID)
     );

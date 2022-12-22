@@ -376,11 +376,17 @@ export enum TokenContractId {
   AVAX = "AVAX",
 }
 
-export interface IReserveParams extends IReserveBorrowParams, IReserveCollateralParams {
+export interface IReserveParams
+  extends IReserveBorrowParams,
+    IReserveCollateralParams {
   aTokenImpl: eContractid;
   reserveFactor: string;
   supplyCap: string;
   strategy: IInterestRateStrategyParams;
+}
+
+export interface IStrategy {
+  [key: string]: IInterestRateStrategyParams;
 }
 
 export interface IInterestRateStrategyParams {
@@ -524,6 +530,7 @@ export interface IBaseConfiguration {
     total: number;
     protocol: number;
   };
+  RateStrategies: IStrategy;
 }
 
 export interface ICommonConfiguration extends IBaseConfiguration {}

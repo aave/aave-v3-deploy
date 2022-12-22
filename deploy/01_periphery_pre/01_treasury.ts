@@ -1,3 +1,13 @@
+import { POOL_ADMIN } from "./../../helpers/constants";
+import { getProxyImplementationBySlot } from "./../../helpers/utilities/tx";
+import { getFirstSigner } from "./../../helpers/utilities/signer";
+import { eNetwork } from "./../../helpers/types";
+import { MARKET_NAME } from "./../../helpers/env";
+import {
+  loadPoolConfig,
+  getParamPerNetwork,
+  isTestnetMarket,
+} from "./../../helpers/market-config-helpers";
 import { ZERO_ADDRESS } from "../../helpers/constants";
 import {
   TREASURY_CONTROLLER_ID,
@@ -11,7 +21,13 @@ import {
   InitializableAdminUpgradeabilityProxy,
   waitForTx,
 } from "../../helpers";
-import { AaveEcosystemReserveV2 } from "../../typechain";
+import {
+  AaveEcosystemReserveController__factory,
+  AaveEcosystemReserveV2,
+  AaveEcosystemReserveV2__factory,
+  InitializableAdminUpgradeabilityProxy__factory,
+} from "../../typechain";
+import { getAddress } from "ethers/lib/utils";
 
 /**
  * @notice A treasury proxy can be deployed per network or per market.
@@ -23,8 +39,44 @@ const func: DeployFunction = async function ({
   deployments,
   ...hre
 }: HardhatRuntimeEnvironment) {
-  const { deploy } = deployments;
-  const { deployer, treasuryProxyAdmin } = await getNamedAccounts();
+  const { deploy, save } = deployments;
+  const { deployer } = await getNamedAccounts();
+  const { ReserveFactorTreasuryAddress } = await loadPoolConfig(MARKET_NAME);
+
+  const network = (process.env.FORK || hre.network.name) as eNetwork;
+  const treasuryAddress = getParamPerNetwork(
+    ReserveFactorTreasuryAddress,
+    network
+  );
+  let treasuryOwner = POOL_ADMIN[network];
+
+  if (isTestnetMarket(await loadPoolConfig(MARKET_NAME))) {
+    treasuryOwner = deployer;
+  }
+
+  if (treasuryAddress && getAddress(treasuryAddress) !== ZERO_ADDRESS) {
+    const treasuryContract = await AaveEcosystemReserveV2__factory.connect(
+      treasuryAddress,
+      await getFirstSigner()
+    );
+    const controller = await treasuryContract.getFundsAdmin();
+    const impl = await getProxyImplementationBySlot(treasuryAddress);
+
+    await save(TREASURY_PROXY_ID, {
+      address: treasuryAddress,
+      abi: InitializableAdminUpgradeabilityProxy__factory.abi,
+    });
+    await save(TREASURY_CONTROLLER_ID, {
+      address: controller,
+      abi: AaveEcosystemReserveController__factory.abi,
+    });
+    await save(TREASURY_IMPL_ID, {
+      address: impl,
+      abi: AaveEcosystemReserveV2__factory.abi,
+    });
+
+    return true;
+  }
 
   // Deploy Treasury proxy
   const treasuryProxyArtifact = await deploy(TREASURY_PROXY_ID, {
@@ -37,7 +89,7 @@ const func: DeployFunction = async function ({
   const treasuryController = await deploy(TREASURY_CONTROLLER_ID, {
     from: deployer,
     contract: "AaveEcosystemReserveController",
-    args: [treasuryProxyAdmin],
+    args: [treasuryOwner],
     ...COMMON_DEPLOY_PARAMS,
   });
 
@@ -71,7 +123,7 @@ const func: DeployFunction = async function ({
   await waitForTx(
     await proxy["initialize(address,address,bytes)"](
       treasuryImplArtifact.address,
-      treasuryProxyAdmin,
+      treasuryOwner,
       initializePayload
     )
   );

@@ -25,14 +25,16 @@ task(`review-supply-caps`, ``)
   .setAction(
     async ({ fix, checkOnly }: { fix: boolean; checkOnly: string }, hre) => {
       const network = FORK ? FORK : (hre.network.name as eNetwork);
-      const { deployer } = await hre.getNamedAccounts();
+      const { poolAdmin } = await hre.getNamedAccounts();
       const checkOnlyReserves: string[] = checkOnly ? checkOnly.split(",") : [];
       const dataProvider = await getAaveProtocolDataProvider(
         await getAddressFromJson(network, POOL_DATA_PROVIDER)
       );
-      const poolConfigurator = await getPoolConfiguratorProxy(
-        await getAddressFromJson(network, POOL_CONFIGURATOR_PROXY_ID)
-      );
+      const poolConfigurator = (
+        await getPoolConfiguratorProxy(
+          await getAddressFromJson(network, POOL_CONFIGURATOR_PROXY_ID)
+        )
+      ).connect(await hre.ethers.getSigner(poolAdmin));
 
       const poolConfig = await loadPoolConfig(MARKET_NAME);
       const reserves = await dataProvider.getAllReservesTokens();
@@ -72,11 +74,10 @@ task(`review-supply-caps`, ``)
           normalizedSymbol
         );
         const expectedSupplyCap =
-          poolConfig.ReservesConfig[normalizedSymbol.toUpperCase()]
-            .supplyCap;
+          poolConfig.ReservesConfig[normalizedSymbol.toUpperCase()].supplyCap;
         const onChainSupplyCap = (
           await dataProvider.getReserveCaps(tokenAddress)
-        ).supplyCap.toString()
+        ).supplyCap.toString();
 
         const delta = expectedSupplyCap !== onChainSupplyCap;
         if (delta) {
@@ -84,30 +85,36 @@ task(`review-supply-caps`, ``)
             "- Found differences of the supply cap for ",
             normalizedSymbol
           );
-          console.log("  - Expected:", Number(expectedSupplyCap).toLocaleString(undefined, {currency: 'usd'}));
-          console.log("  - Current :", Number(onChainSupplyCap).toLocaleString(undefined, {currency: 'usd'}));
+          console.log(
+            "  - Expected:",
+            Number(expectedSupplyCap).toLocaleString(undefined, {
+              currency: "usd",
+            })
+          );
+          console.log(
+            "  - Current :",
+            Number(onChainSupplyCap).toLocaleString(undefined, {
+              currency: "usd",
+            })
+          );
 
           if (!fix) {
             continue;
           }
-          console.log(
-            "[FIX] Updating the supply cap for",
-            normalizedSymbol
-          );
+          console.log("[FIX] Updating the supply cap for", normalizedSymbol);
           await waitForTx(
-            await poolConfigurator.setSupplyCap(
-              tokenAddress,
-              expectedSupplyCap
-            )
+            await poolConfigurator.setSupplyCap(tokenAddress, expectedSupplyCap)
           );
           const newOnChainSupplyCap = (
             await dataProvider.getReserveCaps(tokenAddress)
-          ).supplyCap.toString()
+          ).supplyCap.toString();
           console.log(
             "[FIX] Set ",
             normalizedSymbol,
             "Supply cap to",
-            Number(newOnChainSupplyCap).toLocaleString(undefined, {currency: 'usd'})
+            Number(newOnChainSupplyCap).toLocaleString(undefined, {
+              currency: "usd",
+            })
           );
         } else {
           console.log(

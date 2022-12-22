@@ -1,3 +1,4 @@
+import { POOL_ADMIN } from "./../../helpers/constants";
 import { FORK } from "../../helpers/hardhat-config-helpers";
 import { POOL_ADDRESSES_PROVIDER_ID } from "../../helpers/deploy-ids";
 import {
@@ -7,10 +8,6 @@ import {
 import { task } from "hardhat/config";
 import { getAddressFromJson, waitForTx } from "../../helpers/utilities/tx";
 import { exit } from "process";
-import {
-  MULTISIG_ADDRESS,
-  GOVERNANCE_BRIDGE_EXECUTOR,
-} from "../../helpers/constants";
 
 task(
   `renounce-pool-admin`,
@@ -21,13 +18,10 @@ task(
   const deployerSigner = await hre.ethers.getSigner(deployer);
 
   const networkId = FORK ? FORK : hre.network.name;
-  // Desired Admin at Polygon must be the bridge crosschain executor, not the multisig
-  const desiredMultisig = networkId.includes("polygon")
-    ? GOVERNANCE_BRIDGE_EXECUTOR[networkId]
-    : MULTISIG_ADDRESS[networkId];
-  if (!desiredMultisig) {
+  const desiredAdmin = POOL_ADMIN[networkId];
+  if (!desiredAdmin) {
     console.error(
-      "The constant desired Multisig is undefined. Check missing admin address at MULTISIG_ADDRESS or GOVERNANCE_BRIDGE_EXECUTOR constant"
+      "The constant desired admin is undefined. Check missing admin address at MULTISIG_ADDRESS or GOVERNANCE_BRIDGE_EXECUTOR constant"
     );
     exit(403);
   }
@@ -36,12 +30,10 @@ task(
   console.table({
     deployer,
   });
-  console.log("--- DESIRED MULTISIG ADMIN ---");
-  console.log(desiredMultisig);
+  console.log("--- DESIRED  ADMIN ---");
+  console.log(desiredAdmin);
 
-  const poolAddressesProvider = await getPoolAddressesProvider(
-    await getAddressFromJson(networkId, POOL_ADDRESSES_PROVIDER_ID)
-  );
+  const poolAddressesProvider = await getPoolAddressesProvider();
 
   const aclManager = (
     await getACLManager(await poolAddressesProvider.getACLManager())
@@ -49,7 +41,7 @@ task(
 
   /** Start of Pool Listing Admin transfer ownership */
   const isDeployerPoolAdmin = await aclManager.isPoolAdmin(deployer);
-  const isMultisigPoolAdmin = await aclManager.isPoolAdmin(desiredMultisig);
+  const isMultisigPoolAdmin = await aclManager.isPoolAdmin(desiredAdmin);
   if (isDeployerPoolAdmin && isMultisigPoolAdmin) {
     const tx = await waitForTx(
       await aclManager.renounceRole(
@@ -78,9 +70,9 @@ task(
       assert: !(await aclManager.isPoolAdmin(deployer)),
     },
     {
-      role: "Multisig is still PoolAdmin",
-      address: (await aclManager.isPoolAdmin(desiredMultisig)) ? "YES" : "NO",
-      assert: await aclManager.isPoolAdmin(desiredMultisig),
+      role: "Owner is still PoolAdmin",
+      address: (await aclManager.isPoolAdmin(desiredAdmin)) ? "YES" : "NO",
+      assert: await aclManager.isPoolAdmin(desiredAdmin),
     },
   ];
 

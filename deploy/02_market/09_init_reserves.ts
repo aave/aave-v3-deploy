@@ -14,7 +14,10 @@ import {
   configureReservesByHelper,
   initReservesByHelper,
 } from "../../helpers/init-helpers";
-import { POOL_DATA_PROVIDER } from "../../helpers/deploy-ids";
+import {
+  POOL_ADDRESSES_PROVIDER_ID,
+  POOL_DATA_PROVIDER,
+} from "../../helpers/deploy-ids";
 import { MARKET_NAME } from "../../helpers/env";
 
 const func: DeployFunction = async function ({
@@ -31,21 +34,53 @@ const func: DeployFunction = async function ({
     MARKET_NAME as ConfigNames
   )) as IAaveConfiguration;
 
+  const addressProviderArtifact = await deployments.get(
+    POOL_ADDRESSES_PROVIDER_ID
+  );
+
   const {
     ATokenNamePrefix,
     StableDebtTokenNamePrefix,
     VariableDebtTokenNamePrefix,
     SymbolPrefix,
     ReservesConfig,
+    RateStrategies,
   } = poolConfig;
 
-  const reservesAddresses = await getReserveAddresses(poolConfig, network);
-
-  const treasuryAddress = await getTreasuryAddress(poolConfig, network);
-
-  const incentivesController = await deployments.get("IncentivesProxy");
+  // Deploy Rate Strategies
+  for (const strategy in RateStrategies) {
+    const strategyData = RateStrategies[strategy];
+    const args = [
+      addressProviderArtifact.address,
+      strategyData.optimalUsageRatio,
+      strategyData.baseVariableBorrowRate,
+      strategyData.variableRateSlope1,
+      strategyData.variableRateSlope2,
+      strategyData.stableRateSlope1,
+      strategyData.stableRateSlope2,
+      strategyData.baseStableRateOffset,
+      strategyData.stableRateExcessOffset,
+      strategyData.optimalStableToTotalDebtRatio,
+    ];
+    await deployments.deploy(`ReserveStrategy-${strategyData.name}`, {
+      from: deployer,
+      args: args,
+      contract: "DefaultReserveInterestRateStrategy",
+      log: true,
+    });
+  }
 
   // Deploy Reserves ATokens
+
+  const treasuryAddress = await getTreasuryAddress(poolConfig, network);
+  const incentivesController = await deployments.get("IncentivesProxy");
+  const reservesAddresses = await getReserveAddresses(poolConfig, network);
+
+  if (Object.keys(reservesAddresses).length == 0) {
+    console.warn("[WARNING] Skipping initialization. Empty asset list.");
+    return;
+  }
+
   await initReservesByHelper(
     ReservesConfig,
     reservesAddresses,

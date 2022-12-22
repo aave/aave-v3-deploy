@@ -13,6 +13,11 @@ import {
   eEthereumNetwork,
   eArbitrumNetwork,
 } from "../../helpers/types";
+import {
+  rateStrategyStableOne,
+  rateStrategyStableTwo,
+  rateStrategyVolatileOne,
+} from "./rateStrategies";
 // ----------------
 // PROTOCOL GLOBAL PARAMS
 // ----------------
@@ -58,8 +63,8 @@ export const CommonsConfig: ICommonConfiguration = {
     [eEthereumNetwork.rinkeby]: ZERO_ADDRESS,
   },
   FallbackOracle: {
-    [eEthereumNetwork.kovan]: "0x50913E8E1c650E790F8a1E741FF9B1B1bB251dfe",
-    [eEthereumNetwork.main]: "0x5b09e578cfeaa23f1b11127a658855434e4f3e09",
+    [eEthereumNetwork.kovan]: ZERO_ADDRESS,
+    [eEthereumNetwork.main]: ZERO_ADDRESS,
     [eArbitrumNetwork.arbitrum]: ZERO_ADDRESS,
     [eArbitrumNetwork.arbitrumTestnet]: ZERO_ADDRESS,
     [eEthereumNetwork.rinkeby]: ZERO_ADDRESS,
@@ -164,5 +169,10 @@ export const CommonsConfig: ICommonConfiguration = {
   FlashLoanPremiums: {
     total: 0.0005e4,
     protocol: 0.0004e4,
+  },
+  RateStrategies: {
+    rateStrategyVolatileOne,
+    rateStrategyStableOne,
+    rateStrategyStableTwo,
   },
 };

@@ -1,4 +1,4 @@
-import { getParamPerNetwork } from "./../../helpers/market-config-helpers";
+import { getParamPerNetwork } from "../../helpers/market-config-helpers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { COMMON_DEPLOY_PARAMS } from "../../helpers/env";
@@ -7,6 +7,7 @@ import {
   eNetwork,
   loadPoolConfig,
   POOL_ADDRESSES_PROVIDER_ID,
+  POOL_ADMIN,
   V3_PERIPHERY_VERSION,
 } from "../../helpers";
 import { MARKET_NAME } from "../../helpers/env";
@@ -39,17 +40,18 @@ const func: DeployFunction = async function ({
   const { address: addressesProvider } = await deployments.get(
     POOL_ADDRESSES_PROVIDER_ID
   );
+  const poolAdmin = POOL_ADMIN[network];
 
   await deploy("ParaSwapLiquiditySwapAdapter", {
     from: deployer,
     ...COMMON_DEPLOY_PARAMS,
-    args: [addressesProvider, paraswapAugustusRegistry, deployer],
+    args: [addressesProvider, paraswapAugustusRegistry, poolAdmin],
   });
 
   await deploy("ParaSwapRepayAdapter", {
     from: deployer,
     ...COMMON_DEPLOY_PARAMS,
-    args: [addressesProvider, paraswapAugustusRegistry, deployer],
+    args: [addressesProvider, paraswapAugustusRegistry, poolAdmin],
   });
 
   return true;
@@ -58,6 +60,6 @@ const func: DeployFunction = async function ({
 // This script can only be run successfully once per market, core version, and network
 func.id = `ParaswapAdapters:${MARKET_NAME}:aave-v3-periphery@${V3_PERIPHERY_VERSION}`;
 
-func.tags = ["market", "paraswap-adapters"];
+func.tags = ["periphery-post", "paraswap-adapters"];
 
 export default func;

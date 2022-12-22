@@ -38,9 +38,7 @@ const func: DeployFunction = async function ({
     POOL_ADDRESSES_PROVIDER_ID
   );
 
-  const fallbackOracleAddress =
-    (await getParamPerNetwork(poolConfig.FallbackOracle, network)) ||
-    ZERO_ADDRESS;
+  const fallbackOracleAddress = ZERO_ADDRESS;
 
   const reserveAssets = await getReserveAddresses(poolConfig, network);
   const chainlinkAggregators = await getChainlinkOracles(poolConfig, network);
@@ -65,13 +63,6 @@ const func: DeployFunction = async function ({
     contract: "AaveOracle",
   });
 
-  // Deploy FallbackOracle
-  await deploy(FALLBACK_ORACLE_ID, {
-    from: deployer,
-    args: [],
-    ...COMMON_DEPLOY_PARAMS,
-    contract: "PriceOracle",
-  });
   return true;
 };
 

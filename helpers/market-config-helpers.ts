@@ -13,6 +13,7 @@ import {
   AssetType,
 } from "./types";
 import AaveMarket from "../markets/aave";
+import EthereumV3Config from "../markets/ethereum";
 import AaveTestMarket from "../markets/test";
 import HarmonyMarket from "../markets/harmony";
 import AvalancheMarket from "../markets/avalanche";
@@ -47,6 +48,7 @@ export enum ConfigNames {
   Polygon = "Polygon",
   Optimistic = "Optimistic",
   Arbitrum = "Arbitrum",
+  Ethereum = "Ethereum",
 }
 
 export const getParamPerNetwork = <T>(
@@ -110,6 +112,8 @@ export const loadPoolConfig = (configName: ConfigNames): PoolConfiguration => {
       return OptimisticConfig;
     case ConfigNames.Arbitrum:
       return ArbitrumConfig;
+    case ConfigNames.Ethereum:
+      return EthereumV3Config;
     default:
       throw new Error(
         `Unsupported pool configuration: ${configName} is not one of the supported configs ${Object.values(
@@ -174,10 +178,8 @@ export const getReserveAddresses = async (
   if (isLive && !poolConfig.TestnetMarket) {
     console.log("[NOTICE] Using ReserveAssets from configuration file");
 
-    return getRequiredParamPerNetwork<ITokenAddress>(
-      poolConfig,
-      "ReserveAssets",
-      network
+    return (
+      getParamPerNetwork<ITokenAddress>(poolConfig.ReserveAssets, network) || {}
     );
   }
   console.log(
@@ -242,10 +244,11 @@ export const getChainlinkOracles = async (
   if (isLive) {
     console.log("[NOTICE] Using ChainlinkAggregator from configuration file");
 
-    return getRequiredParamPerNetwork<ITokenAddress>(
-      poolConfig,
-      "ChainlinkAggregator",
-      network
+    return (
+      getParamPerNetwork<ITokenAddress>(
+        poolConfig.ChainlinkAggregator,
+        network
+      ) || {}
     );
   }
   console.log(
@@ -318,13 +321,13 @@ export const getReserveAddress = async (
     process.env.FORK ? process.env.FORK : hre.network.name
   ) as eNetwork;
 
+  if (isTestnetMarket(poolConfig)) {
+    return await getTestnetReserveAddressFromSymbol(symbol);
+  }
+
   let assetAddress = poolConfig.ReserveAssets?.[network]?.[symbol];
 
   const isZeroOrNull = !assetAddress || assetAddress === ZERO_ADDRESS;
-
-  if (isZeroOrNull && isTestnetMarket(poolConfig)) {
-    return await getTestnetReserveAddressFromSymbol(symbol);
-  }
 
   if (!assetAddress || isZeroOrNull) {
     throw `Missing asset address for asset ${symbol}`;
