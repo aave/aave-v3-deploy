@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.53.1](https://github.com/aave/aave-v3-deploy/compare/v1.53.0...v1.53.1) (2022-12-28)
+
+
+### Bug Fixes
+
+* Rename görli to goerli ([599d34f](https://github.com/aave/aave-v3-deploy/commit/599d34f2030d8ab626d9a99cebe87fa43b5cffc5))
+
 ## [1.53.0](https://github.com/aave/aave-v3-deploy/compare/v1.52.0...v1.53.0) (2022-12-22)
 
 
