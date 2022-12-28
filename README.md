@@ -42,7 +42,7 @@ nano .env
 Run the deployments script
 
 ```
-HARDHAT_NETWORK=görli npx hardhat deploy
+HARDHAT_NETWORK=goerli npx hardhat deploy
 ```
 
 ## How to deploy Aave V3 in fork network
