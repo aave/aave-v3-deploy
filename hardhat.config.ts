@@ -109,9 +109,9 @@ export default {
       420
     ),
     [eOptimismNetwork.main]: getCommonNetworkConfig(eOptimismNetwork.main, 10),
-    [eEthereumNetwork.görli]: getCommonNetworkConfig(eEthereumNetwork.görli, 5),
-    [eArbitrumNetwork.görliNitro]: getCommonNetworkConfig(
-      eArbitrumNetwork.görliNitro,
+    [eEthereumNetwork.goerli]: getCommonNetworkConfig(eEthereumNetwork.goerli, 5),
+    [eArbitrumNetwork.goerliNitro]: getCommonNetworkConfig(
+      eArbitrumNetwork.goerliNitro,
       421613
     ),
   },

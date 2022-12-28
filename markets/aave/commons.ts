@@ -154,7 +154,7 @@ export const CommonsConfig: ICommonConfiguration = {
   },
   L2PoolEnabled: {
     [eArbitrumNetwork.arbitrum]: true,
-    [eArbitrumNetwork.görliNitro]: true,
+    [eArbitrumNetwork.goerliNitro]: true,
     [eArbitrumNetwork.arbitrumTestnet]: true,
     [eOptimismNetwork.main]: true,
     [eOptimismNetwork.testnet]: true,

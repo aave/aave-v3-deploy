@@ -40,7 +40,7 @@ export enum eEthereumNetwork {
   hardhat = "hardhat",
   tenderly = "tenderly",
   rinkeby = "rinkeby",
-  görli = "görli",
+  goerli = "goerli",
 }
 
 export enum ePolygonNetwork {
@@ -60,7 +60,7 @@ export enum eAvalancheNetwork {
 export enum eArbitrumNetwork {
   arbitrum = "arbitrum",
   arbitrumTestnet = "arbitrum-testnet",
-  görliNitro = "arbitrum-görli",
+  goerliNitro = "arbitrum-goerli",
 }
 
 export enum eHarmonyNetwork {

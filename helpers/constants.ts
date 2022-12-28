@@ -95,8 +95,8 @@ export const chainlinkAggregatorProxy: Record<string, string> = {
   "optimism-testnet": "0xEFFC18fC3b7eb8E676dac549E0c693ad50D1Ce31",
   "fantom-testnet": "0xe04676B9A9A2973BCb0D1478b5E1E9098BBB7f3D",
   ropsten: "0x12BAaa24D85A4A180F0d5ae67b6aCbDDD58968EA",
-  görli: "0x60E4B131f0F219c72b0346675283E73888e4AB24",
-  [eArbitrumNetwork.görliNitro]: "0xC09e69E79106861dF5d289dA88349f10e2dc6b5C",
+  goerli: "0x60E4B131f0F219c72b0346675283E73888e4AB24",
+  [eArbitrumNetwork.goerliNitro]: "0xC09e69E79106861dF5d289dA88349f10e2dc6b5C",
 };
 
 export const chainlinkEthUsdAggregatorProxy: Record<string, string> = {
@@ -117,8 +117,8 @@ export const chainlinkEthUsdAggregatorProxy: Record<string, string> = {
   "optimism-testnet": "0xEFFC18fC3b7eb8E676dac549E0c693ad50D1Ce31",
   "fantom-testnet": "0xB8C458C957a6e6ca7Cc53eD95bEA548c52AFaA24",
   ropsten: "0x12BAaa24D85A4A180F0d5ae67b6aCbDDD58968EA",
-  görli: "0x60E4B131f0F219c72b0346675283E73888e4AB24",
-  [eArbitrumNetwork.görliNitro]: "0xC09e69E79106861dF5d289dA88349f10e2dc6b5C",
+  goerli: "0x60E4B131f0F219c72b0346675283E73888e4AB24",
+  [eArbitrumNetwork.goerliNitro]: "0xC09e69E79106861dF5d289dA88349f10e2dc6b5C",
 };
 
 export const ETHEREUM_SHORT_EXECUTOR =
