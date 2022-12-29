@@ -1,5 +1,5 @@
 import { task } from "hardhat/config";
-import { getERC20FaucetOwnable } from "../../helpers/contract-getters";
+import { getFaucet } from "../../helpers/contract-getters";
 
 task(
   `transfer-faucet-ownership`,
@@ -9,7 +9,7 @@ task(
   .setAction(async ({ owner }, hre) => {
     const { deployer } = await hre.getNamedAccounts();
 
-    const faucetContract = await getERC20FaucetOwnable();
+    const faucetContract = await getFaucet();
 
     console.log(`Faucet contract transfered to new owner ${owner}`);
 

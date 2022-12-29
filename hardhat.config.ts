@@ -109,7 +109,10 @@ export default {
       420
     ),
     [eOptimismNetwork.main]: getCommonNetworkConfig(eOptimismNetwork.main, 10),
-    [eEthereumNetwork.goerli]: getCommonNetworkConfig(eEthereumNetwork.goerli, 5),
+    [eEthereumNetwork.goerli]: getCommonNetworkConfig(
+      eEthereumNetwork.goerli,
+      5
+    ),
     [eArbitrumNetwork.goerliNitro]: getCommonNetworkConfig(
       eArbitrumNetwork.goerliNitro,
       421613
@@ -175,6 +178,9 @@ export default {
       "@aave/periphery-v3/contracts/rewards/transfer-strategies/StakedTokenTransferStrategy.sol",
       "@aave/periphery-v3/contracts/rewards/transfer-strategies/PullRewardsTransferStrategy.sol",
       "@aave/periphery-v3/contracts/rewards/EmissionManager.sol",
+      "@aave/periphery-v3/contracts/mocks/WETH9Mock.sol",
+      "@aave/periphery-v3/contracts/mocks/testnet-helpers/Faucet.sol",
+      "@aave/periphery-v3/contracts/mocks/testnet-helpers/TestnetERC20.sol",
       "@aave/periphery-v3/contracts/treasury/Collector.sol",
       "@aave/periphery-v3/contracts/treasury/CollectorController.sol",
       "@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveV2.sol",

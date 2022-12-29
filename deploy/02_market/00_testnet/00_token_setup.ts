@@ -48,11 +48,11 @@ const func: DeployFunction = async function ({
     return;
   }
   // Deployment of FaucetOwnable helper contract
-  // FaucetMintableERC20 is owned by ERC20FaucetOwnable. ERC20FaucetOwnable is owned by defender relayer.
+  // TestnetERC20 is owned by Faucet. Faucet is owned by defender relayer.
   console.log("- Deployment of FaucetOwnable contract");
   const faucetOwnable = await deploy(FAUCET_OWNABLE_ID, {
     from: deployer,
-    contract: "ERC20FaucetOwnable",
+    contract: "Faucet",
     args: [deployer, PERMISSIONED_FAUCET],
     ...COMMON_DEPLOY_PARAMS,
   });
@@ -76,12 +76,12 @@ const func: DeployFunction = async function ({
     if (!reservesConfig[symbol]) {
       throw `[Deployment] Missing token "${symbol}" at ReservesConfig`;
     }
-    console.log("Deploy of FaucetMintableERC20 contract");
+    console.log("Deploy of TestnetERC20 contract");
 
     if (symbol !== poolConfig.WrappedNativeTokenSymbol) {
       await deploy(`${symbol}${TESTNET_TOKEN_PREFIX}`, {
         from: deployer,
-        contract: "FaucetMintableERC20",
+        contract: "TestnetERC20",
         args: [
           symbol,
           symbol,
@@ -104,7 +104,7 @@ const func: DeployFunction = async function ({
       const reward = rewardSymbols[y];
       await deploy(`${reward}${TESTNET_REWARD_TOKEN_PREFIX}`, {
         from: deployer,
-        contract: "ERC20FaucetOwnable",
+        contract: "Faucet",
         args: [reward, reward, 18, faucetOwnable.address],
         ...COMMON_DEPLOY_PARAMS,
       });

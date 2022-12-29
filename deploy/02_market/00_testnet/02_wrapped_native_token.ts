@@ -1,4 +1,4 @@
-import { getERC20FaucetOwnable } from "./../../../helpers/contract-getters";
+import { getFaucet } from "./../../../helpers/contract-getters";
 import {
   ConfigNames,
   isTestnetMarket,
@@ -26,12 +26,12 @@ const func: DeployFunction = async function ({
 
   // Local networks that are not live or testnet, like hardhat network, will deploy a WETH9 contract as mockup for testing deployments
   if (isTestnetMarket(poolConfig)) {
-    const faucet = await getERC20FaucetOwnable();
+    const faucet = await getFaucet();
     await deploy(
       `${poolConfig.WrappedNativeTokenSymbol}${TESTNET_TOKEN_PREFIX}`,
       {
         from: deployer,
-        contract: "NativeWrapperMock",
+        contract: "WETH9Mock",
         args: [
           poolConfig.WrappedNativeTokenSymbol,
           poolConfig.WrappedNativeTokenSymbol,

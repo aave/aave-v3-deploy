@@ -31,7 +31,7 @@ import {
   MockVariableDebtToken,
   MockStableDebtToken,
   MockPool,
-  ERC20FaucetOwnable,
+  Faucet,
   WrappedTokenGatewayV3,
   UiPoolDataProviderV3,
   WalletBalanceProvider,
@@ -262,11 +262,9 @@ export const getTestnetReserveAddressFromSymbol = async (symbol: string) => {
   return testnetReserve.address;
 };
 
-export const getERC20FaucetOwnable = async (
-  address?: string
-): Promise<ERC20FaucetOwnable> =>
+export const getFaucet = async (address?: string): Promise<Faucet> =>
   getContract(
-    "ERC20FaucetOwnable",
+    "Faucet",
     address || (await hre.deployments.get(FAUCET_OWNABLE_ID)).address
   );
 
