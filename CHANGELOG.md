@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.53.2](https://github.com/aave/aave-v3-deploy/compare/v1.53.1...v1.53.2) (2022-12-29)
+
+
+### Miscellaneous Chores
+
+* release 1.53.2 ([24ef3aa](https://github.com/aave/aave-v3-deploy/commit/24ef3aa9e9d096e65477b2686fa390f7481ab2b3))
+
 ## [1.53.1](https://github.com/aave/aave-v3-deploy/compare/v1.53.0...v1.53.1) (2022-12-28)
 
 
