@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.54.0](https://github.com/aave/aave-v3-deploy/compare/v1.53.2...v1.54.0) (2022-12-30)
+
+
+### Features
+
+* bump periphery dependency to 1.23.1 ([b4ef47e](https://github.com/aave/aave-v3-deploy/commit/b4ef47e17a4a5d809eccf24f5b1e311be793186f))
+
 ## [1.53.2](https://github.com/aave/aave-v3-deploy/compare/v1.53.1...v1.53.2) (2022-12-29)
 
 
