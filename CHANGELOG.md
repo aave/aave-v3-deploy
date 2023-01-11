@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.55.0](https://github.com/aave/aave-v3-deploy/compare/v1.54.0...v1.55.0) (2023-01-11)
+
+
+### Features
+
+* update @aave/core-v3@1.17.1 ([d61194e](https://github.com/aave/aave-v3-deploy/commit/d61194e7dd35613636a9e7b2b3a34f5264b5da74))
+
 ## [1.54.0](https://github.com/aave/aave-v3-deploy/compare/v1.53.2...v1.54.0) (2022-12-30)
 
 
