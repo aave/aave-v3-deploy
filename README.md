@@ -39,10 +39,10 @@ Edit the `.env` file to fill the environment variables `MNEMONIC`, `ALCHEMY_KEY`
 nano .env
 ```
 
-Run the deployments scripts and specify which network & aave market configs you wish to deploy
+Run the deployments scripts and specify which network & aave market configs you wish to deploy.
 
 ```
-HARDHAT_NETWORK=goerli MARKET_NAME=avalanche npx hardhat deploy
+HARDHAT_NETWORK=goerli npx hardhat deploy
 ```
 
 ## How to deploy Aave V3 in fork network
