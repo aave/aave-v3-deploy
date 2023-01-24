@@ -1,7 +1,7 @@
 import {
   STAKE_AAVE_PROXY,
   TESTNET_REWARD_TOKEN_PREFIX,
-} from "./../../../helpers/deploy-ids";
+} from "../../../helpers/deploy-ids";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { COMMON_DEPLOY_PARAMS } from "../../../helpers/env";
@@ -76,9 +76,24 @@ const func: DeployFunction = async function ({
     if (!reservesConfig[symbol]) {
       throw `[Deployment] Missing token "${symbol}" at ReservesConfig`;
     }
-    console.log("Deploy of TestnetERC20 contract");
 
-    if (symbol !== poolConfig.WrappedNativeTokenSymbol) {
+    if (symbol == poolConfig.WrappedNativeTokenSymbol) {
+      console.log("Deploy of WETH9 mock");
+      await deploy(
+        `${poolConfig.WrappedNativeTokenSymbol}${TESTNET_TOKEN_PREFIX}`,
+        {
+          from: deployer,
+          contract: "WETH9Mock",
+          args: [
+            poolConfig.WrappedNativeTokenSymbol,
+            poolConfig.WrappedNativeTokenSymbol,
+            faucetOwnable.address,
+          ],
+          ...COMMON_DEPLOY_PARAMS,
+        }
+      );
+    } else {
+      console.log("Deploy of TestnetERC20 contract", symbol);
       await deploy(`${symbol}${TESTNET_TOKEN_PREFIX}`, {
         from: deployer,
         contract: "TestnetERC20",
