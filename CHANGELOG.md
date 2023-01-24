@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.55.2](https://github.com/aave/aave-v3-deploy/compare/v1.55.1...v1.55.2) (2023-01-24)
+
+
+### Bug Fixes
+
+* Deploy WETH9 at 00_token_setupts to prevent error when using incentives flag ([0b733d8](https://github.com/aave/aave-v3-deploy/commit/0b733d86f16046e0d929849485132e095adb9b40))
+
 ## [1.55.1](https://github.com/aave/aave-v3-deploy/compare/v1.55.0...v1.55.1) (2023-01-24)
 
 
