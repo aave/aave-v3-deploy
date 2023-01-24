@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.55.1](https://github.com/aave/aave-v3-deploy/compare/v1.55.0...v1.55.1) (2023-01-24)
+
+
+### Bug Fixes
+
+* wrong contract name at testnet rewards ([f850675](https://github.com/aave/aave-v3-deploy/commit/f85067576dce21224a899273f7da59ba51b9e759))
+
 ## [1.55.0](https://github.com/aave/aave-v3-deploy/compare/v1.54.0...v1.55.0) (2023-01-11)
 
 
