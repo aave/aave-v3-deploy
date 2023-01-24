@@ -104,7 +104,7 @@ const func: DeployFunction = async function ({
       const reward = rewardSymbols[y];
       await deploy(`${reward}${TESTNET_REWARD_TOKEN_PREFIX}`, {
         from: deployer,
-        contract: "Faucet",
+        contract: "TestnetERC20",
         args: [reward, reward, 18, faucetOwnable.address],
         ...COMMON_DEPLOY_PARAMS,
       });
