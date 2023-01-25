@@ -39,7 +39,7 @@ Edit the `.env` file to fill the environment variables `MNEMONIC`, `ALCHEMY_KEY`
 nano .env
 ```
 
-Run the deployments script
+Run the deployments scripts and specify which network & aave market configs you wish to deploy.
 
 ```
 HARDHAT_NETWORK=goerli npx hardhat deploy
@@ -104,6 +104,12 @@ describe('Tests', () => {
    })
 })
 
+```
+
+## How to verify your contract deployments
+
+```
+npx hardhat --network XYZ etherscan-verify --api-key YZX
 ```
 
 ## Project Structure
