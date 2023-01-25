@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.55.3](https://github.com/aave/aave-v3-deploy/compare/v1.55.2...v1.55.3) (2023-01-25)
+
+
+### Bug Fixes
+
+* expose deploy-v3 tasks to library ([9b3c9ff](https://github.com/aave/aave-v3-deploy/commit/9b3c9ff598e6b2e36e184faf81b2c2bd2b833b95))
+
 ## [1.55.2](https://github.com/aave/aave-v3-deploy/compare/v1.55.1...v1.55.2) (2023-01-24)
 
 
