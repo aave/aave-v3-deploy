@@ -1,7 +1,6 @@
 import { WrappedTokenGatewayV3__factory } from "./../../typechain/factories/@aave/periphery-v3/contracts/misc/WrappedTokenGatewayV3__factory";
 import { getFirstSigner } from "./../../helpers/utilities/signer";
 import { getAddressFromJson } from "./../../helpers/utilities/tx";
-import { WrappedTokenGatewayV3 } from "./../../dist/types/typechain/@aave/periphery-v3/contracts/misc/WrappedTokenGatewayV3.d";
 import {
   EMERGENCY_ADMIN,
   POOL_ADMIN,
@@ -10,6 +9,7 @@ import {
 import {
   AaveEcosystemReserveController,
   EmissionManager,
+  WrappedTokenGatewayV3,
 } from "./../../typechain";
 import {
   getEmissionManager,
@@ -96,22 +96,20 @@ task(
   const aclManager = (
     await getACLManager(await poolAddressesProvider.getACLManager())
   ).connect(aclSigner);
-  const treasuryProxy =
-    await hre.ethers.getContractAt<InitializableAdminUpgradeabilityProxy>(
-      "InitializableAdminUpgradeabilityProxy",
-      (
-        await hre.deployments.get(TREASURY_PROXY_ID)
-      ).address,
-      deployerSigner
-    );
-  const treasuryController =
-    await hre.ethers.getContractAt<AaveEcosystemReserveController>(
-      "AaveEcosystemReserveController",
-      (
-        await hre.deployments.get(TREASURY_CONTROLLER_ID)
-      ).address,
-      deployerSigner
-    );
+  const treasuryProxy = (await hre.ethers.getContractAt(
+    "InitializableAdminUpgradeabilityProxy",
+    (
+      await hre.deployments.get(TREASURY_PROXY_ID)
+    ).address,
+    deployerSigner
+  )) as InitializableAdminUpgradeabilityProxy;
+  const treasuryController = (await hre.ethers.getContractAt(
+    "AaveEcosystemReserveController",
+    (
+      await hre.deployments.get(TREASURY_CONTROLLER_ID)
+    ).address,
+    deployerSigner
+  )) as AaveEcosystemReserveController;
   let wrappedTokenGateway: WrappedTokenGatewayV3;
   try {
     wrappedTokenGateway = await getWrappedTokenGateway();

@@ -1,6 +1,5 @@
 import { eNetwork } from "./../../helpers/types";
 import { getFirstSigner } from "../../helpers/utilities/signer";
-import { DefaultReserveInterestRateStrategy } from "../../dist/typ../typechain";
 import { loadPoolConfig } from "../../helpers/market-config-helpers";
 import {
   getPoolAddressesProvider,
@@ -15,6 +14,7 @@ import { FORK } from "../../helpers/hardhat-config-helpers";
 import { diff, formatters } from "jsondiffpatch";
 import chalk from "chalk";
 import { exit } from "process";
+import { DefaultReserveInterestRateStrategy } from "../../typechain";
 
 // This task will review the InterestRate strategy of each reserve from a Market passed by environment variable MARKET_NAME.
 // If the fix flag is present it will change the current strategy of the reserve to the desired strategy from market configuration.
@@ -75,12 +75,11 @@ task(`review-rate-strategies`, ``)
         );
         const expectedStrategy: IInterestRateStrategyParams =
           poolConfig.ReservesConfig[normalizedSymbol.toUpperCase()].strategy;
-        const onChainStrategy =
-          await hre.ethers.getContractAt<DefaultReserveInterestRateStrategy>(
-            "DefaultReserveInterestRateStrategy",
-            await dataProvider.getInterestRateStrategyAddress(tokenAddress),
-            await getFirstSigner()
-          );
+        const onChainStrategy = (await hre.ethers.getContractAt(
+          "DefaultReserveInterestRateStrategy",
+          await dataProvider.getInterestRateStrategyAddress(tokenAddress),
+          await getFirstSigner()
+        )) as DefaultReserveInterestRateStrategy;
         const currentStrategy: IInterestRateStrategyParams = {
           name: expectedStrategy.name,
           optimalUsageRatio: (
