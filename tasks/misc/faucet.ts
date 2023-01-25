@@ -11,10 +11,10 @@ task(
 
     const faucetContract = await getFaucet();
 
-    console.log(`Faucet contract transfered to new owner ${owner}`);
+    console.log(`Faucet contract transferred to new owner ${owner}`);
 
     const tx = await faucetContract.transferOwnership(owner);
 
-    console.log(`Faucet contract transfered to relayer ${owner}`);
+    console.log(`Faucet contract transferred to relayer ${owner}`);
     console.log(`TX ${tx}`);
   });
