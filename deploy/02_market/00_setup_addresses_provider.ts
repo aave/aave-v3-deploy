@@ -116,7 +116,7 @@ func.id = `PoolAddressesProvider:${MARKET_NAME}:aave-v3-core@${V3_CORE_VERSION}`
 
 func.tags = ["market", "provider"];
 
-func.dependencies = ["before-deploy", "core", "periphery-pre", "token-setup"];
+func.dependencies = ["before-deploy", "core", "periphery-pre"];
 
 func.skip = async () => checkRequiredEnvironment();
 

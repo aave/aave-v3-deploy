@@ -1,7 +1,7 @@
 import { ConfigNames } from "./market-config-helpers";
 
 export const MARKET_NAME =
-  (process.env.MARKET_NAME as ConfigNames) || ConfigNames.Commons;
+  (process.env.MARKET_NAME as ConfigNames) || "Test";
 
 export const ENABLE_REWARDS = process.env.ENABLE_REWARDS
   ? process.env.ENABLE_REWARDS === "true"

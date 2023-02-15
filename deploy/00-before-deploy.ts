@@ -17,4 +17,6 @@ const func: DeployFunction = async function () {
 
 func.tags = ["before-deploy"];
 
+func.runAtTheEnd = true;
+
 export default func;

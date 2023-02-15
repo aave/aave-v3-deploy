@@ -190,3 +190,9 @@ export const MULTISIG_ADDRESS: { [key: string]: string } = {
   // Polygon Multisig
   [ePolygonNetwork.polygon]: "0x1450F2898D6bA2710C98BE9CAF3041330eD5ae58",
 };
+
+export const TESTNET_TOKENS: { [key: string]: string } = {
+  "USDC": "USD Coin",
+  "WBTC": "Wrapped Bitcoin",
+  "WETH": "Wrapped Ether"
+}

@@ -28,13 +28,12 @@ import {
   STABLE_DEBT_PREFIX,
   TESTNET_PRICE_AGGR_PREFIX,
   TESTNET_REWARD_TOKEN_PREFIX,
-  TESTNET_TOKEN_PREFIX,
   TREASURY_PROXY_ID,
   VARIABLE_DEBT_PREFIX,
 } from "./deploy-ids";
-import { ZERO_ADDRESS } from "./constants";
+import { ZERO_ADDRESS, TESTNET_TOKENS } from "./constants";
 import { getTestnetReserveAddressFromSymbol, POOL_DATA_PROVIDER } from ".";
-import { ENABLE_REWARDS } from "./env";
+import { ENABLE_REWARDS, MARKET_NAME } from "./env";
 
 declare var hre: HardhatRuntimeEnvironment;
 
@@ -124,7 +123,7 @@ export const loadPoolConfig = (configName: ConfigNames): PoolConfiguration => {
 };
 
 export const checkRequiredEnvironment = () => {
-  if (!process.env.MARKET_NAME) {
+  if (!MARKET_NAME) {
     console.error(
       `Skipping Market deployment due missing "MARKET_NAME" environment variable.`
     );
@@ -185,18 +184,14 @@ export const getReserveAddresses = async (
   console.log(
     "[WARNING] Using deployed Testnet tokens instead of ReserveAssets from configuration file"
   );
-  const reservesKeys = Object.keys(poolConfig.ReservesConfig);
+
   const allDeployments = await hre.deployments.all();
-  const testnetTokenKeys = Object.keys(allDeployments).filter(
-    (key) =>
-      key.includes(TESTNET_TOKEN_PREFIX) &&
-      reservesKeys.includes(key.replace(TESTNET_TOKEN_PREFIX, ""))
-  );
-  return testnetTokenKeys.reduce<ITokenAddress>((acc, key) => {
-    const symbol = key.replace(TESTNET_TOKEN_PREFIX, "");
-    acc[symbol] = allDeployments[key].address;
-    return acc;
-  }, {});
+
+  const result: any = {};
+  for(let key in TESTNET_TOKENS) {
+    result[key] = allDeployments[TESTNET_TOKENS[key]].address;
+  }
+  return result;
 };
 
 export const getSubTokensByPrefix = async (

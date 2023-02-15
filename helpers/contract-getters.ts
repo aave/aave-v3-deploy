@@ -46,7 +46,6 @@ import {
   POOL_DATA_PROVIDER,
   ORACLE_ID,
   FALLBACK_ORACLE_ID,
-  TESTNET_TOKEN_PREFIX,
   INCENTIVES_V2_IMPL_ID,
   INCENTIVES_PULL_REWARDS_STRATEGY_ID,
   INCENTIVES_PROXY_ID,
@@ -63,6 +62,7 @@ import { Libraries } from "hardhat-deploy/dist/types";
 import { getContract } from "./utilities/tx";
 import { EMISSION_MANAGER_ID } from ".";
 import { EmissionManager } from "../typechain";
+import { TESTNET_TOKENS } from "../helpers/constants";
 
 // Prevent error HH9 when importing this file inside tasks or helpers at Hardhat config load
 declare var hre: HardhatRuntimeEnvironment;
@@ -257,7 +257,7 @@ export const getPoolLibraries = async (): Promise<Libraries> => {
 
 export const getTestnetReserveAddressFromSymbol = async (symbol: string) => {
   const testnetReserve = await hre.deployments.get(
-    `${symbol}${TESTNET_TOKEN_PREFIX}`
+    TESTNET_TOKENS[symbol]
   );
   return testnetReserve.address;
 };

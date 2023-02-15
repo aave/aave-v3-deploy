@@ -171,7 +171,7 @@ export const CommonsConfig: ICommonConfiguration = {
       liquidationThreshold: "9850",
       liquidationBonus: "10100",
       label: "Stable-EMode",
-      assets: ["USDC", "DAI"],
+      assets: ["USDC"],
     },
   },
   FlashLoanPremiums: {
