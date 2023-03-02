@@ -59,8 +59,25 @@ export default {
     outDir: "typechain",
     target: "ethers-v5",
   },
+  zksolc: {
+    version: "1.2.3",
+    compilerSource: "binary",
+    settings: {
+      forceEvmla: true,
+      isSystem: true,
+    },
+  },
+  zkSyncDeploy: {
+    zkSyncNetwork: "https://zksync2-testnet.zksync.dev",
+    ethNetwork: `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`, // Can also be the RPC URL of the network (e.g. `https://goerli.infura.io/v3/<API_KEY>`)
+  },
+  defaultNetwork: "zkSyncTestnet",
+
   networks: {
-    hardhat: hardhatNetworkSettings,
+    // hardhat: hardhatNetworkSettings,
+    hardhat: {
+      zksync: true,
+    },
     localhost: {
       url: "http://127.0.0.1:8545",
       ...hardhatNetworkSettings,
@@ -116,6 +133,10 @@ export default {
     [eArbitrumNetwork.goerliNitro]: getCommonNetworkConfig(
       eArbitrumNetwork.goerliNitro,
       421613
+    ),
+    [eEthereumNetwork.zkSyncTestnet]: getCommonNetworkConfig(
+      eEthereumNetwork.zkSyncTestnet,
+      280
     ),
   },
   namedAccounts: {

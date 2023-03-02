@@ -25,6 +25,8 @@
     "@aave/core-v3": "^1.17.1",
     "@aave/periphery-v3": "^1.23.1",
     "@aave/safety-module": "^1.0.3",
+    "@matterlabs/hardhat-zksync-deploy": "^0.6.1",
+    "@matterlabs/hardhat-zksync-solc": "^0.3.14",
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.5",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@nomiclabs/hardhat-etherscan": "^3.1.0",

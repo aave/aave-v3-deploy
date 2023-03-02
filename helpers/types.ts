@@ -41,6 +41,7 @@ export enum eEthereumNetwork {
   tenderly = "tenderly",
   rinkeby = "rinkeby",
   goerli = "goerli",
+  zkSyncTestnet = "zkSyncTestnet",
 }
 
 export enum ePolygonNetwork {

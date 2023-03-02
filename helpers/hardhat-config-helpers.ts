@@ -86,6 +86,7 @@ export const NETWORKS_RPC_URL: iParamsPerNetwork<string> = {
     eEthereumNetwork.goerli
   )}`,
   [eArbitrumNetwork.goerliNitro]: `https://goerli-rollup.arbitrum.io/rpc`,
+  [eEthereumNetwork.zkSyncTestnet]: `https://zksync2-testnet.zksync.dev`,
 };
 
 export const LIVE_NETWORKS: iParamsPerNetwork<boolean> = {
