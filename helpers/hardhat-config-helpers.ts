@@ -45,6 +45,8 @@ export const getAlchemyKey = (net: eNetwork) => {
       return process.env.POLYGON_ALCHEMY_KEY || ALCHEMY_KEY;
     case eEthereumNetwork.goerli:
       return process.env.GOERLI_ALCHEMY_KEY || ALCHEMY_KEY;
+    case eEthereumNetwork.sepolia:
+      return process.env.SEPOLIA_ALCHEMY_KEY || ALCHEMY_KEY;
     default:
       return ALCHEMY_KEY;
   }
@@ -84,6 +86,9 @@ export const NETWORKS_RPC_URL: iParamsPerNetwork<string> = {
   tenderly: `https://rpc.tenderly.co/fork/${TENDERLY_FORK_ID}`,
   [eEthereumNetwork.goerli]: `https://eth-goerli.alchemyapi.io/v2/${getAlchemyKey(
     eEthereumNetwork.goerli
+  )}`,
+  [eEthereumNetwork.sepolia]: `https://eth-sepolia.g.alchemy.com/v2/${getAlchemyKey(
+    eEthereumNetwork.sepolia
   )}`,
   [eArbitrumNetwork.goerliNitro]: `https://goerli-rollup.arbitrum.io/rpc`,
 };
