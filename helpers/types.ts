@@ -41,6 +41,7 @@ export enum eEthereumNetwork {
   tenderly = "tenderly",
   rinkeby = "rinkeby",
   goerli = "goerli",
+  sepolia = "sepolia",
 }
 
 export enum ePolygonNetwork {
