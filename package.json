@@ -3,9 +3,7 @@
   "version": "1.55.3",
   "files": [
     "dist",
-    "LICENSE",
-    "README.md",
-    "contracts/testnet-helpers",
+    "helpers",
     "artifacts"
   ],
   "engines": {
