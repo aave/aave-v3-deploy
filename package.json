@@ -58,7 +58,7 @@
     "build": "tsc --project lib.tsconfig.json && npm run cp-typechain",
     "clean": "rm -rf artifacts/ types/ dist/ typechain/",
     "compile": "SKIP_LOAD=true npx hardhat compile",
-    "prepublish": "npm run clean && npm run compile",
+    "prepublish": "npm run compile",
     "node": "npx hardhat node --no-deploy",
     "node:fork": "FORK=main npm run node --no-deploy",
     "deploy": "if [ \"$SKIP_COMPILE\" = 'true' ]; then echo '[Warning] Skipping compilation'; else npm run compile; fi && npx hardhat deploy --no-compile",
