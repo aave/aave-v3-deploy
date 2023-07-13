@@ -166,6 +166,7 @@ export const CommonsConfig: ICommonConfiguration = {
     [eFantomNetwork.main]: "0x161383b5dAFc1cc05Ec058e5B0b0703BA175bdA6",
     [eArbitrumNetwork.arbitrum]: "0xdC6E2b14260F972ad4e5a31c68294Fba7E720701",
     [eEthereumNetwork.tenderly]: "0xa68bEA62Dc4034A689AA0F58A76681433caCa663",
+    [eOptimismNetwork.main]: "0x6e7bE86000dF697facF4396efD2aE2C322165dC3",
   },
   FlashLoanPremiums: {
     total: 0.0005e4,
