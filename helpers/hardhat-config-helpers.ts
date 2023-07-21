@@ -136,10 +136,10 @@ export const getCommonNetworkConfig = (
   networkName: eNetwork,
   chainId?: number
 ) => ({
-  url: NETWORKS_RPC_URL[networkName] || "",
+  url: "https://testnet.era.zksync.dev",
   blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
-  chainId,
-  gasPrice: GAS_PRICE_PER_NET[networkName] || undefined,
+  chainId: 280,
+  // gasPrice: GAS_PRICE_PER_NET[networkName] || undefined,
   ...((!!MNEMONICS[networkName] || !!MNEMONIC) && {
     accounts: {
       mnemonic: MNEMONICS[networkName] || MNEMONIC,
@@ -149,6 +149,7 @@ export const getCommonNetworkConfig = (
     },
   }),
   live: LIVE_NETWORKS[networkName] || false,
+  zksync: true,
 });
 
 const MNEMONICS: iParamsPerNetwork<string> = {

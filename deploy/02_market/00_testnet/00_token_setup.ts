@@ -19,10 +19,7 @@ import {
   FAUCET_OWNABLE_ID,
 } from "../../../helpers/deploy-ids";
 import Bluebird from "bluebird";
-import {
-  deployInitializableAdminUpgradeabilityProxy,
-  setupStkAave,
-} from "../../../helpers/contract-deployments";
+import { deployInitializableAdminUpgradeabilityProxy } from "../../../helpers/contract-deployments";
 import { MARKET_NAME, PERMISSIONED_FAUCET } from "../../../helpers/env";
 
 const func: DeployFunction = async function ({
@@ -132,20 +129,20 @@ const func: DeployFunction = async function ({
       `AAVE${TESTNET_TOKEN_PREFIX}`
     );
 
-    const stakeProxy = await deployInitializableAdminUpgradeabilityProxy(
-      STAKE_AAVE_PROXY
-    );
+    // const stakeProxy = await deployInitializableAdminUpgradeabilityProxy(
+    //   STAKE_AAVE_PROXY
+    // );
 
     // Setup StkAave
-    await setupStkAave(stakeProxy, [
-      aaveTokenArtifact.address,
-      aaveTokenArtifact.address,
-      COOLDOWN_SECONDS,
-      UNSTAKE_WINDOW,
-      incentivesRewardsVault,
-      incentivesEmissionManager,
-      (1000 * 60 * 60).toString(),
-    ]);
+    // await setupStkAave(stakeProxy, [
+    //   aaveTokenArtifact.address,
+    //   aaveTokenArtifact.address,
+    //   COOLDOWN_SECONDS,
+    //   UNSTAKE_WINDOW,
+    //   incentivesRewardsVault,
+    //   incentivesEmissionManager,
+    //   (1000 * 60 * 60).toString(),
+    // ]);
 
     console.log("Testnet Reserve Tokens");
     console.log("======================");

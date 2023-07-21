@@ -1,7 +1,6 @@
 import { EmissionManager } from "./../typechain";
 import { MockL2Pool } from "./../typechain";
 import { EMPTY_STORAGE_SLOT, ZERO_ADDRESS } from "./constants";
-import { StakedAave } from "./../typechain";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { getPoolLibraries } from "./contract-getters";
 import { tEthereumAddress, tStringTokenSmallUnits } from "./types";
@@ -23,15 +22,6 @@ import {
   L2Pool,
   L2Encoder,
 } from "../typechain";
-
-import { waitForTx } from "./utilities/tx";
-import {
-  STAKE_AAVE_IMPL_V1,
-  STAKE_AAVE_IMPL_V2,
-  STAKE_AAVE_IMPL_V3,
-} from "./deploy-ids";
-import { StakedAaveV2 } from "../typechain";
-import { StakedTokenV2Rev3 } from "../typechain";
 import {
   MockAggregator,
   MockAToken,
@@ -397,202 +387,202 @@ export const deployWrappedTokenGateway = async (
     wrappedToken,
   ]);
 
-export const deployStakedAaveV3 = async ([
-  stakedToken,
-  rewardsToken,
-  cooldownSeconds,
-  unstakeWindow,
-  rewardsVault,
-  emissionManager,
-  distributionDuration,
-]: [
-  tEthereumAddress,
-  tEthereumAddress,
-  string,
-  string,
-  tEthereumAddress,
-  tEthereumAddress,
-  string
-]) => {
-  const args: string[] = [
-    stakedToken,
-    rewardsToken,
-    cooldownSeconds,
-    unstakeWindow,
-    rewardsVault,
-    emissionManager,
-    distributionDuration,
-    "Staked AAVE",
-    "stkAAVE",
-    "18",
-    ZERO_ADDRESS, // gov
-  ];
-  return deployContract<StakedTokenV2Rev3>(
-    "StakedTokenV2Rev3",
-    args,
-    undefined,
-    STAKE_AAVE_IMPL_V3
-  );
-};
+// export const deployStakedAaveV3 = async ([
+//   stakedToken,
+//   rewardsToken,
+//   cooldownSeconds,
+//   unstakeWindow,
+//   rewardsVault,
+//   emissionManager,
+//   distributionDuration,
+// ]: [
+//   tEthereumAddress,
+//   tEthereumAddress,
+//   string,
+//   string,
+//   tEthereumAddress,
+//   tEthereumAddress,
+//   string
+// ]) => {
+//   const args: string[] = [
+//     stakedToken,
+//     rewardsToken,
+//     cooldownSeconds,
+//     unstakeWindow,
+//     rewardsVault,
+//     emissionManager,
+//     distributionDuration,
+//     "Staked AAVE",
+//     "stkAAVE",
+//     "18",
+//     ZERO_ADDRESS, // gov
+//   ];
+//   return deployContract<StakedTokenV2Rev3>(
+//     "StakedTokenV2Rev3",
+//     args,
+//     undefined,
+//     STAKE_AAVE_IMPL_V3
+//   );
+// };
 
-export const deployStakedAaveV2 = async ([
-  stakedToken,
-  rewardsToken,
-  cooldownSeconds,
-  unstakeWindow,
-  rewardsVault,
-  emissionManager,
-  distributionDuration,
-]: [
-  tEthereumAddress,
-  tEthereumAddress,
-  string,
-  string,
-  tEthereumAddress,
-  tEthereumAddress,
-  string
-]): Promise<StakedAaveV2> => {
-  const { deployer } = await hre.getNamedAccounts();
-  const args: string[] = [
-    stakedToken,
-    rewardsToken,
-    cooldownSeconds,
-    unstakeWindow,
-    rewardsVault,
-    emissionManager,
-    distributionDuration,
-    ZERO_ADDRESS, // gov address
-  ];
+// export const deployStakedAaveV2 = async ([
+//   stakedToken,
+//   rewardsToken,
+//   cooldownSeconds,
+//   unstakeWindow,
+//   rewardsVault,
+//   emissionManager,
+//   distributionDuration,
+// ]: [
+//   tEthereumAddress,
+//   tEthereumAddress,
+//   string,
+//   string,
+//   tEthereumAddress,
+//   tEthereumAddress,
+//   string
+// ]): Promise<StakedAaveV2> => {
+//   const { deployer } = await hre.getNamedAccounts();
+//   const args: string[] = [
+//     stakedToken,
+//     rewardsToken,
+//     cooldownSeconds,
+//     unstakeWindow,
+//     rewardsVault,
+//     emissionManager,
+//     distributionDuration,
+//     ZERO_ADDRESS, // gov address
+//   ];
 
-  return deployContract<StakedAaveV2>(
-    "StakedAaveV2",
-    args,
-    undefined,
-    STAKE_AAVE_IMPL_V2
-  );
-};
+//   return deployContract<StakedAaveV2>(
+//     "StakedAaveV2",
+//     args,
+//     undefined,
+//     STAKE_AAVE_IMPL_V2
+//   );
+// };
 
-export const deployStakedAaveV1 = async ([
-  stakedToken,
-  rewardsToken,
-  cooldownSeconds,
-  unstakeWindow,
-  rewardsVault,
-  emissionManager,
-  distributionDuration,
-]: [
-  tEthereumAddress,
-  tEthereumAddress,
-  string,
-  string,
-  tEthereumAddress,
-  tEthereumAddress,
-  string
-]): Promise<StakedAave> => {
-  const { deployer } = await hre.getNamedAccounts();
-  const args: string[] = [
-    stakedToken,
-    rewardsToken,
-    cooldownSeconds,
-    unstakeWindow,
-    rewardsVault,
-    emissionManager,
-    distributionDuration,
-  ];
+// export const deployStakedAaveV1 = async ([
+//   stakedToken,
+//   rewardsToken,
+//   cooldownSeconds,
+//   unstakeWindow,
+//   rewardsVault,
+//   emissionManager,
+//   distributionDuration,
+// ]: [
+//   tEthereumAddress,
+//   tEthereumAddress,
+//   string,
+//   string,
+//   tEthereumAddress,
+//   tEthereumAddress,
+//   string
+// ]): Promise<StakedAave> => {
+//   const { deployer } = await hre.getNamedAccounts();
+//   const args: string[] = [
+//     stakedToken,
+//     rewardsToken,
+//     cooldownSeconds,
+//     unstakeWindow,
+//     rewardsVault,
+//     emissionManager,
+//     distributionDuration,
+//   ];
 
-  return deployContract<StakedAave>(
-    "StakedAave",
-    args,
-    undefined,
-    STAKE_AAVE_IMPL_V1
-  );
-};
+//   return deployContract<StakedAave>(
+//     "StakedAave",
+//     args,
+//     undefined,
+//     STAKE_AAVE_IMPL_V1
+//   );
+// };
 
-export const setupStkAave = async (
-  proxy: InitializableAdminUpgradeabilityProxy,
-  args: [
-    tEthereumAddress,
-    tEthereumAddress,
-    string,
-    string,
-    tEthereumAddress,
-    tEthereumAddress,
-    string
-  ]
-) => {
-  const { incentivesProxyAdmin } = await hre.getNamedAccounts();
-  const proxyAdmin = await hre.ethers.getSigner(incentivesProxyAdmin);
-  const implRev1 = await deployStakedAaveV1(args);
-  const implRev2 = await deployStakedAaveV2(args);
-  const implRev3 = await deployStakedAaveV3(args);
+// export const setupStkAave = async (
+//   proxy: InitializableAdminUpgradeabilityProxy,
+//   args: [
+//     tEthereumAddress,
+//     tEthereumAddress,
+//     string,
+//     string,
+//     tEthereumAddress,
+//     tEthereumAddress,
+//     string
+//   ]
+// ) => {
+//   const { incentivesProxyAdmin } = await hre.getNamedAccounts();
+//   const proxyAdmin = await hre.ethers.getSigner(incentivesProxyAdmin);
+//   const implRev1 = await deployStakedAaveV1(args);
+//   const implRev2 = await deployStakedAaveV2(args);
+//   const implRev3 = await deployStakedAaveV3(args);
 
-  const proxyAdminSlot = await hre.ethers.provider.getStorageAt(
-    proxy.address,
-    "0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103" // keccak-256 eip1967.proxy.admin sub 1
-  );
+//   const proxyAdminSlot = await hre.ethers.provider.getStorageAt(
+//     proxy.address,
+//     "0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103" // keccak-256 eip1967.proxy.admin sub 1
+//   );
 
-  const initialPayloadStkAaveRev1 = implRev1
-    .connect(proxyAdmin)
-    .interface.encodeFunctionData("initialize", [
-      ZERO_ADDRESS, // gov
-      "Staked AAVE",
-      "stkAAVE",
-      18,
-    ]);
+//   const initialPayloadStkAaveRev1 = implRev1
+//     .connect(proxyAdmin)
+//     .interface.encodeFunctionData("initialize", [
+//       ZERO_ADDRESS, // gov
+//       "Staked AAVE",
+//       "stkAAVE",
+//       18,
+//     ]);
 
-  const upgradePayloadStkAaveRev2andRev3 = implRev2
-    .connect(proxyAdmin)
-    .interface.encodeFunctionData("initialize");
+//   const upgradePayloadStkAaveRev2andRev3 = implRev2
+//     .connect(proxyAdmin)
+//     .interface.encodeFunctionData("initialize");
 
-  const stkProxy = proxy.connect(proxyAdmin);
+//   const stkProxy = proxy.connect(proxyAdmin);
 
-  const proxyWithImpl = implRev1.attach(stkProxy.address);
+//   const proxyWithImpl = implRev1.attach(stkProxy.address);
 
-  if (proxyAdminSlot === EMPTY_STORAGE_SLOT) {
-    // Initialize
-    await waitForTx(
-      await stkProxy["initialize(address,address,bytes)"](
-        implRev1.address,
-        proxyAdmin.address,
-        initialPayloadStkAaveRev1
-      )
-    );
-    console.log("- Initializing admin proxy for stkAAVE");
-  }
+//   if (proxyAdminSlot === EMPTY_STORAGE_SLOT) {
+//     // Initialize
+//     await waitForTx(
+//       await stkProxy["initialize(address,address,bytes)"](
+//         implRev1.address,
+//         proxyAdmin.address,
+//         initialPayloadStkAaveRev1
+//       )
+//     );
+//     console.log("- Initializing admin proxy for stkAAVE");
+//   }
 
-  const revisionV1 = Number((await proxyWithImpl.REVISION()).toString());
-  if (revisionV1 < 2) {
-    // Upgrade to Revision 2
-    await waitForTx(
-      await stkProxy.upgradeToAndCall(
-        implRev2.address,
-        upgradePayloadStkAaveRev2andRev3
-      )
-    );
-    console.log("- Upgraded stkAAVE to Revision 2");
-  }
+//   const revisionV1 = Number((await proxyWithImpl.REVISION()).toString());
+//   if (revisionV1 < 2) {
+//     // Upgrade to Revision 2
+//     await waitForTx(
+//       await stkProxy.upgradeToAndCall(
+//         implRev2.address,
+//         upgradePayloadStkAaveRev2andRev3
+//       )
+//     );
+//     console.log("- Upgraded stkAAVE to Revision 2");
+//   }
 
-  const revisionV2 = Number((await proxyWithImpl.REVISION()).toString());
+//   const revisionV2 = Number((await proxyWithImpl.REVISION()).toString());
 
-  if (revisionV2 < 3) {
-    // Upgrade to Revision 3
-    await waitForTx(
-      await stkProxy.upgradeToAndCall(
-        implRev3.address,
-        upgradePayloadStkAaveRev2andRev3
-      )
-    );
-    console.log("- Upgraded stkAAVE to Revision 3");
-  }
+//   if (revisionV2 < 3) {
+//     // Upgrade to Revision 3
+//     await waitForTx(
+//       await stkProxy.upgradeToAndCall(
+//         implRev3.address,
+//         upgradePayloadStkAaveRev2andRev3
+//       )
+//     );
+//     console.log("- Upgraded stkAAVE to Revision 3");
+//   }
 
-  const revisionV3 = Number((await proxyWithImpl.REVISION()).toString());
+//   const revisionV3 = Number((await proxyWithImpl.REVISION()).toString());
 
-  console.log("stkAAVE:");
-  console.log("- revision:", revisionV3);
-  console.log("- name:", await proxyWithImpl.name());
-  console.log("- symbol:", await proxyWithImpl.symbol());
-  console.log("- decimals:", await proxyWithImpl.decimals());
-};
+//   console.log("stkAAVE:");
+//   console.log("- revision:", revisionV3);
+//   console.log("- name:", await proxyWithImpl.name());
+//   console.log("- symbol:", await proxyWithImpl.symbol());
+//   console.log("- decimals:", await proxyWithImpl.decimals());
+// };
 
 export const deployInitializableAdminUpgradeabilityProxy = async (
   slug: string

@@ -58,7 +58,6 @@ import {
 } from "./deploy-ids";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { RewardsController } from "../typechain";
-import { StakedTokenV2Rev3 } from "../typechain";
 import { Libraries } from "hardhat-deploy/dist/types";
 import { getContract } from "./utilities/tx";
 import { EMISSION_MANAGER_ID } from ".";
@@ -318,16 +317,16 @@ export const getStakedRewardsStrategy = async (
       (await hre.deployments.get(INCENTIVES_STAKED_TOKEN_STRATEGY_ID)).address
   );
 
-export const getStakeAave = async (
-  address?: string
-): Promise<StakedTokenV2Rev3> => {
-  const proxyArtifact = await hre.deployments.get(STAKE_AAVE_PROXY);
-  const implArtifact = await hre.deployments.get(STAKE_AAVE_IMPL_V3);
-  return hre.ethers.getContractAt(
-    implArtifact.abi,
-    address || proxyArtifact.address
-  ) as any as StakedTokenV2Rev3;
-};
+// export const getStakeAave = async (
+//   address?: string
+// ): Promise<StakedTokenV2Rev3> => {
+//   const proxyArtifact = await hre.deployments.get(STAKE_AAVE_PROXY);
+//   const implArtifact = await hre.deployments.get(STAKE_AAVE_IMPL_V3);
+//   return hre.ethers.getContractAt(
+//     implArtifact.abi,
+//     address || proxyArtifact.address
+//   ) as any as StakedTokenV2Rev3;
+// };
 
 export const getL2Encoder = async (address?: tEthereumAddress) =>
   getContract(

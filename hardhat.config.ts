@@ -23,6 +23,8 @@ import "hardhat-deploy";
 import "hardhat-contract-sizer";
 import "hardhat-dependency-compiler";
 import "@nomicfoundation/hardhat-chai-matchers";
+import "@matterlabs/hardhat-zksync-deploy";
+import "@matterlabs/hardhat-zksync-solc";
 
 const SKIP_LOAD = process.env.SKIP_LOAD === "true";
 const TASK_FOLDERS = ["misc", "market-registry"];
@@ -38,19 +40,17 @@ export default {
     runOnCompile: false,
     disambiguatePaths: false,
   },
+  zksolc: {
+    version: "1.3.12",
+    compilerSource: "binary",
+    settings: {
+    },
+  },
   solidity: {
     compilers: [
       {
         version: "0.8.10",
         settings: {
-          optimizer: { enabled: true, runs: 100_000 },
-          evmVersion: "berlin",
-        },
-      },
-      {
-        version: "0.7.5",
-        settings: {
-          optimizer: { enabled: true, runs: 100_000 },
         },
       },
     ],
@@ -191,9 +191,6 @@ export default {
       "@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveController.sol",
       "@aave/periphery-v3/contracts/adapters/paraswap/ParaSwapLiquiditySwapAdapter.sol",
       "@aave/periphery-v3/contracts/adapters/paraswap/ParaSwapRepayAdapter.sol",
-      "@aave/safety-module/contracts/stake/StakedAave.sol",
-      "@aave/safety-module/contracts/stake/StakedAaveV2.sol",
-      "@aave/safety-module/contracts/proposals/extend-stkaave-distribution/StakedTokenV2Rev3.sol",
     ],
   },
   deterministicDeployment: DETERMINISTIC_DEPLOYMENT

@@ -20,7 +20,7 @@ import {
   StableDebtToken,
   VariableDebtToken,
   WETH9,
-  WrappedTokenGateway,
+  WrappedTokenGatewayV3,
   Faucet,
 } from "../../typechain";
 import {
@@ -68,7 +68,7 @@ export interface TestEnv {
   aave: IERC20;
   addressesProvider: PoolAddressesProvider;
   registry: PoolAddressesProviderRegistry;
-  wrappedTokenGateway: WrappedTokenGateway;
+  wrappedTokenGateway: WrappedTokenGatewayV3;
   faucetOwnable: Faucet;
 }
 
@@ -98,7 +98,7 @@ const testEnv: TestEnv = {
   aave: {} as IERC20,
   addressesProvider: {} as PoolAddressesProvider,
   registry: {} as PoolAddressesProviderRegistry,
-  wrappedTokenGateway: {} as WrappedTokenGateway,
+  wrappedTokenGateway: {} as WrappedTokenGatewayV3,
   faucetOwnable: {} as Faucet,
 } as TestEnv;
 
@@ -141,7 +141,7 @@ export async function initializeMakeSuite() {
   testEnv.wrappedTokenGateway = (await ethers.getContractAt(
     "WrappedTokenGatewayV3",
     wrappedTokenGatewayArtifact.address
-  )) as WrappedTokenGateway;
+  )) as WrappedTokenGatewayV3;
   testEnv.pool = (await ethers.getContractAt(
     "Pool",
     poolArtifact.address

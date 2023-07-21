@@ -1,0 +1,408 @@
+Compiling 222 Solidity files
+InternalCompilerError: Solidity assertion failed
+
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: Your code or one of its dependencies uses the 'extcodesize' instruction, which is       │
+│ usually needed in the following cases:                                                           │
+│   1. To detect whether an address belongs to a smart contract.                                   │
+│   2. To detect whether the deploy code execution has finished.                                   │
+│ zkSync Era comes with native account abstraction support (so accounts are smart contracts,       │
+│ including private-key controlled EOAs), and you should avoid differentiating between contracts   │
+│ and non-contract addresses.                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/dependencies/gnosis/contracts/GPv2SafeERC20.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: It looks like you are using '<address payable>.send/transfer(<X>)' without providing    │
+│ the gas amount. Such calls will fail depending on the pubdata costs.                             │
+│ This might be a false positive if you are using an interface (like IERC20) instead of the        │
+│ native Solidity `send/transfer`.                                                                 │
+│ Please use 'payable(<address>).call{value: <X>}("")' instead, but be careful with the reentrancy │
+│ attack. `send` and `transfer` send limited amount of gas that prevents reentrancy, whereas       │
+│ `<address>.call{value: <X>}` sends all gas to the callee. Learn more on                          │
+│ https://docs.soliditylang.org/en/latest/security-considerations.html#reentrancy                  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/dependencies/weth/WETH9.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/mocks/oracle/CLAggregators/MockAggregator.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/mocks/oracle/PriceOracle.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/mocks/oracle/PriceOracle.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/mocks/tokens/MintableERC20.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: It looks like you are using 'ecrecover' to validate a signature of a user account.      │
+│ zkSync Era comes with native account abstraction support, therefore it is highly recommended NOT │
+│ to rely on the fact that the account has an ECDSA private key attached to it since accounts might│
+│ implement other signature schemes.                                                               │
+│ Read more about Account Abstraction at https://v2-docs.zksync.io/dev/developer-guides/aa.html    │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/mocks/tokens/MintableERC20.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: Your code or one of its dependencies uses the 'extcodesize' instruction, which is       │
+│ usually needed in the following cases:                                                           │
+│   1. To detect whether an address belongs to a smart contract.                                   │
+│   2. To detect whether the deploy code execution has finished.                                   │
+│ zkSync Era comes with native account abstraction support (so accounts are smart contracts,       │
+│ including private-key controlled EOAs), and you should avoid differentiating between contracts   │
+│ and non-contract addresses.                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/libraries/aave-upgradeability/VersionedInitializable.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/libraries/logic/ReserveLogic.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/libraries/logic/ReserveLogic.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/libraries/logic/ReserveLogic.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/libraries/logic/ReserveLogic.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/libraries/math/MathUtils.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/libraries/math/MathUtils.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/tokenization/AToken.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: It looks like you are using 'ecrecover' to validate a signature of a user account.      │
+│ zkSync Era comes with native account abstraction support, therefore it is highly recommended NOT │
+│ to rely on the fact that the account has an ECDSA private key attached to it since accounts might│
+│ implement other signature schemes.                                                               │
+│ Read more about Account Abstraction at https://v2-docs.zksync.io/dev/developer-guides/aa.html    │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/tokenization/AToken.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/tokenization/StableDebtToken.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/tokenization/StableDebtToken.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/tokenization/StableDebtToken.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/tokenization/base/DebtTokenBase.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: It looks like you are using 'ecrecover' to validate a signature of a user account.      │
+│ zkSync Era comes with native account abstraction support, therefore it is highly recommended NOT │
+│ to rely on the fact that the account has an ECDSA private key attached to it since accounts might│
+│ implement other signature schemes.                                                               │
+│ Read more about Account Abstraction at https://v2-docs.zksync.io/dev/developer-guides/aa.html    │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/core-v3/contracts/protocol/tokenization/base/DebtTokenBase.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/mocks/testnet-helpers/TestnetERC20.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: It looks like you are using 'ecrecover' to validate a signature of a user account.      │
+│ zkSync Era comes with native account abstraction support, therefore it is highly recommended NOT │
+│ to rely on the fact that the account has an ECDSA private key attached to it since accounts might│
+│ implement other signature schemes.                                                               │
+│ Read more about Account Abstraction at https://v2-docs.zksync.io/dev/developer-guides/aa.html    │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/mocks/testnet-helpers/TestnetERC20.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: Your code or one of its dependencies uses the 'extcodesize' instruction, which is       │
+│ usually needed in the following cases:                                                           │
+│   1. To detect whether an address belongs to a smart contract.                                   │
+│   2. To detect whether the deploy code execution has finished.                                   │
+│ zkSync Era comes with native account abstraction support (so accounts are smart contracts,       │
+│ including private-key controlled EOAs), and you should avoid differentiating between contracts   │
+│ and non-contract addresses.                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/rewards/RewardsController.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/rewards/RewardsDistributor.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/rewards/RewardsDistributor.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/rewards/RewardsDistributor.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/rewards/RewardsDistributor.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/rewards/RewardsDistributor.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: It looks like you are using '<address payable>.send/transfer(<X>)' without providing    │
+│ the gas amount. Such calls will fail depending on the pubdata costs.                             │
+│ This might be a false positive if you are using an interface (like IERC20) instead of the        │
+│ native Solidity `send/transfer`.                                                                 │
+│ Please use 'payable(<address>).call{value: <X>}("")' instead, but be careful with the reentrancy │
+│ attack. `send` and `transfer` send limited amount of gas that prevents reentrancy, whereas       │
+│ `<address>.call{value: <X>}` sends all gas to the callee. Learn more on                          │
+│ https://docs.soliditylang.org/en/latest/security-considerations.html#reentrancy                  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/treasury/AaveEcosystemReserveController.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/treasury/AaveEcosystemReserveV2.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/treasury/AaveEcosystemReserveV2.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/treasury/AaveEcosystemReserveV2.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: You are checking for 'block.timestamp' in your code, which might lead to unexpected     │
+│ behavior. Due to the nature of the zkEVM, the timestamp of a block actually refers to the        │
+│ timestamp of the whole batch that will be sent to L1 (meaning, the timestamp of this batch       │
+│ started being processed).                                                                        │
+│ We will provide a custom method to access the L2 block timestamp from the smart contract code in │
+│ the future.                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/treasury/AaveEcosystemReserveV2.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: It looks like you are using '<address payable>.send/transfer(<X>)' without providing    │
+│ the gas amount. Such calls will fail depending on the pubdata costs.                             │
+│ This might be a false positive if you are using an interface (like IERC20) instead of the        │
+│ native Solidity `send/transfer`.                                                                 │
+│ Please use 'payable(<address>).call{value: <X>}("")' instead, but be careful with the reentrancy │
+│ attack. `send` and `transfer` send limited amount of gas that prevents reentrancy, whereas       │
+│ `<address>.call{value: <X>}` sends all gas to the callee. Learn more on                          │
+│ https://docs.soliditylang.org/en/latest/security-considerations.html#reentrancy                  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/treasury/Collector.sol
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Warning: It looks like you are using '<address payable>.send/transfer(<X>)' without providing    │
+│ the gas amount. Such calls will fail depending on the pubdata costs.                             │
+│ This might be a false positive if you are using an interface (like IERC20) instead of the        │
+│ native Solidity `send/transfer`.                                                                 │
+│ Please use 'payable(<address>).call{value: <X>}("")' instead, but be careful with the reentrancy │
+│ attack. `send` and `transfer` send limited amount of gas that prevents reentrancy, whereas       │
+│ `<address>.call{value: <X>}` sends all gas to the callee. Learn more on                          │
+│ https://docs.soliditylang.org/en/latest/security-considerations.html#reentrancy                  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+--> @aave/periphery-v3/contracts/treasury/CollectorController.sol
+
+Error HH600: Compilation failed
