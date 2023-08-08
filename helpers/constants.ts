@@ -137,6 +137,7 @@ export const POOL_ADMIN: Record<string, string> = {
   [eOptimismNetwork.main]: "0xE50c8C619d05ff98b22Adf991F17602C774F785c",
   [ePolygonNetwork.polygon]: "0xdc9A35B16DB4e126cFeDC41322b3a36454B1F772",
   [eEthereumNetwork.main]: ETHEREUM_SHORT_EXECUTOR,
+  [eEthereumNetwork.tenderly]: ETHEREUM_SHORT_EXECUTOR,
 };
 
 export const EMERGENCY_ADMIN: Record<string, string> = {
