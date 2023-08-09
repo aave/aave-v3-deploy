@@ -191,6 +191,7 @@ export default {
       "@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveController.sol",
       "@aave/periphery-v3/contracts/adapters/paraswap/ParaSwapLiquiditySwapAdapter.sol",
       "@aave/periphery-v3/contracts/adapters/paraswap/ParaSwapRepayAdapter.sol",
+      "@aave/periphery-v3/contracts/adapters/paraswap/ParaSwapWithdrawSwapAdapter.sol",
       "@aave/safety-module/contracts/stake/StakedAave.sol",
       "@aave/safety-module/contracts/stake/StakedAaveV2.sol",
       "@aave/safety-module/contracts/proposals/extend-stkaave-distribution/StakedTokenV2Rev3.sol",

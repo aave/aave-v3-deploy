@@ -19,6 +19,7 @@ task(`deploy-paraswap-adapters`, `Deploys all paraswap adapters`).setAction(
     }
     await hre.run("deploy-paraswap-liquidity-swap-adapter");
     await hre.run("deploy-paraswap-repay-adapter");
+    await hre.run("deploy-paraswap-withdraw-adapter");
   }
 );
 
@@ -97,4 +98,40 @@ task(
     poolAdmin,
   ]);
   console.log("ParaSwapRepayAdapter Address", artifact.address);
+});
+
+task(
+  `deploy-paraswap-withdraw-adapter`,
+  `Deploys paraswap withdraw swap adapter`
+).setAction(async (_, hre) => {
+  const { deployer } = await hre.getNamedAccounts();
+
+  const network = (
+    process.env.FORK ? process.env.FORK : hre.network.name
+  ) as eNetwork;
+  const poolConfig = await loadPoolConfig(MARKET_NAME as ConfigNames);
+
+  const paraswapAugustusRegistry = getParamPerNetwork(
+    poolConfig.ParaswapRegistry,
+    network
+  );
+
+  if (!paraswapAugustusRegistry) {
+    console.log(
+      "[WARNING] Skipping the deployment of the Paraswap Liquidity Swap and Repay adapters due missing 'ParaswapRegistry' address at pool configuration."
+    );
+    return;
+  }
+
+  const { address: addressesProvider } = await hre.deployments.get(
+    POOL_ADDRESSES_PROVIDER_ID
+  );
+  const poolAdmin = POOL_ADMIN[network];
+
+  const artifact = await deployContract("ParaSwapWithdrawSwapAdapter", [
+    addressesProvider,
+    paraswapAugustusRegistry,
+    poolAdmin,
+  ]);
+  console.log("ParaSwapWithdrawSwapAdapter Address", artifact.address);
 });
