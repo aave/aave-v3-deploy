@@ -42,6 +42,9 @@ const func: DeployFunction = async function ({
     const poolConfigurator = await getPoolConfiguratorProxy();
     await waitForTx(await poolConfigurator.setPoolPause(false));
     console.log("- Pool unpaused and accepting deposits.");
+
+    await hre.run("disable-faucet-native-testnets");
+    console.log("- Faucet disabled minting and reserve disabled for borrowing");
   }
 
   if (process.env.TRANSFER_OWNERSHIP === "true") {
