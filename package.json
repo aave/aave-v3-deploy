@@ -23,7 +23,7 @@
   "devDependencies": {
     "@aave/aave-token": "^1.0.4",
     "@aave/core-v3": "^1.19.0",
-    "@aave/periphery-v3": "github:aave/aave-v3-periphery#feat/withdraw-swap",
+    "@aave/periphery-v3": "^2.5.0",
     "@aave/safety-module": "^1.0.3",
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.5",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
