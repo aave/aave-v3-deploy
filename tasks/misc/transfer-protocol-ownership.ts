@@ -80,7 +80,7 @@ task(
   );
   const paraswapWithdrawSwapAdapter = await getOwnableContract(
     await (
-      await hre.deployments.get("ParaswapWithdrawSwapAdapter")
+      await hre.deployments.get("ParaSwapWithdrawSwapAdapter")
     ).address
   );
 
