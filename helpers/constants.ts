@@ -182,6 +182,8 @@ export const DEFAULT_NAMED_ACCOUNTS = {
 
 export const GOVERNANCE_BRIDGE_EXECUTOR: { [key: string]: string } = {
   [ePolygonNetwork.polygon]: "0xdc9A35B16DB4e126cFeDC41322b3a36454B1F772",
+  [eOptimismNetwork.main]: "0x7d9103572bE58FfE99dc390E8246f02dcAe6f611",
+  [eArbitrumNetwork.arbitrum]: "0x7d9103572bE58FfE99dc390E8246f02dcAe6f611",
 };
 
 export const MULTISIG_ADDRESS: { [key: string]: string } = {

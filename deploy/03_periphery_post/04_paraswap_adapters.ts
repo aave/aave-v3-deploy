@@ -5,6 +5,7 @@ import { COMMON_DEPLOY_PARAMS } from "../../helpers/env";
 import {
   ConfigNames,
   eNetwork,
+  GOVERNANCE_BRIDGE_EXECUTOR,
   loadPoolConfig,
   POOL_ADDRESSES_PROVIDER_ID,
   POOL_ADMIN,
@@ -40,7 +41,7 @@ const func: DeployFunction = async function ({
   const { address: addressesProvider } = await deployments.get(
     POOL_ADDRESSES_PROVIDER_ID
   );
-  const poolAdmin = POOL_ADMIN[network];
+  const poolAdmin = GOVERNANCE_BRIDGE_EXECUTOR[network] || POOL_ADMIN[network];
 
   await deploy("ParaSwapLiquiditySwapAdapter", {
     from: deployer,
