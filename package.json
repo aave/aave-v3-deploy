@@ -65,7 +65,7 @@
     "test": "npm run compile && npm run test:fork",
     "test:fork": "MARKET_NAME=Aave FORK=main npx hardhat test ./tests/__setup.spec.ts ./tests/fork/check-list.spec.ts",
     "test:ethereum:fork": "TRANSFER_OWNERSHIP=true  FORK=main MARKET_NAME=Ethereum npx hardhat test ./tests/ethereum/ethereum.*.spec.ts",
-    "deploy:market:aave:fork": "FORK=tenderly MARKET_NAME=Aave npm run deploy",
+    "deploy:market:aave:fork": "FORK=main MARKET_NAME=Aave npm run deploy",
     "deploy:market:eth:empty:fork": "FORK=main MARKET_NAME=Ethereum npm run deploy"
   },
   "peerDependencies": {
