@@ -17,35 +17,33 @@ task(
 
   const wrappedTokenGatewayV3 = await getWrappedTokenGateway();
 
-  const getWrappedTokenAddress = await wrappedTokenGatewayV3.getWETHAddress();
+  const wrappedTokenAddress = await wrappedTokenGatewayV3.getWETHAddress();
 
   console.log(
-    `Faucet contract to disable minting for asset ${getWrappedTokenAddress}`
+    `Faucet contract to disable minting for asset ${wrappedTokenAddress}`
   );
 
   await waitForTx(
-    await faucetContract
-      .connect(signer)
-      .setMintable(getWrappedTokenAddress, false)
+    await faucetContract.connect(signer).setMintable(wrappedTokenAddress, false)
   );
 
   console.log(
-    `Faucet contract disabled minting for asset ${getWrappedTokenAddress}`
+    `Faucet contract disabled minting for asset ${wrappedTokenAddress}`
   );
 
   const poolConfiguratorProxyContract = await getPoolConfiguratorProxy();
 
   console.log(
-    `Update reserve for asset ${getWrappedTokenAddress} to setReserveBorrowing to false`
+    `Update reserve for asset ${wrappedTokenAddress} to setReserveBorrowing to false`
   );
 
   await waitForTx(
     await poolConfiguratorProxyContract
       .connect(signer)
-      .setReserveBorrowing(getWrappedTokenAddress, false)
+      .setReserveBorrowing(wrappedTokenAddress, false)
   );
 
   console.log(
-    `Successfully updated reserve for asset ${getWrappedTokenAddress} to setReserveBorrowing to false`
+    `Successfully updated reserve for asset ${wrappedTokenAddress} to setReserveBorrowing to false`
   );
 });
