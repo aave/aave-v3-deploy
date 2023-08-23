@@ -33,7 +33,7 @@ const func: DeployFunction = async function ({
 
   if (!paraswapAugustusRegistry) {
     console.log(
-      "[WARNING] Skipping the deployment of the Paraswap Liquidity Swap and Repay adapters due missing 'ParaswapRegistry' address at pool configuration."
+      "[WARNING] Skipping the deployment of the Paraswap adapters due missing 'ParaswapRegistry' address at pool configuration."
     );
     return;
   }
