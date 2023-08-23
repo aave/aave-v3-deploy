@@ -36,8 +36,12 @@ describe("Ethereum V3 - Token-less deployment: periphery contracts", function ()
       const paraswapRepayAdapter = await hre.deployments.getOrNull(
         "ParaSwapRepayAdapter"
       );
+      const paraswapWithdrawSwapAdapter = await hre.deployments.getOrNull(
+        "ParaSwapWithdrawSwapAdapter"
+      );
       expect(paraswapLiquidityAdapter).to.not.be.null;
       expect(paraswapRepayAdapter).to.not.be.null;
+      expect(paraswapWithdrawSwapAdapter).to.not.be.null;
     });
   });
 

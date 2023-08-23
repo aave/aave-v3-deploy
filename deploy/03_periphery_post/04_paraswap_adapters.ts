@@ -54,6 +54,12 @@ const func: DeployFunction = async function ({
     args: [addressesProvider, paraswapAugustusRegistry, poolAdmin],
   });
 
+  await deploy("ParaSwapWithdrawSwapAdapter", {
+    from: deployer,
+    ...COMMON_DEPLOY_PARAMS,
+    args: [addressesProvider, paraswapAugustusRegistry, poolAdmin],
+  });
+
   return true;
 };
 

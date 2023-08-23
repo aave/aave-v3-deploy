@@ -110,6 +110,16 @@ describe("Ethereum V3 - Token-less deployment", function () {
       const owner = await paraswapSwapAdapter.owner();
       expect(owner).equal(ETHEREUM_SHORT_EXECUTOR);
     });
+    it("ParawapWithdrawSwapAdapter should be short executor", async () => {
+      const paraswapWithdrawSwapAdapter = await getOwnableContract(
+        await (
+          await hre.deployments.get("ParaSwapWithdrawSwapAdapter")
+        ).address
+      );
+
+      const owner = await paraswapWithdrawSwapAdapter.owner();
+      expect(owner).equal(ETHEREUM_SHORT_EXECUTOR);
+    });
     it("Emission Manager owner should be short executor", async () => {
       const manager = await getEmissionManager();
 

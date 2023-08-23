@@ -131,6 +131,11 @@ task(
       await hre.deployments.get("ParaSwapRepayAdapter")
     ).address
   );
+  const paraswapWithdrawSwapAdapter = await getOwnableContract(
+    await (
+      await hre.deployments.get("ParaSwapWithdrawSwapAdapter")
+    ).address
+  );
 
   /** Output of results*/
   const result = [
@@ -246,6 +251,11 @@ task(
       role: "ParaSwapSwapAdapter owner",
       address: await paraswapSwapAdapter.owner(),
       assert: (await paraswapSwapAdapter.owner()) == desiredAdmin,
+    },
+    {
+      role: "ParaSwapWithdrawSwapAdapter owner",
+      address: await paraswapWithdrawSwapAdapter.owner(),
+      assert: (await paraswapWithdrawSwapAdapter.owner()) == desiredAdmin,
     },
   ];
 
