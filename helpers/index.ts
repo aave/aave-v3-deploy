@@ -14,7 +14,7 @@ export * from "./utilities/signer";
 export * from "../markets/aave/commons";
 export * from "../markets/aave/rateStrategies";
 export * from "../markets/aave/reservesConfigs";
-export * from "../tasks/market-registry/market-registry:add";
+export * from "../tasks/market-registry/market-registry_add";
 export * from "../tasks/misc/deploy-ui-helpers";
 export * from "../tasks/misc/deploy-UiIncentiveDataProvider";
 export * from "../tasks/misc/deploy-UiPoolDataProvider";
