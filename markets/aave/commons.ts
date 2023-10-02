@@ -6,6 +6,7 @@ import {
   eOptimismNetwork,
   ePolygonNetwork,
   TransferStrategy,
+  eBaseNetwork,
 } from "./../../helpers/types";
 import { ZERO_ADDRESS } from "../../helpers/constants";
 import {
@@ -158,6 +159,8 @@ export const CommonsConfig: ICommonConfiguration = {
     [eArbitrumNetwork.arbitrumTestnet]: true,
     [eOptimismNetwork.main]: true,
     [eOptimismNetwork.testnet]: true,
+    [eBaseNetwork.base]: true,
+    [eBaseNetwork.baseGoerli]: true,
   },
   ParaswapRegistry: {
     [eEthereumNetwork.main]: "0xa68bEA62Dc4034A689AA0F58A76681433caCa663",
@@ -165,6 +168,8 @@ export const CommonsConfig: ICommonConfiguration = {
     [eAvalancheNetwork.avalanche]: "0xfD1E5821F07F1aF812bB7F3102Bfd9fFb279513a",
     [eFantomNetwork.main]: "0x161383b5dAFc1cc05Ec058e5B0b0703BA175bdA6",
     [eArbitrumNetwork.arbitrum]: "0xdC6E2b14260F972ad4e5a31c68294Fba7E720701",
+    [eBaseNetwork.base]: "0x7e31b336f9e8ba52ba3c4ac861b033ba90900bb3",
+    [eBaseNetwork.baseGoerli]: "0x7e31b336f9e8ba52ba3c4ac861b033ba90900bb3",
   },
   FlashLoanPremiums: {
     total: 0.0005e4,
