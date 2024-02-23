@@ -14,7 +14,6 @@ import {
   eHarmonyNetwork,
   eOptimismNetwork,
   ePolygonNetwork,
-  eTenderly,
   eBaseNetwork,
 } from "./helpers/types";
 import { DEFAULT_NAMED_ACCOUNTS } from "./helpers/constants";
@@ -24,7 +23,7 @@ import "hardhat-deploy";
 import "hardhat-contract-sizer";
 import "hardhat-dependency-compiler";
 import "@nomicfoundation/hardhat-chai-matchers";
-require("@nomiclabs/hardhat-etherscan");
+import "@nomiclabs/hardhat-etherscan";
 
 const SKIP_LOAD = process.env.SKIP_LOAD === "true";
 const TASK_FOLDERS = ["misc", "market-registry"];
@@ -211,7 +210,7 @@ export default {
     apiKey: ETHERSCAN_KEY,
     customChains: [
       {
-        network: "base",
+        network: eBaseNetwork.base,
         chainId: 8453,
         urls: {
           apiURL: "https://api.basescan.org/api",

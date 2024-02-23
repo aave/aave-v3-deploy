@@ -116,7 +116,6 @@ const GAS_PRICE_PER_NET: iParamsPerNetwork<string | number> = {
   [eBaseNetwork.baseGoerli]: 8000000000,
 };
 
-console.log("FORK", FORK);
 export const buildForkConfig = ():
   | HardhatNetworkForkingUserConfig
   | undefined => {

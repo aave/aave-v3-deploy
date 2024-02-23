@@ -2,14 +2,8 @@ import { eBaseNetwork, IAaveConfiguration } from "./../../helpers/types";
 import AaveMarket from "../aave";
 import { ZERO_ADDRESS } from "../../helpers";
 import {
-  strategyDAI,
   strategyUSDC,
-  strategyLINK,
-  strategyWBTC,
   strategyWETH,
-  strategyUSDT,
-  strategyAAVE,
-  strategyEURS,
   strategyCBETH,
 } from "../aave/reservesConfigs";
 
@@ -22,14 +16,8 @@ export const BaseConfig: IAaveConfiguration = {
   SymbolPrefix: "Base",
   ProviderId: 37,
   ReservesConfig: {
-    DAI: strategyDAI,
-    LINK: strategyLINK,
     USDC: strategyUSDC,
-    WBTC: strategyWBTC,
     WETH: strategyWETH,
-    USDT: strategyUSDT,
-    AAVE: strategyAAVE,
-    EURS: strategyEURS,
     CBETH: strategyCBETH,
   },
   ReserveAssets: {
@@ -39,27 +27,12 @@ export const BaseConfig: IAaveConfiguration = {
       CBETH: "0x2ae3f1ec7f1f5012cfeab0185bfc7aa3cf0dec22",
     },
     [eBaseNetwork.baseGoerli]: {
-      DAI: ZERO_ADDRESS,
-      LINK: ZERO_ADDRESS,
       USDC: ZERO_ADDRESS,
-      WBTC: ZERO_ADDRESS,
       WETH: ZERO_ADDRESS,
-      USDT: ZERO_ADDRESS,
-      AAVE: ZERO_ADDRESS,
-      EURS: ZERO_ADDRESS,
       CBETH: ZERO_ADDRESS,
     },
   },
-  EModes: {
-    StableEMode: {
-      id: "1",
-      ltv: "9700",
-      liquidationThreshold: "9750",
-      liquidationBonus: "10100",
-      label: "Stablecoins",
-      assets: ["USDC"],
-    },
-  },
+  EModes: {},
   ChainlinkAggregator: {
     [eBaseNetwork.base]: {
       USDC: "0x7e860098f58bbfc8648a4311b374b1d669a2bc6b",
