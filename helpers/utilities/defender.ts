@@ -3,7 +3,7 @@ import { formatEther } from "@ethersproject/units";
 import {
   DefenderRelaySigner,
   DefenderRelayProvider,
-} from "defender-relay-client/lib/ethers";
+} from "@openzeppelin/defender-relay-client/lib/ethers";
 import { Signer } from "ethers";
 import { impersonateAddresses, usingTenderly } from "./fork";
 

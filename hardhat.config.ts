@@ -14,7 +14,7 @@ import {
   eHarmonyNetwork,
   eOptimismNetwork,
   ePolygonNetwork,
-  eTenderly,
+  eBaseNetwork,
 } from "./helpers/types";
 import { DEFAULT_NAMED_ACCOUNTS } from "./helpers/constants";
 
@@ -23,6 +23,7 @@ import "hardhat-deploy";
 import "hardhat-contract-sizer";
 import "hardhat-dependency-compiler";
 import "@nomicfoundation/hardhat-chai-matchers";
+import "@nomiclabs/hardhat-etherscan";
 
 const SKIP_LOAD = process.env.SKIP_LOAD === "true";
 const TASK_FOLDERS = ["misc", "market-registry"];
@@ -65,7 +66,7 @@ export default {
       url: "http://127.0.0.1:8545",
       ...hardhatNetworkSettings,
     },
-    tenderly: getCommonNetworkConfig("tenderly", 3030),
+    tenderly: getCommonNetworkConfig("tenderly", 1),
     main: getCommonNetworkConfig(eEthereumNetwork.main, 1),
     kovan: getCommonNetworkConfig(eEthereumNetwork.kovan, 42),
     rinkeby: getCommonNetworkConfig(eEthereumNetwork.rinkeby, 4),
@@ -120,6 +121,11 @@ export default {
     [eArbitrumNetwork.goerliNitro]: getCommonNetworkConfig(
       eArbitrumNetwork.goerliNitro,
       421613
+    ),
+    [eBaseNetwork.base]: getCommonNetworkConfig(eBaseNetwork.base, 8453),
+    [eBaseNetwork.baseGoerli]: getCommonNetworkConfig(
+      eBaseNetwork.baseGoerli,
+      84531
     ),
   },
   namedAccounts: {
@@ -191,6 +197,7 @@ export default {
       "@aave/periphery-v3/contracts/treasury/AaveEcosystemReserveController.sol",
       "@aave/periphery-v3/contracts/adapters/paraswap/ParaSwapLiquiditySwapAdapter.sol",
       "@aave/periphery-v3/contracts/adapters/paraswap/ParaSwapRepayAdapter.sol",
+      "@aave/periphery-v3/contracts/adapters/paraswap/ParaSwapWithdrawSwapAdapter.sol",
       "@aave/safety-module/contracts/stake/StakedAave.sol",
       "@aave/safety-module/contracts/stake/StakedAaveV2.sol",
       "@aave/safety-module/contracts/proposals/extend-stkaave-distribution/StakedTokenV2Rev3.sol",
@@ -201,5 +208,15 @@ export default {
     : undefined,
   etherscan: {
     apiKey: ETHERSCAN_KEY,
+    customChains: [
+      {
+        network: eBaseNetwork.base,
+        chainId: 8453,
+        urls: {
+          apiURL: "https://api.basescan.org/api",
+          browserURL: "https://basescan.org/",
+        },
+      },
+    ],
   },
 };

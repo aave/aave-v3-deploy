@@ -11,6 +11,7 @@ import {
   eAvalancheNetwork,
   eFantomNetwork,
   eOptimismNetwork,
+  eBaseNetwork,
 } from "./types";
 
 require("dotenv").config();
@@ -47,6 +48,8 @@ export const getAlchemyKey = (net: eNetwork) => {
       return process.env.GOERLI_ALCHEMY_KEY || ALCHEMY_KEY;
     case eEthereumNetwork.sepolia:
       return process.env.SEPOLIA_ALCHEMY_KEY || ALCHEMY_KEY;
+    case eBaseNetwork.base:
+      return process.env.BASE_ALCHEMY_KEY || ALCHEMY_KEY;
     default:
       return ALCHEMY_KEY;
   }
@@ -91,6 +94,10 @@ export const NETWORKS_RPC_URL: iParamsPerNetwork<string> = {
     eEthereumNetwork.sepolia
   )}`,
   [eArbitrumNetwork.goerliNitro]: `https://goerli-rollup.arbitrum.io/rpc`,
+  [eBaseNetwork.baseGoerli]: `https://goerli.base.org`,
+  [eBaseNetwork.base]: `https://base-mainnet.g.alchemy.com/v2/${getAlchemyKey(
+    eBaseNetwork.base
+  )}`,
 };
 
 export const LIVE_NETWORKS: iParamsPerNetwork<boolean> = {
@@ -101,10 +108,12 @@ export const LIVE_NETWORKS: iParamsPerNetwork<boolean> = {
   [eAvalancheNetwork.avalanche]: true,
   [eFantomNetwork.main]: true,
   [eOptimismNetwork.main]: true,
+  [eBaseNetwork.base]: true,
 };
 
 const GAS_PRICE_PER_NET: iParamsPerNetwork<string | number> = {
   [eArbitrumNetwork.goerliNitro]: 100000001,
+  [eBaseNetwork.baseGoerli]: 8000000000,
 };
 
 export const buildForkConfig = ():
