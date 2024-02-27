@@ -20,7 +20,7 @@
   "main": "dist/helpers/index.js",
   "devDependencies": {
     "@aave/aave-token": "^1.0.4",
-    "@aave/core-v3": "^1.19.0",
+    "@aave/core-v3": "^1.19.2",
     "@aave/periphery-v3": "^2.5.0",
     "@aave/safety-module": "^1.0.3",
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.5",
