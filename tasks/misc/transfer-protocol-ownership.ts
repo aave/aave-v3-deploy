@@ -78,6 +78,11 @@ task(
       await hre.deployments.get("ParaSwapRepayAdapter")
     ).address
   );
+  const paraswapWithdrawSwapAdapter = await getOwnableContract(
+    await (
+      await hre.deployments.get("ParaSwapWithdrawSwapAdapter")
+    ).address
+  );
 
   if (currentOwner === desiredAdmin) {
     console.log(
@@ -98,6 +103,7 @@ task(
   /** Start of Paraswap Helpers Ownership */
   const isDeployerAdminParaswapRepayAdapter =
     (await paraswapRepayAdapter.owner()) == deployer;
+
   if (isDeployerAdminParaswapRepayAdapter) {
     await paraswapRepayAdapter.transferOwnership(desiredAdmin);
     console.log("- Transferred ParaswapRepayAdapter ownership");
@@ -109,6 +115,14 @@ task(
   if (isDeployerAdminParaswapSwapAdapter) {
     await paraswapSwapAdapter.transferOwnership(desiredAdmin);
     console.log("- Transferred ParaswapSwapAdapter ownership");
+  }
+
+  const isDeployerAdminParaswapWithdrawSwapAdapter =
+    (await paraswapWithdrawSwapAdapter.owner()) == deployer;
+
+  if (isDeployerAdminParaswapWithdrawSwapAdapter) {
+    await paraswapWithdrawSwapAdapter.transferOwnership(desiredAdmin);
+    console.log("- Transferred ParaswapWithdrawSwapAdapter ownership");
   }
   /** End of Paraswap Helpers Ownership */
 

@@ -170,6 +170,8 @@ export const CommonsConfig: ICommonConfiguration = {
     [eArbitrumNetwork.arbitrum]: "0xdC6E2b14260F972ad4e5a31c68294Fba7E720701",
     [eBaseNetwork.base]: "0x7e31b336f9e8ba52ba3c4ac861b033ba90900bb3",
     [eBaseNetwork.baseGoerli]: "0x7e31b336f9e8ba52ba3c4ac861b033ba90900bb3",
+    [eEthereumNetwork.tenderly]: "0xa68bEA62Dc4034A689AA0F58A76681433caCa663",
+    [eOptimismNetwork.main]: "0x6e7bE86000dF697facF4396efD2aE2C322165dC3",
   },
   FlashLoanPremiums: {
     total: 0.0005e4,
