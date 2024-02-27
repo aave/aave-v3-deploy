@@ -20,7 +20,6 @@ const func: DeployFunction = async function ({
 }: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
-
   const network = (
     process.env.FORK ? process.env.FORK : hre.network.name
   ) as eNetwork;

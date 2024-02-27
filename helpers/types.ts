@@ -17,7 +17,8 @@ export type eNetwork =
   | eHarmonyNetwork
   | eFantomNetwork
   | eOptimismNetwork
-  | eTenderlyNetwork;
+  | eTenderlyNetwork
+  | eBaseNetwork;
 
 type eTenderlyNetwork = "tenderly";
 
@@ -42,6 +43,11 @@ export enum eEthereumNetwork {
   rinkeby = "rinkeby",
   goerli = "goerli",
   sepolia = "sepolia",
+}
+
+export enum eBaseNetwork {
+  base = "base",
+  baseGoerli = "base-goerli",
 }
 
 export enum ePolygonNetwork {

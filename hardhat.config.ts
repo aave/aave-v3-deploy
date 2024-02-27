@@ -14,7 +14,7 @@ import {
   eHarmonyNetwork,
   eOptimismNetwork,
   ePolygonNetwork,
-  eTenderly,
+  eBaseNetwork,
 } from "./helpers/types";
 import { DEFAULT_NAMED_ACCOUNTS } from "./helpers/constants";
 
@@ -23,6 +23,7 @@ import "hardhat-deploy";
 import "hardhat-contract-sizer";
 import "hardhat-dependency-compiler";
 import "@nomicfoundation/hardhat-chai-matchers";
+import "@nomiclabs/hardhat-etherscan";
 
 const SKIP_LOAD = process.env.SKIP_LOAD === "true";
 const TASK_FOLDERS = ["misc", "market-registry"];
@@ -121,6 +122,11 @@ export default {
       eArbitrumNetwork.goerliNitro,
       421613
     ),
+    [eBaseNetwork.base]: getCommonNetworkConfig(eBaseNetwork.base, 8453),
+    [eBaseNetwork.baseGoerli]: getCommonNetworkConfig(
+      eBaseNetwork.baseGoerli,
+      84531
+    ),
   },
   namedAccounts: {
     ...DEFAULT_NAMED_ACCOUNTS,
@@ -202,5 +208,15 @@ export default {
     : undefined,
   etherscan: {
     apiKey: ETHERSCAN_KEY,
+    customChains: [
+      {
+        network: eBaseNetwork.base,
+        chainId: 8453,
+        urls: {
+          apiURL: "https://api.basescan.org/api",
+          browserURL: "https://basescan.org/",
+        },
+      },
+    ],
   },
 };
