@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.56.0](https://github.com/aave/aave-v3-deploy/compare/v1.55.3...v1.56.0) (2024-02-27)
+
+
+### Features
+
+* Add task for config of wrapped native token on testnet ([#43](https://github.com/aave/aave-v3-deploy/issues/43)) ([c76e314](https://github.com/aave/aave-v3-deploy/commit/c76e314ab8318b25f1bbb1770af93e4701095ec4))
+* add withdraw-and-swap paraswap adapter and add base market ([954a60b](https://github.com/aave/aave-v3-deploy/commit/954a60b24466668e12e088981673796b11225e2a))
+* disable faucet task ([776bb91](https://github.com/aave/aave-v3-deploy/commit/776bb914191a49b4c84359c24ddb81e78f031fcf))
+
+
+### Bug Fixes
+
+* bump v3-core version to 1.19.2 ([#57](https://github.com/aave/aave-v3-deploy/issues/57)) ([32213c0](https://github.com/aave/aave-v3-deploy/commit/32213c0fe306b664fb9d14a88980ce4e3027762a))
+* Changes order of actions and rename variable ([2c72c03](https://github.com/aave/aave-v3-deploy/commit/2c72c03f29fc8e1701e68b9666b8f297cba4f79e))
+
 ## [1.55.3](https://github.com/aave/aave-v3-deploy/compare/v1.55.2...v1.55.3) (2023-01-25)
 
 

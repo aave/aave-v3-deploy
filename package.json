@@ -1,6 +1,6 @@
 {
   "name": "@aave/deploy-v3",
-  "version": "1.55.3",
+  "version": "1.56.0",
   "files": [
     "dist",
     "helpers",
