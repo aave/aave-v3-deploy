@@ -80,6 +80,6 @@
     "url": "git://github.com/aave/aave-v3-deploy"
   },
   "dependencies": {
-    "defender-relay-client": "^1.11.1"
+    "@openzeppelin/defender-relay-client": "^1.54.1"
   }
 }
