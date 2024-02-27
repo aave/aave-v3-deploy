@@ -20,12 +20,13 @@
   "main": "dist/helpers/index.js",
   "devDependencies": {
     "@aave/aave-token": "^1.0.4",
-    "@aave/core-v3": "^1.17.1",
-    "@aave/periphery-v3": "^1.23.1",
+    "@aave/core-v3": "^1.19.0",
+    "@aave/periphery-v3": "^2.5.0",
     "@aave/safety-module": "^1.0.3",
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.5",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
-    "@nomiclabs/hardhat-etherscan": "^3.1.0",
+    "@nomicfoundation/hardhat-verify": "^1.1.1",
     "@openzeppelin/contracts": "^4.3.2",
     "@types/bluebird": "^3.5.36",
     "@types/chai": "^4.2.21",
@@ -36,8 +37,7 @@
     "chai": "^4.3.4",
     "chalk": "^4.1.2",
     "dotenv": "^10.0.0",
-    "ethers": "^5.4.7",
-    "hardhat": "^2.12.4",
+    "hardhat": "^2.17.4",
     "hardhat-contract-sizer": "^2.0.3",
     "hardhat-dependency-compiler": "^1.1.2",
     "hardhat-deploy": "^0.10.6",
@@ -62,7 +62,6 @@
     "deploy": "if [ \"$SKIP_COMPILE\" = 'true' ]; then echo '[Warning] Skipping compilation'; else npm run compile; fi && npx hardhat deploy --no-compile",
     "test": "npm run compile && npm run test:fork",
     "test:fork": "MARKET_NAME=Aave FORK=main npx hardhat test ./tests/__setup.spec.ts ./tests/fork/check-list.spec.ts",
-    "test:ethereum:fork": "TRANSFER_OWNERSHIP=true  FORK=main MARKET_NAME=Ethereum npx hardhat test ./tests/ethereum/ethereum.*.spec.ts",
     "deploy:market:aave:fork": "FORK=main MARKET_NAME=Aave npm run deploy",
     "deploy:market:eth:empty:fork": "FORK=main MARKET_NAME=Ethereum npm run deploy"
   },
@@ -79,6 +78,6 @@
     "url": "git://github.com/aave/aave-v3-deploy"
   },
   "dependencies": {
-    "defender-relay-client": "^1.11.1"
+    "@openzeppelin/defender-relay-client": "^1.54.1"
   }
 }

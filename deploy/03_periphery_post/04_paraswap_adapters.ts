@@ -19,7 +19,6 @@ const func: DeployFunction = async function ({
 }: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
-
   const network = (
     process.env.FORK ? process.env.FORK : hre.network.name
   ) as eNetwork;
@@ -49,6 +48,12 @@ const func: DeployFunction = async function ({
   });
 
   await deploy("ParaSwapRepayAdapter", {
+    from: deployer,
+    ...COMMON_DEPLOY_PARAMS,
+    args: [addressesProvider, paraswapAugustusRegistry, poolAdmin],
+  });
+
+  await deploy("ParaSwapWithdrawSwapAdapter", {
     from: deployer,
     ...COMMON_DEPLOY_PARAMS,
     args: [addressesProvider, paraswapAugustusRegistry, poolAdmin],
