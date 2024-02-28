@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { HardhatNetworkForkingUserConfig } from "hardhat/types";
+import { ethers } from 'hardhat'
 import {
   iParamsPerNetwork,
   eEthereumNetwork,
@@ -27,6 +28,10 @@ export const FORK_BLOCK_NUMBER = process.env.FORK_BLOCK_NUMBER
   : 0;
 const MNEMONIC_PATH = "m/44'/60'/0'/0";
 const MNEMONIC = process.env.MNEMONIC || "";
+
+export const getAccountAddressFromMnemonic = () => {
+  return ethers.Wallet.fromMnemonic(MNEMONIC).address
+}
 
 export const getAlchemyKey = (net: eNetwork) => {
   switch (net) {

@@ -13,6 +13,7 @@ import {
   AssetType,
 } from "./types";
 import AaveMarket from "../markets/aave";
+import SizeVariablePoolMarket from "../markets/size-variable-pool";
 import EthereumV3Config from "../markets/ethereum";
 import AaveTestMarket from "../markets/test";
 import HarmonyMarket from "../markets/harmony";
@@ -42,6 +43,7 @@ declare var hre: HardhatRuntimeEnvironment;
 export enum ConfigNames {
   Commons = "Commons",
   Aave = "Aave",
+  SizeVariablePool = "SizeVariablePool",
   Test = "Test",
   Harmony = "Harmony",
   Avalanche = "Avalanche",
@@ -101,6 +103,8 @@ export const loadPoolConfig = (configName: ConfigNames): PoolConfiguration => {
   switch (configName) {
     case ConfigNames.Aave:
       return AaveMarket;
+    case ConfigNames.SizeVariablePool:
+      return SizeVariablePoolMarket;
     case ConfigNames.Test:
       return AaveTestMarket;
     case ConfigNames.Harmony:
