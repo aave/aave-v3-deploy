@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.56.1](https://github.com/aave/aave-v3-deploy/compare/v1.56.0...v1.56.1) (2024-03-06)
+
+
+### Bug Fixes
+
+* Update deployment scripts for test faucet contract ([#59](https://github.com/aave/aave-v3-deploy/issues/59)) ([e2834ec](https://github.com/aave/aave-v3-deploy/commit/e2834ec5cdf7a82b8c7d3f08d3cb5b1fc76e21f2))
+
 ## [1.56.0](https://github.com/aave/aave-v3-deploy/compare/v1.55.3...v1.56.0) (2024-02-27)
 
 
