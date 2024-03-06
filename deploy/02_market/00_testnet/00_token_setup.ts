@@ -53,7 +53,7 @@ const func: DeployFunction = async function ({
   const faucetOwnable = await deploy(FAUCET_OWNABLE_ID, {
     from: deployer,
     contract: "Faucet",
-    args: [deployer, PERMISSIONED_FAUCET],
+    args: [deployer, PERMISSIONED_FAUCET, 10000], // 10000 whole tokens
     ...COMMON_DEPLOY_PARAMS,
   });
 
