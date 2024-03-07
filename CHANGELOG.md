@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.56.2](https://github.com/aave/aave-v3-deploy/compare/v1.56.1...v1.56.2) (2024-03-07)
+
+
+### Bug Fixes
+
+* Bump versions of v3 dependencies ([#61](https://github.com/aave/aave-v3-deploy/issues/61)) ([9583331](https://github.com/aave/aave-v3-deploy/commit/95833310d4547ce349bcd2136827a50b5d3b6490))
+
 ## [1.56.1](https://github.com/aave/aave-v3-deploy/compare/v1.56.0...v1.56.1) (2024-03-06)
 
 
