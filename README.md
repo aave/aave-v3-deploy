@@ -119,7 +119,7 @@ npx hardhat --network XYZ etherscan-verify --api-key YZX
 | deploy/               | Main deployment scripts dir location                                                                                            |
 | ├─ 00-core/           | Core deployment, only needed to run once per network.                                                                           |
 | ├─ 01-periphery_pre/  | Periphery contracts deployment, only need to run once per network.                                                              |
-| ├─ 02-market/         | Market deployment scripts, depends of Core and Periphery deployment.                                                            |
+| ├─ 02-market/         | Market deployment scripts, depends on Core and Periphery deployment.                                                            |
 | ├─ 03-periphery_post/ | Periphery contracts deployment after market is deployed.                                                                        |
 | deployments/          | Artifacts location of the deployments, contains the addresses, the abi, solidity input metadata and the constructor parameters. |
 | markets/              | Directory to configure Aave markets                                                                                             |
