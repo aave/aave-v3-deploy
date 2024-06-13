@@ -147,37 +147,40 @@ const func: DeployFunction = async function ({
       (1000 * 60 * 60).toString(),
     ]);
 
-    console.log("Testnet Reserve Tokens");
-    console.log("======================");
-
     const allDeployments = await deployments.all();
-    const testnetDeployment = Object.keys(allDeployments).filter((x) =>
-      x.includes(TESTNET_TOKEN_PREFIX)
-    );
-    testnetDeployment.forEach((key) =>
-      console.log(key, allDeployments[key].address)
-    );
-
-    console.log("Testnet Reward Tokens");
-    console.log("======================");
-
     const rewardDeployment = Object.keys(allDeployments).filter((x) =>
       x.includes(TESTNET_REWARD_TOKEN_PREFIX)
     );
 
-    rewardDeployment.forEach((key) =>
-      console.log(key, allDeployments[key].address)
-    );
-
-    console.log(
-      "Native Token Wrapper WETH9",
-      (
-        await deployments.get(
-          `${poolConfig.WrappedNativeTokenSymbol}${TESTNET_TOKEN_PREFIX}`
-        )
-      ).address
-    );
+    if (rewardDeployment.length > 0) {
+      console.log("Testnet Reward Tokens");
+      console.log("======================");
+      rewardDeployment.forEach((key) =>
+        console.log(key, allDeployments[key].address)
+      );
+    }
   }
+
+  console.log("Testnet Reserve Tokens");
+  console.log("======================");
+
+  const allDeployments = await deployments.all();
+  const testnetDeployment = Object.keys(allDeployments).filter((x) =>
+    x.includes(TESTNET_TOKEN_PREFIX)
+  );
+  testnetDeployment.forEach((key) =>
+    console.log(key, allDeployments[key].address)
+  );
+
+  console.log(
+    "Native Token Wrapper WETH9",
+    (
+      await deployments.get(
+        `${poolConfig.WrappedNativeTokenSymbol}${TESTNET_TOKEN_PREFIX}`
+      )
+    ).address
+  );
+
   console.log(
     "[Deployment][WARNING] Remember to setup the above testnet addresses at the ReservesConfig field inside the market configuration file and reuse testnet tokens"
   );
