@@ -15,6 +15,7 @@ import {
   eOptimismNetwork,
   ePolygonNetwork,
   eBaseNetwork,
+  eBeraNetwork,
 } from "./helpers/types";
 import { DEFAULT_NAMED_ACCOUNTS } from "./helpers/constants";
 
@@ -66,6 +67,7 @@ export default {
       url: "http://127.0.0.1:8545",
       ...hardhatNetworkSettings,
     },
+    bera: getCommonNetworkConfig(eBeraNetwork.bera, 80084),
     tenderly: getCommonNetworkConfig("tenderly", 1),
     main: getCommonNetworkConfig(eEthereumNetwork.main, 1),
     kovan: getCommonNetworkConfig(eEthereumNetwork.kovan, 42),

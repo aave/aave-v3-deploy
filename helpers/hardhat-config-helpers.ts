@@ -12,6 +12,7 @@ import {
   eFantomNetwork,
   eOptimismNetwork,
   eBaseNetwork,
+  eBeraNetwork,
 } from "./types";
 
 require("dotenv").config();
@@ -56,6 +57,7 @@ export const getAlchemyKey = (net: eNetwork) => {
 };
 
 export const NETWORKS_RPC_URL: iParamsPerNetwork<string> = {
+  [eBeraNetwork.bera]: `https://bartio.rpc.berachain.com`,
   [eEthereumNetwork.kovan]: `https://eth-kovan.alchemyapi.io/v2/${getAlchemyKey(
     eEthereumNetwork.kovan
   )}`,
@@ -183,11 +185,11 @@ export const hardhatNetworkSettings = {
   accounts:
     FORK && !!MNEMONIC
       ? {
-          mnemonic: MNEMONIC,
-          path: MNEMONIC_PATH,
-          initialIndex: 0,
-          count: 10,
-        }
+        mnemonic: MNEMONIC,
+        path: MNEMONIC_PATH,
+        initialIndex: 0,
+        count: 10,
+      }
       : undefined,
 };
 
