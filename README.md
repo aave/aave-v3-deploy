@@ -70,7 +70,7 @@ Then, proceed to load the deploy scripts adding the `externals` field in your Ha
 
 export default hardhatConfig: HardhatUserConfig = {
    {...},
-   external: {
+   externals: {
     contracts: [
       {
         artifacts: 'node_modules/@aave/deploy-v3/artifacts',
