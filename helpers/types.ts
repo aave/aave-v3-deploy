@@ -68,6 +68,7 @@ export enum eArbitrumNetwork {
   arbitrum = "arbitrum",
   arbitrumTestnet = "arbitrum-testnet",
   goerliNitro = "arbitrum-goerli",
+  arbitrumSepolia = "arbitrum-sepolia",
 }
 
 export enum eHarmonyNetwork {
