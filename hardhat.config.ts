@@ -122,6 +122,10 @@ export default {
       eArbitrumNetwork.goerliNitro,
       421613
     ),
+    [eArbitrumNetwork.arbitrumSepolia]: getCommonNetworkConfig(
+      eArbitrumNetwork.arbitrumSepolia,
+      421614
+    ),
     [eBaseNetwork.base]: getCommonNetworkConfig(eBaseNetwork.base, 8453),
     [eBaseNetwork.baseGoerli]: getCommonNetworkConfig(
       eBaseNetwork.baseGoerli,

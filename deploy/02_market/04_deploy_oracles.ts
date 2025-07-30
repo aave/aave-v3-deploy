@@ -20,6 +20,16 @@ import { getPairsTokenAggregator } from "../../helpers/init-helpers";
 import { parseUnits } from "ethers/lib/utils";
 import { MARKET_NAME } from "../../helpers/env";
 
+const validateOracleAddress = (address: string, asset: string) => {
+  if (address === ZERO_ADDRESS) {
+    throw new Error(`Oracle address for ${asset} is zero address`);
+  }
+  if (address.length !== 42) {
+    throw new Error(`Oracle address for ${asset} has invalid format: ${address}`);
+  }
+  console.log(`Valid oracle for ${asset}: ${address}`);
+};
+
 const func: DeployFunction = async function ({
   getNamedAccounts,
   deployments,
@@ -42,6 +52,11 @@ const func: DeployFunction = async function ({
 
   const reserveAssets = await getReserveAddresses(poolConfig, network);
   const chainlinkAggregators = await getChainlinkOracles(poolConfig, network);
+
+  // Validate all oracle addresses before deployment
+  Object.entries(chainlinkAggregators).forEach(([asset, oracle]) => {
+    validateOracleAddress(oracle, asset);
+  });
 
   const [assets, sources] = getPairsTokenAggregator(
     reserveAssets,

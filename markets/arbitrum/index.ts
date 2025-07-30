@@ -61,6 +61,16 @@ export const ArbitrumConfig: IAaveConfiguration = {
       AAVE: ZERO_ADDRESS,
       EURS: ZERO_ADDRESS,
     },
+    [eArbitrumNetwork.arbitrumSepolia]: {
+      DAI: "0xd8dD1b3C1CB9df41c6Ec8C7a4bCCc0d8e8B5c012",
+      LINK: ZERO_ADDRESS,
+      USDC: "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
+      WBTC: ZERO_ADDRESS,
+      WETH: "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73",
+      USDT: ZERO_ADDRESS,
+      AAVE: ZERO_ADDRESS,
+      EURS: ZERO_ADDRESS,
+    },
   },
   EModes: {
     StableEMode: {
@@ -83,6 +93,16 @@ export const ArbitrumConfig: IAaveConfiguration = {
       AAVE: "0xaD1d5344AaDE45F43E596773Bcc4c423EAbdD034",
       // Note: Using EUR/USD Chainlink data feed
       EURS: "0xA14d53bC1F1c0F31B4aA3BD109344E5009051a84",
+    },
+    [eArbitrumNetwork.arbitrumSepolia]: {
+      LINK: ZERO_ADDRESS,
+      USDC: "0x1692Bdd32F31b831caAc1b0c9fAF68613682813b",
+      DAI: "0xDe5C9eC3E18D0e2e6B985F7B8b0b0Ef3C5e8c8A0",
+      WBTC: ZERO_ADDRESS,
+      WETH: "0x062CAE9a49BF5Afe0aE9E9b0f5C7Bb3B5e46BaF",
+      USDT: ZERO_ADDRESS,
+      AAVE: ZERO_ADDRESS,
+      EURS: ZERO_ADDRESS,
     },
   },
 };
